@@ -1,0 +1,46 @@
+#!/bin/bash
+# Compresses game files for fastDL and only re-compresses when changes have been detected, saving time
+
+# Folders to compress files from
+folders=(
+  "Maps"
+  "Music"
+  "Sounds"
+  "System"
+  "Textures"
+  "Textures"
+)
+
+# Extensions to compress from the folders
+extensions=(
+  "umf"
+  "umx"
+  "uax"
+  "u"
+  "utx"
+  "usx"
+)
+
+# Set fastdl folder location
+fastdl="{{ website_path }}/fast_download/"
+
+# Ensure the fastdl folder exists
+mkdir -p $fastdl
+
+# Go through each folder and each file in them with the specified extensions
+i=0
+for folder in "${folders[@]}"; do
+  for file in {{ game_path }}/$folder/*.${extensions[$i]}; do
+    # Get the sha256 sum of the saved compressed file and compare it to the current version
+    sum_file="${fastdl}$(echo $file | awk -F / '{print $NF}').sha256"
+    shasum -a 256 -c -s $sum_file 2> /dev/null
+
+    # If the sum is not matching (or doesn't exist) compress the file and update the sha256 sum
+    if [ $? -ne 0 ]; then
+      wine ucc.exe compress $file
+      mv "${file}.uz" ${fastdl}
+      shasum -a 256 $file > $sum_file
+    fi
+  done
+  ((i++))
+done

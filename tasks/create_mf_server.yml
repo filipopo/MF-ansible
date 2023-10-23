@@ -1,0 +1,48 @@
+---
+- name: Enable i386 architecture
+  ansible.builtin.shell: dpkg --add-architecture i386
+
+- name: Install wine
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop:
+    - wine32
+    - unzip
+
+- name: Ensure install directory exists
+  ansible.builtin.file:
+    path: "{{ install_path }}"
+    state: directory
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+
+# - name: Extract Mobile Forces zip onto server
+#  ansible.builtin.unarchive:
+#    src: "{{ mf_path }}"
+#    dest: "{{ install_path }}/"
+#    owner: "{{ server_user }}"
+#    group: "{{ server_user }}"
+#    mode: 0774
+
+- name: Copy configuration and scripts into the System folder
+  ansible.builtin.template:
+    src: "{{ item[0] }}"
+    dest: "{{ game_path }}/System/{{ item[1] }}"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  loop:
+    - ["templates/scripts/compress.j2", "compress.sh"]
+    - ["templates/scripts/dedicated.sh", "dedicated.sh"]
+    - ["templates/scripts/RunMasterServer.sh", "RunMasterServer.sh"]
+
+- name: Create service file for the mf server
+  ansible.builtin.template:
+    src: "templates/services/mobileforces.j2"
+    dest: "/etc/systemd/system/mobileforces.service"
+    mode: "644"
+  notify:
+    - Reload systemctl
