@@ -1,6 +1,6 @@
 MobileForces.zip
-#hosts
-#vars.yml
+hosts
+vars.yml
 templates/scripts/compress.sh
 templates/services/mobileforces.services
 templates/website/donate_notify.php

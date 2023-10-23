@@ -1,5 +1,5 @@
 <?php
-  include "../includes/variables.php";
+  include '../includes/variables.php';
 
   function check_hashes($base, $hash_array) {
     foreach ($hash_array as $hash) {
@@ -11,15 +11,15 @@
   }
 
   if (!isset($_COOKIE[cookieName]) || !check_hashes(cookiePassword, [encryptedPasssword, $_COOKIE[cookieName]])) {
-    header("Location: /admin/login.php");
+    header('Location: /admin/login.php');
     die();
   }
 
-  $title = "Admin page";
-  include "../includes/b.php";
+  $title = 'Admin page';
+  include '../includes/b.php';
 
   foreach (new DirectoryIterator(getcwd()) as $file) {
-    if ($file->isDir() && str_starts_with($file->getFilename(), "elFinder-")) {
+    if ($file->isDir() && str_starts_with($file->getFilename(), 'elFinder-')) {
       $elFinder = $file->getFilename();
       break;
     }
@@ -37,16 +37,16 @@
     </form>
     <?php
       if (count($_POST))
-        echo "<br>";
+        echo '<br>';
 
-      if(isset($_POST["restart"])) {
-        system("systemctl restart mobileforces");
-        echo "Ran server restart command<br>";
+      if(isset($_POST['restart'])) {
+        system('systemctl restart mobileforces');
+        echo 'Ran server restart command<br>';
       }
 
-      if(isset($_POST["fastdl"])) {
-        system("sh {{ game_path }}/System/compress.sh");
-        echo "Ran command to compress files for FastDL<br>";
+      if(isset($_POST['fastdl'])) {
+        system('sh {{ game_path }}/System/compress.sh');
+        echo 'Ran command to compress files for FastDL<br>';
       }
     ?>
   </div>

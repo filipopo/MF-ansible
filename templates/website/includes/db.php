@@ -1,5 +1,5 @@
 <?php
-  $db = new SQLite3("donations.db");
+  $db = new SQLite3('donations.db');
   $db->exec(<<<EOT
     CREATE TABLE IF NOT EXISTS donations (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -8,4 +8,4 @@ ServerName: example.com
 ServerAdmin: admin@example.com
 AdminPassword: P@ssword123!
 kofi_name: filipmania
-verification_token: 904939d1-5699-4da2-86c4-6caf067854f0
+kofi_token: 904939d1-5699-4da2-86c4-6caf067854f0
