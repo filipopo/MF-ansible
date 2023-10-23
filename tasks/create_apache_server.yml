@@ -73,9 +73,9 @@
     group: "{{ server_user }}"
     mode: "774"
   loop:
-    - ["templates/website/index.php", "index.php"]
+    - ["templates/website/index.j2", "index.php"]
     - ["templates/website/donate_notify.j2", "donate_notify.php"]
-    - ["templates/website/admin/index.j2", "admin/index.php"]
+    - ["templates/website/admin/index.php", "admin/index.php"]
     - ["templates/website/admin/login.php", "admin/login.php"]
     - ["templates/website/includes/b.php", "includes/b.php"]
     - ["templates/website/includes/db.php", "includes/db.php"]
