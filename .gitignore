@@ -1,0 +1,12 @@
+MobileForces.zip
+#hosts
+#vars.yml
+templates/scripts/compress.sh
+templates/services/mobileforces.services
+templates/website/donate_notify.php
+templates/website/donations.db
+templates/website/index.php
+templates/website/mobileforces.conf
+templates/website/admin/elFinder-*
+!templates/website/admin/elFinder-*.zip
+templates/website/includes/variables.php

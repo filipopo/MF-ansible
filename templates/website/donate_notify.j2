@@ -1,0 +1,19 @@
+<?php
+  if (isset($_POST["data"]) && _POST["data"]["verification_token"] === "{{ verification_token }}") {
+    $date = date_parse(_POST["data"]["timestamp"]);
+    $amount_received = _POST["data"]["amount"];
+
+    include "includes/db.php";
+    $db->exec(sprintf(
+      "INSERT INTO donations (time, day, month, year, name, message, amount_sent, amount_received) VALUES ('%s', %d, %d, %d, '%s', '%s', %f, %f)",
+      sprintf("%d:%d:%d", $date["hour"], $date["minute"], $date["second"]),
+      $date["day"],
+      $date["month"],
+      $date["year"],
+      _POST["data"]["from_name"],
+      _POST["data"]["message"],
+      _POST["data"]["amount"],
+      $amount_received
+    ));
+  }
+?>

@@ -1,0 +1,35 @@
+<?php 
+  $title = "Mobile Forces website";
+  include "includes/b.php";
+
+  include "includes/db.php";
+  $balance = (float)$db->querySingle(sprintf(
+    "SELECT SUM(amount_received) FROM donations WHERE year=%d and month=%d",
+    date("n"),
+    date("Y")
+  ));
+
+  $donations = $db->query("SELECT time, day, month, year, name, message, amount_sent FROM donations LIMIT 10");
+?>
+  <div class="big left">
+    Join the Discord server!<br>
+    <a href="https://discord.gg/xPcFh7E">discord.gg/xPcFh7E</a><br>
+    <br>
+    Support MF!<br>
+    <iframe id="kofiframe" src="https://ko-fi.com/{{ kofi_name }}/?hidefeed=true&widget=true&embed=true&preview=true" style="width:400px;padding:4px;background:#f9f9f9;" height="612px" title="{{ kofi_name }}"></iframe>
+  </div>
+  <div class="small right">
+    Balance for <?= sprintf("%s %d", date("F"), date("Y")) ?><br>
+    <?= $balance ?> / 7.55 EUR
+    <ul>
+      <?php while ($row = $donations->fetchArray()): ?>
+        <li>
+          <?= sprintf("%d/%d/%d %s", $row["day"], $row["month"], $row["year"], $row["time"]) ?><br>
+          <?= $row["name"] ?> donated <?= $row["amount_sent"] ?> with the following message:<br>
+          <?= $row["message"] ?>
+        </li>
+      <?php endwhile; ?>
+    </ul>
+  </div>
+</body>
+</html>

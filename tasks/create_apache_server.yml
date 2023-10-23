@@ -1,0 +1,91 @@
+---
+- name: Install apache
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop:
+    - libapache2-mod-php
+    - php-sqlite3
+
+- name: Create virtual host for the mf website
+  ansible.builtin.template:
+    src: "templates/website/mobileforces.j2"
+    dest: "/etc/{{ apache }}/sites-available/mobileforces.conf"
+    mode: "0644"
+
+- name: Ensure home directory has the correct permissions
+  ansible.builtin.file:
+    path: "/home/{{ server_user }}"
+    mode: "774"
+
+- name: Ensure website directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  loop:
+    - "{{ website_path }}/admin"
+    - "{{ website_path }}/includes"
+
+- name: Extract elFinder zip onto server
+  ansible.builtin.unarchive:
+    src: "{{ item }}"
+    dest: "{{ website_path }}/admin/"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  with_fileglob:
+    - "templates/website/admin/elFinder-*.zip"
+
+- name: Find extracted elFinder directory
+  ansible.builtin.find:
+    paths: "{{ website_path }}/admin/"
+    file_type: directory
+    patterns: "elFinder-*"
+  register: folders
+
+- name: Install elFinder
+  ansible.builtin.shell: "mv {{ folders.files[0].path }}/php/connector.minimal.php-dist {{ folders.files[0].path }}/php/connector.minimal.php"
+
+- name: Give elFinder access to mobileforces files
+  user:
+    name: "www-data"
+    groups: "{{ server_user }}"
+    append: yes
+
+- name: Create symbolic links for elFinder
+  ansible.builtin.file:
+    src: "{{ item }}"
+    dest: "{{ folders.files[0].path }}/files/{{ item | split('/') | last }}"
+    state: link
+  loop:
+    - "{{ install_path }}/MobileForces"
+    - "{{ website_path }}"
+
+- name: Copy website files
+  ansible.builtin.template:
+    src: "{{ item[0] }}"
+    dest: "{{ website_path }}/{{ item[1] }}"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  loop:
+    - ["templates/website/index.php", "index.php"]
+    - ["templates/website/donate_notify.j2", "donate_notify.php"]
+    - ["templates/website/admin/index.j2", "admin/index.php"]
+    - ["templates/website/admin/login.php", "admin/login.php"]
+    - ["templates/website/includes/b.php", "includes/b.php"]
+    - ["templates/website/includes/db.php", "includes/db.php"]
+    - ["templates/website/includes/variables.j2", "includes/variables.php"]
+    - ["templates/website/includes/style.css", "includes/style.css"]
+
+- name: Enable mobileforces website
+  ansible.builtin.shell: a2ensite mobileforces
+  notify: Reload apache
+
+- name: Disable default apache website
+  ansible.builtin.shell: a2dissite 000-default.conf
+  notify: Reload apache
