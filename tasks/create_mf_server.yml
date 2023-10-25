@@ -2,13 +2,20 @@
 - name: Enable i386 architecture
   ansible.builtin.shell: dpkg --add-architecture i386
 
+- name: Import winehq key
+  ansible.builtin.shell: wget -qO- https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
+
+- name: Download winehq sources
+  ansible.builtin.shell: wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$(lsb_release -cs)/winehq-$(lsb_release -cs).sources
+
 - name: Install wine
   ansible.builtin.package:
     name: "{{ item }}"
     state: latest
     update_cache: yes
+    install_recommends: yes
   loop:
-    - wine32
+    - winehq-stable
     - unzip
 
 - name: Ensure install directory exists
@@ -19,30 +26,33 @@
     group: "{{ server_user }}"
     mode: "774"
 
-# - name: Extract Mobile Forces zip onto server
-#  ansible.builtin.unarchive:
-#    src: "{{ mf_path }}"
-#    dest: "{{ install_path }}/"
-#    owner: "{{ server_user }}"
-#    group: "{{ server_user }}"
-#    mode: 0774
+- name: Extract Mobile Forces zip onto server
+  ansible.builtin.unarchive:
+    src: "{{ mf_path }}"
+    dest: "{{ install_path }}/"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: 0774
 
 - name: Copy configuration and scripts into the System folder
   ansible.builtin.template:
-    src: "{{ item[0] }}"
+    src: "templates/scripts/{{ item[0] }}"
     dest: "{{ game_path }}/System/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "774"
   loop:
-    - ["templates/scripts/compress.j2", "compress.sh"]
-    - ["templates/scripts/dedicated.sh", "dedicated.sh"]
-    - ["templates/scripts/RunMasterServer.sh", "RunMasterServer.sh"]
+    - ["compress.j2", "compress.sh"]
+    - ["dedicated.sh", "dedicated.sh"]
+    - ["RunMasterServer.sh", "RunMasterServer.sh"]
 
 - name: Create service file for the mf server
   ansible.builtin.template:
-    src: "templates/services/mobileforces.j2"
-    dest: "/etc/systemd/system/mobileforces.service"
+    src: "templates/services/{{ item[0] }}"
+    dest: "/etc/systemd/system/{{ item[1] }}"
     mode: "644"
+  loop:
+    - ["mobileforces.j2", "mobileforces.service"]
+    - ["mobileforces-masterserver.j2", "mobileforces-masterserver.service"]
   notify:
     - Reload systemctl

@@ -45,11 +45,11 @@
       }
 
       if(isset($_POST['fastdl'])) {
-        system('sh {{ game_path }}/System/compress.sh');
+        system('bash {{ game_path }}/System/compress.sh');
         echo 'Ran command to compress files for FastDL<br>';
       }
     ?>
   </div>
-  <iframe class="big right" title="File Manager" style="height: 100%;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe> 
+  <iframe class="big right" title="File Manager" style="position:absolute;height:100%;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe> 
 </body>
 </html>

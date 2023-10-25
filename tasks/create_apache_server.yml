@@ -10,9 +10,9 @@
 
 - name: Create virtual host for the mf website
   ansible.builtin.template:
-    src: "templates/website/mobileforces.j2"
-    dest: "/etc/{{ apache }}/sites-available/mobileforces.conf"
-    mode: "0644"
+    src: templates/vhosts/mobileforces.j2
+    dest: /etc/apache2/sites-available/mobileforces.conf
+    mode: "644"
 
 - name: Ensure home directory has the correct permissions
   ansible.builtin.file:
@@ -21,14 +21,14 @@
 
 - name: Ensure website directories exist
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ website_path }}/{{ item }}"
     state: directory
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "774"
   loop:
-    - "{{ website_path }}/admin"
-    - "{{ website_path }}/includes"
+    - admin
+    - includes
 
 - name: Extract elFinder zip onto server
   ansible.builtin.unarchive:
@@ -44,7 +44,7 @@
   ansible.builtin.find:
     paths: "{{ website_path }}/admin/"
     file_type: directory
-    patterns: "elFinder-*"
+    patterns: elFinder-*
   register: folders
 
 - name: Install elFinder
@@ -52,7 +52,7 @@
 
 - name: Give elFinder access to mobileforces files
   user:
-    name: "www-data"
+    name: www-data
     groups: "{{ server_user }}"
     append: yes
 
@@ -67,20 +67,23 @@
 
 - name: Copy website files
   ansible.builtin.template:
-    src: "{{ item[0] }}"
+    src: "templates/website/{{ item[0] }}"
     dest: "{{ website_path }}/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "774"
   loop:
-    - ["templates/website/index.j2", "index.php"]
-    - ["templates/website/donate_notify.j2", "donate_notify.php"]
-    - ["templates/website/admin/index.php", "admin/index.php"]
-    - ["templates/website/admin/login.php", "admin/login.php"]
-    - ["templates/website/includes/b.php", "includes/b.php"]
-    - ["templates/website/includes/db.php", "includes/db.php"]
-    - ["templates/website/includes/variables.j2", "includes/variables.php"]
-    - ["templates/website/includes/style.css", "includes/style.css"]
+    - ["index.php", "index.php"]
+    - ["stats.php", "stats.php"]
+    - ["donate_notify.php", "donate_notify.php"]
+    - ["favicon.ico", "favicon.ico"]
+    - ["admin/index.php", "admin/index.php"]
+    - ["admin/login.php", "admin/login.php"]
+    - ["includes/b.php", "includes/b.php"]
+    - ["includes/db.php", "includes/db.php"]
+    - ["includes/kofi.j2", "includes/kofi.php"]
+    - ["includes/variables.j2", "includes/variables.php"]
+    - ["includes/style.css", "includes/style.css"]
 
 - name: Enable mobileforces website
   ansible.builtin.shell: a2ensite mobileforces

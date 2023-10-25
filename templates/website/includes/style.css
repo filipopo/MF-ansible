@@ -5,8 +5,6 @@ body {
   font-size: 1rem;
 }
 
-a { text-decoration: none; }
-
 .btn {
   cursor: pointer;
   border: 1px solid transparent;
@@ -37,13 +35,14 @@ nav {
   padding: 0.5rem;
 }
 
-.nav-link { padding-right: 0.5rem; }
-
-.nav-link { color: #f8f9fa; }
+.nav-link {
+  color: #f8f9fa;
+  padding-right: 0.5rem;
+  text-decoration: none;
+}
 
 .nav-link:hover, .nav-link:focus {
   color: cyan;
-  text-decoration: none;
 }
 
 .fixed-top {
@@ -62,9 +61,17 @@ nav {
 
 .big { width: 75%; }
 
-iframe {
-  position: absolute;
-  border: 0;
-}
+iframe { border: 0; }
 
 label { cursor: pointer; }
+
+@counter-style mf {
+  system: cyclic;
+  symbols: "\2764\FE0F" "\1F44D" "\1F525" "\1F680";
+  suffix: "";
+}
+
+ul {
+  list-style: mf outside;
+  padding-left: 0;
+}

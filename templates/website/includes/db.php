@@ -14,4 +14,17 @@
     )
     EOT
   );
+
+  function executeParams($query, $array) {
+    global $db;
+    $stmt = $db->prepare($query);
+
+    $i = 1;
+    foreach ($array as $value) {
+      $stmt->bindValue($i, $value);
+      $i++;
+    }
+
+    return $stmt->execute();
+  }
 ?>
