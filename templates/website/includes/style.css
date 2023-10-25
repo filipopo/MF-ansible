@@ -1,5 +1,4 @@
 body {
-  padding-top: 35px;
   background-color: #fd7e14;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   font-size: 1rem;
@@ -28,6 +27,10 @@ nav {
 }
 
 .navbar {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -43,14 +46,6 @@ nav {
 
 .nav-link:hover, .nav-link:focus {
   color: cyan;
-}
-
-.fixed-top {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1030;
 }
 
 .left { float: left; }
@@ -74,4 +69,24 @@ label { cursor: pointer; }
 ul {
   list-style: mf outside;
   padding-left: 0;
+}
+
+li {
+  margin-bottom: 11px;
+}
+
+@media only screen and (orientation: portrait) {
+  .navbar {
+    bottom: 0;
+  }
+}
+
+@media only screen and (orientation: landscape) {
+  body {
+    padding-top: 35px;
+  }
+
+  .navbar {
+    top: 0;
+  }
 }

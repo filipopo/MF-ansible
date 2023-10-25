@@ -30,6 +30,26 @@
     - admin
     - includes
 
+- name: Copy website files
+  ansible.builtin.template:
+    src: "templates/website/{{ item[0] }}"
+    dest: "{{ website_path }}/{{ item[1] }}"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  loop:
+    - ["index.php", "index.php"]
+    - ["stats.php", "stats.php"]
+    - ["donate_notify.php", "donate_notify.php"]
+    - ["favicon.ico", "favicon.ico"]
+    - ["admin/index.php", "admin/index.php"]
+    - ["admin/login.php", "admin/login.php"]
+    - ["includes/b.php", "includes/b.php"]
+    - ["includes/db.php", "includes/db.php"]
+    - ["includes/kofi.j2", "includes/kofi.php"]
+    - ["includes/variables.j2", "includes/variables.php"]
+    - ["includes/style.css", "includes/style.css"]
+
 - name: Extract elFinder zip onto server
   ansible.builtin.unarchive:
     src: "{{ item }}"
@@ -64,26 +84,6 @@
   loop:
     - "{{ install_path }}/MobileForces"
     - "{{ website_path }}"
-
-- name: Copy website files
-  ansible.builtin.template:
-    src: "templates/website/{{ item[0] }}"
-    dest: "{{ website_path }}/{{ item[1] }}"
-    owner: "{{ server_user }}"
-    group: "{{ server_user }}"
-    mode: "774"
-  loop:
-    - ["index.php", "index.php"]
-    - ["stats.php", "stats.php"]
-    - ["donate_notify.php", "donate_notify.php"]
-    - ["favicon.ico", "favicon.ico"]
-    - ["admin/index.php", "admin/index.php"]
-    - ["admin/login.php", "admin/login.php"]
-    - ["includes/b.php", "includes/b.php"]
-    - ["includes/db.php", "includes/db.php"]
-    - ["includes/kofi.j2", "includes/kofi.php"]
-    - ["includes/variables.j2", "includes/variables.php"]
-    - ["includes/style.css", "includes/style.css"]
 
 - name: Enable mobileforces website
   ansible.builtin.shell: a2ensite mobileforces
