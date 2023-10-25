@@ -45,7 +45,7 @@
       }
 
       if(isset($_POST['fastdl'])) {
-        system('bash {{ game_path }}/System/compress.sh');
+        system('systemctl start mobileforces-fastdl');
         echo 'Ran command to compress files for FastDL<br>';
       }
     ?>

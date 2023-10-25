@@ -9,6 +9,6 @@
     [kofi_startdate, kofi_target]
   )->fetchArray()[0];
 ?>
-  MF is worth <?= $net ?> EUR
+  MF is worth <?= $net ?> <?= kofi_currency ?>
 </body>
 </html>

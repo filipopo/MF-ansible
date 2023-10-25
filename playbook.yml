@@ -20,9 +20,6 @@
       ansible.builtin.include_tasks:
         file: tasks/create_apache_server.yml
 
-    - name: Compress all game files for FastDL
-      ansible.builtin.shell: "sudo -u {{ server_user }} bash {{ game_path }}/System/compress.sh"
-
     - name: Start MF server
       ansible.builtin.service:
         name: "{{ item }}"
@@ -31,6 +28,7 @@
       loop:
         - mobileforces
         - mobileforces-masterserver
+        - mobileforces-fastdl
 
   handlers:
     - ansible.builtin.import_tasks: handlers/mf.yml

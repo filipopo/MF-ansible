@@ -54,5 +54,6 @@
   loop:
     - ["mobileforces.j2", "mobileforces.service"]
     - ["mobileforces-masterserver.j2", "mobileforces-masterserver.service"]
+    - ["mobileforces-fastdl.j2", "mobileforces-fastdl.service"]
   notify:
     - Reload systemctl
