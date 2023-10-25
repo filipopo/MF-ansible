@@ -2,11 +2,10 @@
 - name: Setup MF server on a Linux server
   hosts: servers
   become: true
-  vars:
-    apache: "{{ 'apache2' if ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' else 'httpd' }}"
-    game_path: "{{ install_path }}/MobileForces"
   vars_files:
     - vars.yml
+  vars:
+    game_path: "{{ install_path }}/MobileForces"
 
   tasks:
     - name: Ensure server user exists
@@ -26,9 +25,12 @@
 
     - name: Start MF server
       ansible.builtin.service:
-        name: mobileforces
+        name: "{{ item }}"
         state: started
         enabled: yes
+      loop:
+        - mobileforces
+        - mobileforces-masterserver
 
   handlers:
     - ansible.builtin.import_tasks: handlers/mf.yml
