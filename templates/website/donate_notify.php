@@ -7,14 +7,14 @@
     fclose($file);
   }
 
-  include 'includes/kofi.php';
+  include 'includes/php/kofi.php';
   $_POST['data'] = json_decode($_POST['data'], true);
 
   if (hash_equals(kofi_token, $_POST['data']['verification_token'])) {
     $date = date_parse($_POST['data']['timestamp']);
     $amount_received = $_POST['data']['amount'];
 
-    include 'includes/db.php';
+    include 'includes/php/db.php';
     executeParams(
       'INSERT INTO donations (time, day, month, year, name, message, amount_sent, amount_received) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
       [

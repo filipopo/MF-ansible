@@ -28,7 +28,9 @@
     mode: "774"
   loop:
     - admin
-    - includes
+    - includes/php
+    - includes/css
+    - includes/js
 
 - name: Copy website files
   ansible.builtin.template:
@@ -44,11 +46,13 @@
     - ["favicon.ico", "favicon.ico"]
     - ["admin/index.php", "admin/index.php"]
     - ["admin/login.php", "admin/login.php"]
-    - ["includes/b.php", "includes/b.php"]
-    - ["includes/db.php", "includes/db.php"]
-    - ["includes/kofi.j2", "includes/kofi.php"]
-    - ["includes/variables.j2", "includes/variables.php"]
-    - ["includes/style.css", "includes/style.css"]
+    - ["includes/php/body.php", "includes/php/body.php"]
+    - ["includes/php/db.php", "includes/php/db.php"]
+    - ["includes/php/kofi.j2", "includes/php/kofi.php"]
+    - ["includes/php/cookies.j2", "includes/php/cookies.php"]
+    - ["includes/css/style.css", "includes/css/style.css"]
+    - ["includes/css/admin.css", "includes/css/admin.css"]
+    - ["includes/js/css_random.js", "includes/js/css_random.js"]
 
 - name: Extract elFinder zip onto server
   ansible.builtin.unarchive:
@@ -60,15 +64,8 @@
   with_fileglob:
     - "templates/website/admin/elFinder-*.zip"
 
-- name: Find extracted elFinder directory
-  ansible.builtin.find:
-    paths: "{{ website_path }}/admin/"
-    file_type: directory
-    patterns: elFinder-*
-  register: folders
-
 - name: Install elFinder
-  ansible.builtin.shell: "mv {{ folders.files[0].path }}/php/connector.minimal.php-dist {{ folders.files[0].path }}/php/connector.minimal.php"
+  ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php"
 
 - name: Give elFinder access to mobileforces files
   user:
@@ -77,18 +74,11 @@
     append: yes
 
 - name: Create symbolic links for elFinder
-  ansible.builtin.file:
-    src: "{{ item }}"
-    dest: "{{ folders.files[0].path }}/files/{{ item | split('/') | last }}"
-    state: link
+  ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/files && ln -f -s {{ item }} ."
   loop:
     - "{{ install_path }}/MobileForces"
     - "{{ website_path }}"
 
-- name: Enable mobileforces website
-  ansible.builtin.shell: a2ensite mobileforces
-  notify: Reload apache
-
-- name: Disable default apache website
-  ansible.builtin.shell: a2dissite 000-default.conf
+- name: Enable only the mobileforces website
+  ansible.builtin.shell: a2ensite mobileforces && a2dissite 000-default.conf
   notify: Reload apache

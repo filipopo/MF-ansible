@@ -3,7 +3,7 @@
 <head>
   <title><?= $title ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel='stylesheet' href='/includes/style.css'>
+  <link rel="stylesheet" href="/includes/css/<?= isset($css) ? $css : 'style.css' ?>">
 </head>
 <body>
 <nav class="navbar">
