@@ -1,14 +1,12 @@
 <?php
   $title = 'MF statistics';
-  include 'includes/b.php';
+  include 'includes/php/body.php';
 
-  include 'includes/kofi.php';
-  include 'includes/db.php';
-  $net = (float)executeParams(
-    'SELECT SUM(amount_received) - (SELECT (JULIANDAY("now") - JULIANDAY(?)) / 30 * ?) FROM donations',
-    [kofi_startdate, kofi_target]
-  )->fetchArray()[0];
+  include 'includes/php/kofi.php';
+  include 'includes/php/db.php';
+  $sum = (float)$db->querySingle('SELECT SUM(amount_received) FROM donations');
 ?>
-  MF is worth <?= $net ?> <?= kofi_currency ?>
+  A total of <?= $sum ?> <?= kofi_currency ?> has been donated for MF<br>
+  Net balance: ~<?= $sum - (microtime(true) - strtotime(kofi_startdate)) / 86400 / 30 * kofi_target ?> <?= kofi_currency ?>
 </body>
 </html>

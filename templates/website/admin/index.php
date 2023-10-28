@@ -1,5 +1,5 @@
 <?php
-  include '../includes/variables.php';
+  include '../includes/php/cookies.php';
 
   function check_hashes($base, $hash_array) {
     foreach ($hash_array as $hash) {
@@ -10,13 +10,14 @@
     return true;
   }
 
-  if (!isset($_COOKIE[cookieName]) || !check_hashes(cookiePassword, [encryptedPasssword, $_COOKIE[cookieName]])) {
+  if (!isset($_COOKIE[cookieName]) || !check_hashes(cookiePassword, [cookieEncrypted, $_COOKIE[cookieName]])) {
     header('Location: /admin/login.php');
     die();
   }
 
   $title = 'Admin page';
-  include '../includes/b.php';
+  $css = 'admin.css';
+  include '../includes/php/body.php';
 
   foreach (new DirectoryIterator(getcwd()) as $file) {
     if ($file->isDir() && str_starts_with($file->getFilename(), 'elFinder-')) {

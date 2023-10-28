@@ -38,7 +38,7 @@ for folder in "${folders[@]}"; do
     # If the sum is not matching (or doesn't exist) compress the file and update the sha256 sum
     if [ $? -ne 0 ]; then
       wine ucc.exe compress $file
-      mv "${file}.uz" ${fastdl}
+      mv "${file}.uz" $fastdl
       shasum -a 256 $file > $sum_file
     fi
   done
