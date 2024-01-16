@@ -1,0 +1,9 @@
+[Unit]
+Description=Mobile Forces fastdl compression
+
+[Service]
+User={{ server_user }}
+ExecStart=bash {{ game_path }}/System/compress.sh
+
+[Install]
+WantedBy=multi-user.target

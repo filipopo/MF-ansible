@@ -1,0 +1,12 @@
+[Unit]
+Description=Mobile Forces server
+After=network.target
+
+[Service]
+User={{ server_user }}
+WorkingDirectory={{ game_path }}/System/
+ExecStart=sh {{ game_path }}/System/dedicated.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

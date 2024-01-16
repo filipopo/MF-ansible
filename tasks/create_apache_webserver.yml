@@ -1,0 +1,90 @@
+---
+- name: Install apache and related packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - libapache2-mod-php
+    - php-sqlite3
+    - python3-certbot-apache
+
+- name: Create virtual host for the mf website
+  ansible.builtin.template:
+    src: templates/vhosts/mobileforces.j2
+    dest: /etc/apache2/sites-available/mobileforces.conf
+    mode: "644"
+
+- name: Ensure home directory has the correct permissions
+  ansible.builtin.file:
+    path: "/home/{{ server_user }}"
+    mode: "774"
+
+- name: Ensure website directories exist
+  ansible.builtin.file:
+    path: "{{ website_path }}/{{ item }}"
+    state: directory
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  loop:
+    - admin
+    - includes/php
+    - includes/css
+    - includes/js
+
+- name: Copy website files
+  ansible.builtin.template:
+    src: "templates/webserver/website/{{ item[0] }}"
+    dest: "{{ website_path }}/{{ item[1] }}"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  loop:
+    - ["index.php", "index.php"]
+    - ["stats.php", "stats.php"]
+    - ["donate_notify.php", "donate_notify.php"]
+    - ["favicon.ico", "favicon.ico"]
+    - ["admin/index.php", "admin/index.php"]
+    - ["admin/login.php", "admin/login.php"]
+    - ["includes/php/body.php", "includes/php/body.php"]
+    - ["includes/php/db.php", "includes/php/db.php"]
+    - ["includes/php/kofi.j2", "includes/php/kofi.php"]
+    - ["includes/php/cookies.j2", "includes/php/cookies.php"]
+    - ["includes/css/style.css", "includes/css/style.css"]
+    - ["includes/css/admin.css", "includes/css/admin.css"]
+    - ["includes/js/css_random.js", "includes/js/css_random.js"]
+
+- name: Remove any previous verisons of elFinder
+  ansible.builtin.shell: "rm -rf {{ website_path }}/admin/elFinder-*"
+
+- name: Extract elFinder zip onto server
+  ansible.builtin.unarchive:
+    src: "{{ item }}"
+    dest: "{{ website_path }}/admin/"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  with_fileglob:
+    - "templates/webserver/website/admin/elFinder-*.zip"
+
+- name: Install elFinder
+  ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php"
+
+- name: Give elFinder access to mobileforces files
+  user:
+    name: www-data
+    groups: "{{ server_user }}"
+    append: yes
+
+- name: Create symbolic links for elFinder
+  ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/files && ln -f -s {{ item }} ."
+  loop:
+    - "{{ install_path }}/MobileForces"
+    - "{{ website_path }}"
+
+- name: Request LE certificate
+  ansible.builtin.shell: "certbot --apache -n --email {{ ServerAdmin }} --agree-tos --no-redirect -d {{ ServerName }}"
+
+- name: Enable only the mobileforces website
+  ansible.builtin.shell: a2dissite 000-default.conf && a2ensite mobileforces.conf
+  notify: Reload apache
