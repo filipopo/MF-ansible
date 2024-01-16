@@ -3,13 +3,12 @@ mf_path: MobileForces.zip
 ansible_ssh_private_key_file: ~/.ssh/id_rsa
 server_user: mobileforces
 install_path: "/home/{{ server_user }}/server"
-website_path: "{{ install_path }}/website"
 ServerName: example.com
 ServerAdmin: admin@example.com
 AdminPassword: P@ssword123!
 kofi_name: filipmania
 kofi_token: 904939d1-5699-4da2-86c4-6caf067854f0
-kofi_target: 7.55
+kofi_target: 12.49
 kofi_currency: EUR
 kofi_startdate: 2023-10-22 15:35:11
 kofi_paypal_clientid: ASMC28YsAMD5X9jEM0HUUowekCM9YIhgEu1fziuY8XL-7FCMCFx5o1srmKkdV_DVy1dUS4kpAt0knCxK

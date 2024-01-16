@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="/includes/css/<?= isset($css) ? $css : 'style.css' ?>">
 </head>
 <body>
-<nav class="navbar">
+<nav class="nav-top">
   <a class="nav-link" href="/">Home</a>
   <a class="nav-link" href="/stats.php">Statistics</a>
   <a class="nav-link" href="/admin">Admin page</a>

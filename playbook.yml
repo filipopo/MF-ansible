@@ -6,28 +6,47 @@
     - vars.yml
   vars:
     game_path: "{{ install_path }}/MobileForces"
+    website_path: "{{ install_path }}/website"
 
   tasks:
     - name: Ensure server user exists
       ansible.builtin.user:
         name: "{{ server_user }}"
 
-    - name: Create MF server
+    - name: Ensure install directory exists
+      ansible.builtin.file:
+        path: "{{ install_path }}"
+        state: directory
+        owner: "{{ server_user }}"
+        group: "{{ server_user }}"
+        mode: "774"
+
+    - name: Install common dependencies
+      ansible.builtin.package:
+        name: unzip
+        state: latest
+        update_cache: yes
+
+    - name: Create MF masterserver
       ansible.builtin.include_tasks: 
-        file: tasks/create_mf_server.yml
+        file: tasks/create_mf_masterserver.yml
 
-    - name: Create apache server for FastDL
+    - name: Create MF gameserver
+      ansible.builtin.include_tasks: 
+        file: tasks/create_mf_gameserver.yml
+
+    - name: Create apache webserver (site + FastDL)
       ansible.builtin.include_tasks:
-        file: tasks/create_apache_server.yml
+        file: tasks/create_apache_webserver.yml
 
-    - name: Start MF server
+    - name: Start MF services
       ansible.builtin.service:
         name: "{{ item }}"
         state: started
         enabled: yes
       loop:
-        - mobileforces
         - mobileforces-masterserver
+        - mobileforces-gameserver
         - mobileforces-fastdl
 
   handlers:

@@ -1,12 +1,12 @@
 ---
-- name: Install apache
+- name: Install apache and related packages
   ansible.builtin.package:
     name: "{{ item }}"
     state: latest
-    update_cache: yes
   loop:
     - libapache2-mod-php
     - php-sqlite3
+    - python3-certbot-apache
 
 - name: Create virtual host for the mf website
   ansible.builtin.template:
@@ -34,7 +34,7 @@
 
 - name: Copy website files
   ansible.builtin.template:
-    src: "templates/website/{{ item[0] }}"
+    src: "templates/webserver/website/{{ item[0] }}"
     dest: "{{ website_path }}/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
@@ -54,6 +54,9 @@
     - ["includes/css/admin.css", "includes/css/admin.css"]
     - ["includes/js/css_random.js", "includes/js/css_random.js"]
 
+- name: Remove any previous verisons of elFinder
+  ansible.builtin.shell: "rm -rf {{ website_path }}/admin/elFinder-*"
+
 - name: Extract elFinder zip onto server
   ansible.builtin.unarchive:
     src: "{{ item }}"
@@ -62,7 +65,7 @@
     group: "{{ server_user }}"
     mode: "774"
   with_fileglob:
-    - "templates/website/admin/elFinder-*.zip"
+    - "templates/webserver/website/admin/elFinder-*.zip"
 
 - name: Install elFinder
   ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php"
@@ -79,6 +82,9 @@
     - "{{ install_path }}/MobileForces"
     - "{{ website_path }}"
 
+- name: Request LE certificate
+  ansible.builtin.shell: "certbot --apache -n --email {{ ServerAdmin }} --agree-tos --no-redirect -d {{ ServerName }}"
+
 - name: Enable only the mobileforces website
-  ansible.builtin.shell: a2ensite mobileforces && a2dissite 000-default.conf
+  ansible.builtin.shell: a2dissite 000-default.conf && a2ensite mobileforces.conf
   notify: Reload apache

@@ -11,6 +11,20 @@
   $_POST['data'] = json_decode($_POST['data'], true);
 
   if (hash_equals(kofi_token, $_POST['data']['verification_token'])) {
+    /*session_start();
+    if (!isset($_SESSION['expires_in']) || time() >= $_SESSION['expires_in']) {
+      curl -v -X POST 'https://api-m.paypal.com/v1/oauth2/token'\
+      -u sprintf('%s:%s', kofi_paypal_clientid, kofi_paypal_secretkey)\
+      -H 'Content-Type: application/x-www-form-urlencoded'\
+      -d 'grant_type=client_credentials'
+
+      $_SESSION['expires_in'] = strtotime("+$res['expires_in'] second");
+    }
+
+    curl -v -X GET 'https://api-m.paypal.com/v1/reporting/transactions'\
+    -H 'Content-Type: application/json'\
+    -H "Authorization: Bearer $_SESSION['expires_in']"*/
+
     $date = date_parse($_POST['data']['timestamp']);
     $amount_received = $_POST['data']['amount'];
 

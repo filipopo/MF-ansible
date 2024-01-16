@@ -4,33 +4,22 @@
 
 - name: Install wine
   ansible.builtin.package:
-    name: "{{ item }}"
+    name: winehq-stable
     state: latest
-    update_cache: yes
     install_recommends: yes
-  loop:
-    - winehq-stable
-    - unzip
 
-- name: Ensure install directory exists
-  ansible.builtin.file:
-    path: "{{ install_path }}"
-    state: directory
+- name: Extract Mobile Forces zip onto server if the game path doesn't exist
+  ansible.builtin.unarchive:
+    creates: "{{ game_path }}/"
+    src: "{{ mf_path }}"
+    dest: "{{ install_path }}/"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "774"
 
-#- name: Extract Mobile Forces zip onto server
-#  ansible.builtin.unarchive:
-#    src: "{{ mf_path }}"
-#    dest: "{{ install_path }}/"
-#    owner: "{{ server_user }}"
-#    group: "{{ server_user }}"
-#    mode: "774"
-
 - name: Copy files into the System folder
   ansible.builtin.template:
-    src: "templates/scripts/{{ item[0] }}"
+    src: "templates/gameserver/scripts/{{ item[0] }}"
     dest: "{{ game_path }}/System/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
@@ -38,16 +27,14 @@
   loop:
     - ["compress.j2", "compress.sh"]
     - ["dedicated.sh", "dedicated.sh"]
-    - ["RunMasterServer.sh", "RunMasterServer.sh"]
 
 - name: Create service files for the mf server
   ansible.builtin.template:
-    src: "templates/services/{{ item[0] }}"
+    src: "templates/gameserver/services/{{ item[0] }}"
     dest: "/etc/systemd/system/{{ item[1] }}"
     mode: "644"
   loop:
-    - ["mobileforces.j2", "mobileforces.service"]
-    - ["mobileforces-masterserver.j2", "mobileforces-masterserver.service"]
+    - ["mobileforces.j2", "mobileforces-gameserver.service"]
     - ["mobileforces-fastdl.j2", "mobileforces-fastdl.service"]
   notify:
     - Reload systemctl

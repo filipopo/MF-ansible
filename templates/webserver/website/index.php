@@ -9,7 +9,7 @@
     'SELECT SUM(amount_received) FROM donations WHERE year=? and month=?',
     [date('Y'), date('n')]
   )->fetchArray()[0];
-  $donations = $db->query('SELECT time, day, month, year, name, message, amount_sent FROM donations LIMIT 10');
+  $donations = $db->query('SELECT time, day, month, year, name, message, amount_sent FROM donations ORDER BY id DESC LIMIT 10');
 ?>
   <div class="big left">
     Join the <a href="https://discord.gg/xPcFh7E">Discord server</a> and support MF!<br>
