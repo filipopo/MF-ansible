@@ -1,7 +1,7 @@
 #!/bin/sh
 
-command='./ucc-bin-amd64 masterserver'
+command='./ucc-bin masterserver'
 until $command; do
-  echo 'Server crashed with exit code $?, restarting!' >&2
+  echo "Server crashed with exit code $?, restarting!" >&2
   sleep 1
 done
