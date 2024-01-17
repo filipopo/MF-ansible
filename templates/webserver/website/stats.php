@@ -14,7 +14,7 @@
   <br>
   Top 10 donators:
   <script src="/includes/js/css_random.js"></script>
-  <ul>
+  <ul style="padding-left: 10px;">
     <?php while ($row = $donators->fetchArray()): ?>
     <li>
       <?= $row['name'] ?> donated <?= $row['amount'] ?> <?= kofi_currency ?> over <?= $row['times'] ?> donation(s)

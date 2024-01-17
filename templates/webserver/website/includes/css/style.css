@@ -1,6 +1,6 @@
 @counter-style mf {
   system: cyclic;
-  symbols: "\2764\FE0F" "\1F44D" "\1F525" "\1F680";
+  symbols: "\2764\FE0F" "\1F451" "\1F525" "\1F680" "\1F911" "\1F4AF" "\1F449" "\1F4AA" "\1F340" "\2728";
   suffix: "";
 }
 
@@ -64,7 +64,7 @@ li {
 
 @media only screen and (orientation: landscape) {
   body {
-    padding-top: 35px;
+    padding-top: 30px;
   }
 
   .nav-top {
