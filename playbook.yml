@@ -15,7 +15,7 @@
 
     - name: Ensure install directory exists
       ansible.builtin.file:
-        path: "{{ install_path }}"
+        path: "{{ game_path }}-masterserver/"
         state: directory
         owner: "{{ server_user }}"
         group: "{{ server_user }}"
@@ -46,9 +46,9 @@
         enabled: yes
       loop:
         - mobileforces-masterserver
-        - mobileforces-gameserver
+        - mobileforces
         - mobileforces-fastdl
 
   handlers:
-    - ansible.builtin.import_tasks: handlers/mf.yml
+    - ansible.builtin.import_tasks: handlers/systemctl.yml
     - ansible.builtin.import_tasks: handlers/apache.yml

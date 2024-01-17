@@ -41,7 +41,7 @@
         echo '<br>';
 
       if(isset($_POST['restart'])) {
-        system('systemctl restart mobileforces-gameserver');
+        system('systemctl restart mobileforces');
         echo 'Ran server restart command<br>';
       }
 

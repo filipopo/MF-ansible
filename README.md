@@ -12,4 +12,4 @@ https://developer.paypal.com/docs/transaction-search/
 
 todo: https://www.ericmacedo.com/generating-code-from-templates-using-python-and-jinja2.html
 
-Thanks to https://github.com/OldUnreal/UnrealTournamentPatches for their updated System64 packages which is used in the MobileForces-masterserver.zip
+Thanks to https://github.com/OldUnreal/UnrealTournamentPatches for their updated System64 packages which is used in the MobileForces-masterserver

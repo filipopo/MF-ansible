@@ -1,17 +1,19 @@
 ---
 - name: Extract master server zip onto server if the path doesn't exist
   ansible.builtin.unarchive:
-    creates: "{{ game_path }}-masterserver/"
-    src: templates/masterserver/MobileForces-masterserver.zip
-    dest: "{{ install_path }}/"
+    creates: "{{ game_path }}-masterserver/System64/"
+    src: "{{ item }}"
+    dest: "{{ game_path }}-masterserver/"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "774"
+  with_fileglob:
+    - "templates/masterserver/OldUnreal-UTPatch*-Linux-amd64.tar.bz2"
 
 - name: Copy files into the masterserver folder
   ansible.builtin.copy:
     src: "templates/masterserver/scripts/{{ item }}"
-    dest: "{{ game_path }}-masterserver/{{ item }}"
+    dest: "{{ game_path }}-masterserver/System64/{{ item }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "774"

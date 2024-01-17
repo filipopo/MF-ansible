@@ -10,7 +10,7 @@
 
 - name: Create virtual host for the mf website
   ansible.builtin.template:
-    src: templates/vhosts/mobileforces.j2
+    src: templates/webserver/vhosts/mobileforces.j2
     dest: /etc/apache2/sites-available/mobileforces.conf
     mode: "644"
 
@@ -54,7 +54,7 @@
     - ["includes/css/admin.css", "includes/css/admin.css"]
     - ["includes/js/css_random.js", "includes/js/css_random.js"]
 
-- name: Remove any previous verisons of elFinder
+- name: Remove previous verisons of elFinder
   ansible.builtin.shell: "rm -rf {{ website_path }}/admin/elFinder-*"
 
 - name: Extract elFinder zip onto server
@@ -67,8 +67,8 @@
   with_fileglob:
     - "templates/webserver/website/admin/elFinder-*.zip"
 
-- name: Install elFinder
-  ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php"
+- name: Install & configure elFinder for MF
+  ansible.builtin.shell: cd "{{ website_path }}"/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php && sed -i "s/uploadAllow'   => array(/uploadAllow'   => array('application\/octet-stream', /g" connector.minimal.php
 
 - name: Give elFinder access to mobileforces files
   user:
@@ -79,7 +79,7 @@
 - name: Create symbolic links for elFinder
   ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/files && ln -f -s {{ item }} ."
   loop:
-    - "{{ install_path }}/MobileForces"
+    - "{{ game_path }}"
     - "{{ website_path }}"
 
 - name: Request LE certificate
