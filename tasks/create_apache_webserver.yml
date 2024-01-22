@@ -40,19 +40,19 @@
     group: "{{ server_user }}"
     mode: "774"
   loop:
-    - ["index.php", "index.php"]
-    - ["stats.php", "stats.php"]
-    - ["donate_notify.php", "donate_notify.php"]
-    - ["favicon.ico", "favicon.ico"]
-    - ["admin/index.php", "admin/index.php"]
-    - ["admin/login.php", "admin/login.php"]
-    - ["includes/php/body.php", "includes/php/body.php"]
-    - ["includes/php/db.php", "includes/php/db.php"]
-    - ["includes/php/kofi.j2", "includes/php/kofi.php"]
-    - ["includes/php/cookies.j2", "includes/php/cookies.php"]
-    - ["includes/css/style.css", "includes/css/style.css"]
-    - ["includes/css/admin.css", "includes/css/admin.css"]
-    - ["includes/js/css_random.js", "includes/js/css_random.js"]
+    - [index.php, index.php]
+    - [stats.php, stats.php]
+    - [donate_notify.php, donate_notify.php]
+    - [favicon.ico, favicon.ico]
+    - [admin/index.php, admin/index.php]
+    - [admin/login.php, admin/login.php]
+    - [includes/php/body.php, includes/php/body.php]
+    - [includes/php/db.php, includes/php/db.php]
+    - [includes/php/kofi.j2, includes/php/kofi.php]
+    - [includes/php/cookies.j2, includes/php/cookies.php]
+    - [includes/css/style.css, includes/css/style.css]
+    - [includes/css/admin.css, includes/css/admin.css]
+    - [includes/js/css_random.js, includes/js/css_random.js]
 
 - name: Remove previous verisons of elFinder
   ansible.builtin.shell: "rm -rf {{ website_path }}/admin/elFinder-*"
