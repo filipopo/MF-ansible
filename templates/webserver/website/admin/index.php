@@ -15,6 +15,9 @@
     die();
   }
 
+  // Refresh cookie
+  setcookie(cookieName, cookieEncrypted, time()+3600, httponly: true);
+
   $title = 'Admin page';
   $css = 'admin.css';
   include '../includes/php/body.php';
@@ -51,6 +54,6 @@
       }
     ?>
   </div>
-  <iframe class="big right" title="File Manager" style="position:absolute;height:100%;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe> 
+  <iframe class="big right" title="File Manager" style="height:450px;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe> 
 </body>
 </html>
