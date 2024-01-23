@@ -29,7 +29,7 @@
     }
   }
 ?>
-  <div class="small left">
+  <div class="small" style="float: left;">
     Welcome to the admin panel, to get started use the file manager or choose the actions you want to do:
     <form method="POST">
       <input type="checkbox" id="restart" name="restart">
@@ -54,6 +54,6 @@
       }
     ?>
   </div>
-  <iframe class="big right" title="File Manager" style="height:450px;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe> 
+  <iframe class="big" title="File Manager" style="float: right;height:450px;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe> 
 </body>
 </html>
