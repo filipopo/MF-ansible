@@ -8,23 +8,21 @@ body {
   background-color: #fd7e14;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   font-size: 1rem;
+  margin-right: 0;
 }
 
 nav {
   position: fixed;
-  z-index: 1030;
   background-color: #333;
   overflow: hidden;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: 6px;
 }
 
 .nav-top {
-  right: 0;
   left: 0;
+  right: 0;
 }
 
 .nav-link {
@@ -37,44 +35,52 @@ nav {
   color: cyan;
 }
 
-.left { float: left; }
-
-.right { float: right; }
-
 iframe { border: 0; }
 
-.grid-container { display: grid; }
-
-.grid-item { padding-bottom: 10px;}
-
-ul { list-style: mf outside; }
+ul {
+  padding-left: 10px;
+  list-style: mf outside;
+}
 
 li { margin-bottom: 11px; }
 
-.small, .big { width: 100%; }
+.grid-container { display: grid; }
 
-@media screen and (min-width: 1211px) {
-  .small { width: 25%; }
+.grid-item { padding-bottom: 10px; }
 
-  .big { width: 75%; }
-}
+@media screen {
+  @media (orientation: portrait) {
+    body { margin-bottom: 36px; }
 
-@media only screen and (orientation: portrait) {
-  body { padding-bottom: 30px; }
+    .nav-top { bottom: 0; }
 
-  .nav-top { bottom: 0; }
+    .grid-item.b { order: -1; }
+  }
 
-  .grid-item.b { order: -1; }
+  @media (orientation: landscape) {
+    body { margin-top: 36px; }
 
-  ul { padding-left: 10px; }
-}
+    .nav-top { top: 0; }
 
-@media only screen and (orientation: landscape) {
-  body { padding-top: 30px; }
+    ul { padding-left: 2px; }
 
-  .nav-top { top: 0; }
+    @media (width < 1211px) {
+      .grid-item.a { grid-area: left; }
 
-  .grid-container { grid-template-columns: 418px auto; }
+      .grid-item.b { grid-area: right; }
 
-  ul { padding-left: 0; }
+      .grid-item.c { grid-area: bottom; }
+
+      .grid-container {
+        grid-template-columns: 418px 1fr;
+        grid-template-areas:
+          'left right'
+          'bottom right'
+      }
+    }
+
+    @media (width >= 1211px) {
+      .grid-container { grid-template-columns: 418px auto auto; }
+    }
+  }
 }

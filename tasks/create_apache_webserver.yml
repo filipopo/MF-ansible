@@ -19,21 +19,16 @@
     path: "/home/{{ server_user }}"
     mode: "774"
 
-- name: Ensure website directories exist
+- name: Ensure dynamic files directory exists
   ansible.builtin.file:
-    path: "{{ website_path }}/{{ item }}"
+    path: "{{ website_path }}/includes/php/"
     state: directory
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "774"
-  loop:
-    - admin
-    - includes/php
-    - includes/css
-    - includes/js
 
-- name: Copy website files
-  ansible.builtin.template:
+- name: Copy static files into the webserver folder
+  ansible.builtin.copy:
     src: "templates/webserver/website/{{ item[0] }}"
     dest: "{{ website_path }}/{{ item[1] }}"
     owner: "{{ server_user }}"
@@ -44,15 +39,23 @@
     - [stats.php, stats.php]
     - [donate_notify.php, donate_notify.php]
     - [favicon.ico, favicon.ico]
-    - [admin/index.php, admin/index.php]
-    - [admin/login.php, admin/login.php]
+    - [admin, ""]
+    - [includes/css, includes]
+    - [includes/images, includes]
+    - [includes/js, includes]
+
+- name: Copy mostly dynamic website files
+  ansible.builtin.template:
+    src: "templates/webserver/website/{{ item[0] }}"
+    dest: "{{ website_path }}/{{ item[1] }}"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "774"
+  loop:
     - [includes/php/body.php, includes/php/body.php]
     - [includes/php/db.php, includes/php/db.php]
     - [includes/php/kofi.j2, includes/php/kofi.php]
     - [includes/php/cookies.j2, includes/php/cookies.php]
-    - [includes/css/style.css, includes/css/style.css]
-    - [includes/css/admin.css, includes/css/admin.css]
-    - [includes/js/css_random.js, includes/js/css_random.js]
 
 - name: Remove previous verisons of elFinder
   ansible.builtin.shell: "rm -rf {{ website_path }}/admin/elFinder-*"
@@ -65,7 +68,7 @@
     group: "{{ server_user }}"
     mode: "774"
   with_fileglob:
-    - "templates/webserver/website/admin/elFinder-*.zip"
+    - "templates/webserver/elFinder-*.zip"
 
 - name: Install & configure elFinder for MF
   ansible.builtin.shell: cd "{{ website_path }}"/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php && sed -i "s/uploadAllow'   => array(/uploadAllow'   => array('application\/octet-stream', /g" connector.minimal.php

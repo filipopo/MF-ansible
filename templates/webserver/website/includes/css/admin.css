@@ -18,3 +18,11 @@ label { cursor: pointer; }
   color: #fff;
   background-color: #6c757d;
 }
+
+.big, .small { width: 100% }
+
+@media screen and (width >= 1211px) {
+  .big { width: 75%; }
+
+  .small { width: 25%; }
+}

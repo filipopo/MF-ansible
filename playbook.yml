@@ -15,7 +15,7 @@
 
     - name: Ensure install directory exists
       ansible.builtin.file:
-        path: "{{ game_path }}-masterserver/"
+        path: "{{ install_path }}/masterserver/"
         state: directory
         owner: "{{ server_user }}"
         group: "{{ server_user }}"
