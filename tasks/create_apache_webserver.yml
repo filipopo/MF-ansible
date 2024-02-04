@@ -4,6 +4,7 @@
     name: "{{ item }}"
     state: latest
   loop:
+    - libapache2-mpm-itk
     - libapache2-mod-php
     - php-sqlite3
     - python3-certbot-apache
@@ -14,18 +15,21 @@
     dest: /etc/apache2/sites-available/mobileforces.conf
     mode: "644"
 
-- name: Ensure home directory has the correct permissions
+- name: Ensure website directories exist
   ansible.builtin.file:
-    path: "/home/{{ server_user }}"
-    mode: "774"
-
-- name: Ensure dynamic files directory exists
-  ansible.builtin.file:
-    path: "{{ website_path }}/includes/php/"
+    path: "{{ website_path }}/{{ item }}"
     state: directory
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "755"
+  loop:
+    - ""
+    - admin
+    - includes/
+    - includes/php/
+    - includes/css
+    - includes/images
+    - includes/js
 
 - name: Copy static files into the webserver folder
   ansible.builtin.copy:
@@ -33,27 +37,27 @@
     dest: "{{ website_path }}/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "644"
   loop:
     - [index.php, index.php]
     - [stats.php, stats.php]
     - [donate_notify.php, donate_notify.php]
     - [favicon.ico, favicon.ico]
-    - [admin, ""]
-    - [includes/css, includes]
-    - [includes/images, includes]
-    - [includes/js, includes]
+    - [admin/, admin/]
+    - [includes/css/, includes/css/]
+    - [includes/images/, includes/images/]
+    - [includes/js/, includes/js/]
+    - [includes/php/body.php, includes/php/body.php]
+    - [includes/php/db.php, includes/php/db.php]
 
-- name: Copy mostly dynamic website files
+- name: Copy dynamic website files
   ansible.builtin.template:
     src: "templates/webserver/website/{{ item[0] }}"
     dest: "{{ website_path }}/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "644"
   loop:
-    - [includes/php/body.php, includes/php/body.php]
-    - [includes/php/db.php, includes/php/db.php]
     - [includes/php/kofi.j2, includes/php/kofi.php]
     - [includes/php/cookies.j2, includes/php/cookies.php]
 
@@ -66,18 +70,12 @@
     dest: "{{ website_path }}/admin/"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "755"
   with_fileglob:
     - "templates/webserver/elFinder-*.zip"
 
 - name: Install & configure elFinder for MF
   ansible.builtin.shell: cd "{{ website_path }}"/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php && sed -i "s/uploadAllow'   => array(/uploadAllow'   => array('application\/octet-stream', /g" connector.minimal.php
-
-- name: Give elFinder access to mobileforces files
-  user:
-    name: www-data
-    groups: "{{ server_user }}"
-    append: yes
 
 - name: Create symbolic links for elFinder
   ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/files && ln -f -s {{ item }} ."
@@ -87,6 +85,14 @@
 
 - name: Request LE certificate
   ansible.builtin.shell: "certbot --apache -n --email {{ ServerAdmin }} --agree-tos --no-redirect -d {{ ServerName }}"
+
+- name: Allow the website to restart game services
+  ansible.builtin.template:
+    src: templates/webserver/scripts/mobileforces.j2
+    dest: /etc/sudoers.d/mobileforces
+    owner: root
+    group: root
+    mode: "440"
 
 - name: Enable only the mobileforces website
   ansible.builtin.shell: a2dissite 000-default.conf && a2ensite mobileforces.conf

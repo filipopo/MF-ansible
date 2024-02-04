@@ -2,7 +2,7 @@
 mf_path: MobileForces.zip
 ansible_ssh_private_key_file: ~/.ssh/id_rsa
 server_user: mobileforces
-install_path: "/home/{{ server_user }}/server"
+install_path: "/opt/{{ server_user }}"
 ServerName: example.com
 ServerAdmin: admin@example.com
 AdminPassword: P@ssword123!

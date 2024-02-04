@@ -15,7 +15,7 @@
     dest: "{{ install_path }}/"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "744"
 
 - name: Copy files into the System folder
   ansible.builtin.template:
@@ -23,7 +23,7 @@
     dest: "{{ game_path }}/System/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "744"
   loop:
     - [compress.j2, compress.sh]
     - [dedicated.sh, dedicated.sh]
@@ -47,3 +47,12 @@
     - [mobileforces-fastdl.j2, mobileforces-fastdl.service]
   notify:
     - Reload systemctl
+
+- name: Create cron job for fastdl
+  ansible.builtin.cron:
+    name: Compresses files for mobileforces fastdl
+    minute: 0
+    hour: "*/12"
+    user: root
+    job: systemctl start mobileforces-fastdl
+    cron_file: mobileforces-fastdl

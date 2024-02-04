@@ -15,11 +15,11 @@
 
     - name: Ensure install directory exists
       ansible.builtin.file:
-        path: "{{ install_path }}/masterserver/"
+        path: "{{ install_path }}/"
         state: directory
         owner: "{{ server_user }}"
         group: "{{ server_user }}"
-        mode: "774"
+        mode: "755"
 
     - name: Install common dependencies
       ansible.builtin.package:

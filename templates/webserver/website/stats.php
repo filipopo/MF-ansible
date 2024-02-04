@@ -10,7 +10,7 @@
   //$donation_activity = $db->query('SELECT SUM(amount_received) as amount, month, year FROM donations GROUP BY year, month ORDER BY year, month');
 ?>
   A total of <?= $sum ?> <?= kofi_currency ?> in donations was received for MF<br>
-  Net balance: ~<?= $sum - (microtime(true) - strtotime(kofi_startdate)) / 86400 / 30 * kofi_target ?> <?= kofi_currency ?><br>
+  Approximate net balance: <?= $sum - (microtime(true) - strtotime(kofi_startdate)) / 86400 / 30 * kofi_target ?> <?= kofi_currency ?><br>
   <br>
   Top 10 donators:
   <script src="/includes/js/css_random.js"></script>
