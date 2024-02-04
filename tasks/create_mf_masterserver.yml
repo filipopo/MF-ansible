@@ -1,4 +1,12 @@
 ---
+- name: Ensure masterserver directory exists
+  ansible.builtin.file:
+    path: "{{ install_path }}/masterserver/"
+    state: directory
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "755"
+
 - name: Extract master server zip onto server if the path doesn't exist
   ansible.builtin.unarchive:
     creates: "{{ install_path }}/masterserver/System/"
@@ -6,7 +14,7 @@
     dest: "{{ install_path }}/masterserver/"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "744"
   with_fileglob:
     - "templates/masterserver/OldUnreal-UTPatch*"
 
@@ -16,7 +24,7 @@
     dest: "{{ install_path }}/masterserver/System/"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "774"
+    mode: "744"
 
 - name: Create service files for the master server
   ansible.builtin.template:
