@@ -94,6 +94,6 @@
     group: root
     mode: "440"
 
-- name: Enable only the mobileforces website
-  ansible.builtin.shell: a2dissite 000-default.conf && a2ensite mobileforces.conf
+- name: Enable the mobileforces website
+  ansible.builtin.shell: a2enmod speling && a2ensite mobileforces.conf
   notify: Reload apache
