@@ -1,3 +1,7 @@
+<IfModule mpm_itk_module>
+  LimitUIDRange 0 65534
+  LimitGIDRange 0 65534
+</IfModule>
 <VirtualHost *:80>
   ServerName {{ ServerName }}
 
