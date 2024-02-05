@@ -90,7 +90,7 @@
 - name: Allow the website to restart game services
   ansible.builtin.template:
     src: templates/webserver/scripts/01-mobileforces.j2
-    dest: /etc/sudoers.d/01-mobileforces
+    dest: /etc/polkit-1/rules.d/01-mobileforces
     owner: root
     group: root
     mode: "440"
