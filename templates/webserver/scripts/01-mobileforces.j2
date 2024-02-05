@@ -1,2 +1,14 @@
-{{ server_user }} ALL=NOPASSWD: /bin/systemctl restart mobileforces
-{{ server_user }} ALL=NOPASSWD: /bin/systemctl start mobileforces-fastdl
+polkit.addRule(function(action, subject) {
+  var services = [
+    "mobileforces.service",
+    "mobileforces-fastdl.service",
+    "mobileforces-masterserver.service"
+  ];
+
+  if (
+    subject.user == "{{ server_user }}" &&
+    action.id == "org.freedesktop.systemd1.manage-units" &&
+    services.includes(action.lookup("unit"))
+  )
+    return polkit.Result.YES;
+});
