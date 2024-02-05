@@ -21,6 +21,11 @@
     AssignUserId {{ server_user }} {{ server_user }}
   </IfModule>
 
+  <IfModule mod_speling.c>
+    CheckCaseOnly on
+    CheckSpelling on
+  </IfModule>
+
   ErrorLog ${APACHE_LOG_DIR}/error.log
   CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
