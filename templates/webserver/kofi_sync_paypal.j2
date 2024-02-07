@@ -1,5 +1,5 @@
 <?php
-  chdir('{{ install_path }}/website');
+  chdir('{{ website_path }}');
   include 'includes/php/db.php';
 
   $donations = $db->query('SELECT id, kofi_tx FROM donations WHERE amount_sent=amount_received');
@@ -46,7 +46,8 @@
     $_SESSION['expires_in'] = strtotime(sprintf('+%s second', $res['expires_in']));
   }
 
-  $dt_start = new DateTime('now - 1 day');
+  // A transaction takes up to 3 hours to get into the list this API calls
+  $dt_start = new DateTime('now - 1 day - 3 hour');
   $dt_start->setTimezone(new DateTimeZone('America/Los_Angeles'));
 
   $dt_end = new DateTime();
