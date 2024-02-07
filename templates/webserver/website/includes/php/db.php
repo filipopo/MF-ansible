@@ -10,7 +10,8 @@
       name TEXT,
       message TEXT,
       amount_sent REAL,
-      amount_received REAL
+      amount_received REAL,
+      kofi_tx TEXT
     )
     EOT
   );

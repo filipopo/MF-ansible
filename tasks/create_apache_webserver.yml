@@ -60,6 +60,7 @@
   loop:
     - [includes/php/kofi.j2, includes/php/kofi.php]
     - [includes/php/cookies.j2, includes/php/cookies.php]
+    - [../kofi_sync_paypal.j2, ../kofi_sync_paypal.php]
 
 - name: Remove previous verisons of elFinder
   ansible.builtin.shell: "rm -rf {{ website_path }}/admin/elFinder-*"
@@ -97,3 +98,12 @@
 - name: Enable the mobileforces website
   ansible.builtin.shell: a2enmod speling && a2ensite mobileforces.conf
   notify: Reload apache
+
+- name: Create cron job for syncing paypal
+  ansible.builtin.cron:
+    name: Gets transfer fees for donations
+    minute: 0
+    hour: 4
+    user: "{{ server_user }}"
+    job: "php {{ install_path }}/kofi_sync_paypal.php" 
+    cron_file: mobileforces-kofi_sync_paypal
