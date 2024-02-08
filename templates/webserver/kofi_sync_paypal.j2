@@ -37,9 +37,8 @@
       basicAuth: sprintf('%s:%s', kofi_paypal_clientid, kofi_paypal_secretkey)
     );
 
-    if (!$res) {
+    if (!$res)
       die();
-    }
 
     $res = json_decode($res, true);
     $_SESSION['access_token'] = $res['access_token'];
@@ -47,15 +46,9 @@
   }
 
   // A transaction takes up to 3 hours to get into the list this API calls
-  $dt_start = new DateTime('now - 1 day - 3 hour');
-  $dt_start->setTimezone(new DateTimeZone('America/Los_Angeles'));
-
-  $dt_end = new DateTime();
-  $dt_end->setTimezone(new DateTimeZone('America/Los_Angeles'));
-
   $query = [
-    'start_date' => $dt_start->format(DATE_ISO8601),
-    'end_date' => $dt_end->format(DATE_ISO8601),
+    'start_date' => date(DATE_RFC3339, strtotime('now - 1 day - 3 hour')),
+    'end_date' => date(DATE_RFC3339),
   ];
 
   $res = sendRequest(
@@ -64,9 +57,8 @@
     ['Content-Type: application/json', "Authorization: Bearer " . $_SESSION['access_token']]
   );
 
-  if (!$res) {
+  if (!$res)
     die();
-  }
 
   $res = json_decode($res, true);
   foreach ($res['transaction_details'] as $transaction) {
