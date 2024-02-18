@@ -63,7 +63,7 @@
   $res = json_decode($res, true);
   foreach ($res['transaction_details'] as $transaction) {
     if ($transaction['transaction_info']['invoice_id'] === $donation['kofi_tx']) {
-      $amount_received = $transaction['transaction_amount']['value'] - $transaction['transaction_info']['fee_amount']['value'];
+      $amount_received = $transaction['transaction_info']['transaction_amount']['value'] + $transaction['transaction_info']['fee_amount']['value'];
 
       executeParams(
         'UPDATE donations SET amount_received=? WHERE id=?',
