@@ -38,14 +38,11 @@
         <?php while ($row = $donations->fetchArray()): ?>
         <li>
           <?= sprintf('%02d/%02d/%d %s', $row['day'], $row['month'], $row['year'], $row['time']) ?><br>
-          <?= $row['name'] ?> donated <?= $row['amount_sent'] ?> <?= kofi_currency ?>
-          <?php if($row['message']): ?>
-          with the message: <?= $row['message'] ?>
-          <?php endif; ?>
+          <?= $row['name'] ?> donated <?= $row['amount_sent'] ?> <?= kofi_currency ?><?php if($row['message']): ?>: <?= $row['message'] ?><?php endif; ?>
         </li>
         <?php endwhile; ?>
       </ul>
-      The amount(s) above include the transfer fee which is around 3% + 0.3 <?= kofi_currency ?><br>
+      The amount(s) above include the transfer fee which is around 3% + 0.3 <?= kofi_currency ?>, the time zone is <?= date_default_timezone_get() ?><br>
       <br>
       This server has been up since <?= date_format(date_create(kofi_startdate), "d/m/Y H:i:s") ?>
     </div>
