@@ -5,10 +5,12 @@ polkit.addRule(function(action, subject) {
     "mobileforces-masterserver.service"
   ];
 
-  if (
-    subject.user == "{{ server_user }}" &&
-    action.id == "org.freedesktop.systemd1.manage-units" &&
+  var conditions = [
+    subject.user == "{{ server_user }}",
+    action.id == "org.freedesktop.systemd1.manage-units",
     services.includes(action.lookup("unit"))
-  )
+  ];
+
+  if (conditions.every((el) => el))
     return polkit.Result.YES;
 });
