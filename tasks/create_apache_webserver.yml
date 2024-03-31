@@ -76,7 +76,7 @@
     - "templates/webserver/elFinder-*.zip"
 
 - name: Install & configure elFinder for MF
-  ansible.builtin.shell: cd "{{ website_path }}"/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php && sed -i "s/uploadAllow'   => array(/uploadAllow'   => array('application\/octet-stream', /g" connector.minimal.php
+  ansible.builtin.shell: cd "{{ website_path }}"/admin/elFinder-*/php && mv connector.minimal.php-dist connector.minimal.php && sed -i "s/uploadAllow'   => array(/uploadAllow'   => array('application\/octet-stream', 'text\/html', /g" connector.minimal.php
 
 - name: Create symbolic links for elFinder
   ansible.builtin.shell: "cd {{ website_path }}/admin/elFinder-*/files && ln -f -s {{ item }} ."
