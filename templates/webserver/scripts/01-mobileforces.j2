@@ -11,6 +11,6 @@ polkit.addRule(function(action, subject) {
     services.includes(action.lookup("unit"))
   ];
 
-  if (conditions.every((el) => el))
+  if (conditions.every(el => el))
     return polkit.Result.YES;
 });
