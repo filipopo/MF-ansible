@@ -44,12 +44,12 @@
         echo '<br>';
 
       if(isset($_POST['restart'])) {
-        system('sudo systemctl restart mobileforces');
+        system('systemctl restart mobileforces');
         echo 'Ran server restart command<br>';
       }
 
       if(isset($_POST['fastdl'])) {
-        system('sudo systemctl start mobileforces-fastdl');
+        system('systemctl start mobileforces-fastdl');
         echo 'Ran command to compress files for FastDL<br>';
       }
     ?>
