@@ -1,0 +1,35 @@
+[PublicDetails]
+Hostname={{ ServerName }}
+AdminName={{ kofi_name }}
+Contact={{ ServerAdmin }}
+
+[Logging]
+CycleLogs=weekly
+SuppressDisplay=debug udp tcp sync_add heartbeat secure check uplink query
+SuppressLog=debug udp tcp sync_add heartbeat secure check uplink query 
+
+[BeaconServer]
+BeaconPort=27900
+DoUplink=true
+
+[ListenServer]
+ListenPort=28900
+ServerLifeTime_s=1800
+
+[Syncer]
+1\SyncServer="master.333networks.com, 27900, 28900"
+2\SyncServer="master.newbiesplayground.net, 27900, 28900"
+size=2
+DoSync=true
+SyncGames=all
+SyncInterval_s=1800
+
+[Checker]
+CycleInterval_s=900
+DoCheck=true
+GetExtendedInformation=true
+ServerCheckInterval_ms=300
+
+[Maintenance]
+DoMaintenance=true
+MaintainRate_s=300
