@@ -1,16 +1,17 @@
 <?php
   include '../includes/php/cookies.php';
 
-  function check_hashes($base, $hash_array) {
+  function checkHashes($base, $hash_array) {
     foreach ($hash_array as $hash) {
-      if (!password_verify($base, $hash))
+      if (!password_verify($base, $hash)) {
         return false;
+      }
     }
 
     return true;
   }
 
-  if (!isset($_COOKIE[cookieName]) || !check_hashes(cookiePassword, [cookieEncrypted, $_COOKIE[cookieName]])) {
+  if (!isset($_COOKIE[cookieName]) || !checkHashes(cookiePassword, [cookieEncrypted, $_COOKIE[cookieName]])) {
     header('Location: /admin/login.php');
     die();
   }
@@ -40,8 +41,9 @@
       <button class="btn btn-secondary" type="submit">Submit</button>
     </form>
     <?php
-      if (count($_POST))
+      if (count($_POST)) {
         echo '<br>';
+      }
 
       if(isset($_POST['restart'])) {
         system('systemctl restart mobileforces');
@@ -54,6 +56,6 @@
       }
     ?>
   </div>
-  <iframe class="big" title="File Manager" style="float: right;height:450px;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe> 
+  <iframe class="big" title="File Manager" style="float: right;height:450px;" src="/admin/<?= $elFinder ?>/elfinder.html"></iframe>
 </body>
 </html>
