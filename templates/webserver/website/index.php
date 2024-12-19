@@ -1,4 +1,4 @@
-<?php 
+<?php
   $title = 'Mobile Forces website';
   include 'includes/php/body.php';
 

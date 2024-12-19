@@ -1,6 +1,7 @@
 <?php
-  if (!isset($_POST['data']))
+  if (!isset($_POST['data'])) {
     die();
+  }
 
   if ($file = fopen('../donation_log.txt', 'a')) {
     fwrite($file, sprintf("%s %s\n", date(DATE_RFC2822), $_POST['data']));
@@ -29,4 +30,3 @@
       ]
     );
   }
-?>
