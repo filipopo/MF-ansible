@@ -34,8 +34,8 @@ class DonationController extends AbstractController {
 
             $entityManager->persist($donation);
             $entityManager->flush();
-
-            return new Response();
         }
+
+        return new Response();
     }
 }

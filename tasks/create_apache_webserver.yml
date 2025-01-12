@@ -41,7 +41,7 @@
   ansible.builtin.shell: |
     cd "{{ website_path }}" &&
     export APP_ENV=prod APP_DEBUG=0 &&
-    composer install --no-dev --optimize-autoloader &&
+    composer install --no-dev --optimize-autoloader --classmap-authoritative &&
     composer dump-env prod && rm -f .env &&
     ADMIN_PASSWORD="{{ AdminPassword }}" php bin/console doctrine:migrations:migrate -n
   become_user: "{{ server_user }}"

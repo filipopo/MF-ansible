@@ -8,7 +8,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY templates/webserver/website .
 
 RUN export APP_ENV=prod APP_DEBUG=0 && \
-    composer install --no-dev --optimize-autoloader && \
+    composer install --no-dev --optimize-autoloader --classmap-authoritative && \
     composer dump-env prod && rm -f .env
 
 FROM php:${PHP_VER}-fpm-alpine
