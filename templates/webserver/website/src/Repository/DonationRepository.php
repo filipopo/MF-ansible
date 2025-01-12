@@ -60,7 +60,7 @@ class DonationRepository extends ServiceEntityRepository {
 
     public function getDonationActivity(): array {
         $query = $this->getEntityManager()->createQuery(
-            'SELECT SUM(d.amount_received) AS amount, d.month, d.year 
+            'SELECT SUM(d.amount_received) AS amount, d.month, d.year
             FROM App\Entity\Donation d
             GROUP BY d.year, d.month
             ORDER BY d.year DESC, d.month DESC'

@@ -6,12 +6,14 @@
   $donations = $db->query('SELECT id, kofi_tx FROM donation WHERE amount_sent=amount_received');
   $donation = $donations->fetchArray();
 
-  if (!$donation)
+  if (!$donation) {
     die();
+  }
 
   function sendRequest($url, $method, $headers, $data = [], $basicAuth = null) {
-    if (isset($basicAuth))
+    if (isset($basicAuth)) {
       array_push($headers, 'Authorization: Basic ' . base64_encode($basicAuth));
+    }
 
     $options = [
       'http' => [
@@ -35,8 +37,9 @@
       basicAuth: sprintf('%s:%s', getenv('PAYPAL_CLIENTID'), getenv('PAYPAL_SECRETKEY'))
     );
 
-    if (!$res)
+    if (!$res) {
       die();
+    }
 
     $res = json_decode($res, true);
     $_SESSION['access_token'] = $res['access_token'];
@@ -55,8 +58,9 @@
     ['Content-Type: application/json', 'Authorization: Bearer ' . $_SESSION['access_token']]
   );
 
-  if (!$res)
+  if (!$res) {
     die();
+  }
 
   $res = json_decode($res, true);
   foreach ($res['transaction_details'] as $transaction) {
@@ -69,7 +73,8 @@
       ));
 
       $donation = $donations->fetchArray();
-      if (!$donation)
+      if (!$donation) {
         break;
+      }
     }
   }

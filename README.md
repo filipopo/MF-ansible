@@ -6,26 +6,27 @@ This project allows you to automatically provision a Mobile Forces game server t
 
 The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Actions and uses Cloudflare as a CDN and domain registrar, the root of the website code can be found at: `templates/webserver`
 
-symfony new website --version="7.2.x"
+The website was made with `symfony new website --version="7.2.x"`
 
 # Setup instructions
 
 Put your MobileForces.zip in the root folder and run
-```
-ansible-playbook -i hosts playbook.yml -u root
-```
+
+`ansible-playbook -i hosts playbook.yml -u root`
 
 You may configure various options in the vars.yml file, by deafult this playbook relies on your MobileForces.zip creating a MobileForces folder
 
 The Ansible playbook transfers game files, installs necessary packages and sets up Systemd services for the game server, master server and FastDL of game files through an Apache2 web server which is also used for the website, an SSL certificate is automatically added to it by using Let's Encrypt's certbot tool, these steps are made in a modular way and can be excluded
 
-symfony check:requirements
+It would be good to run `symfony check:requirements` before running the app
 
 ```
 export APP_SECRET=secret KOFI_TOKEN=token
 ADMIN_PASSWORD=P@ssword123! php bin/console doctrine:migrations:migrate
 symfony server:start
 ```
+
+Some other environment variables that can be set (found in .env)
 
 ```
 KOFI_NAME=filipmania
@@ -34,9 +35,17 @@ KOFI_CURRENCY=EUR
 KOFI_STARTDATE="2023-10-22 15:35:11"
 ```
 
-php bin/console make:migration
+If you can't change the apache vhost run `composer require symfony/apache-pack` which will make a .htaccess file in `public/`
 
-curl -L -H "Content-Type: application/json" -d @data.json http://127.0.0.1:8000/donate_notify
+Consider optimising the php config
+
+https://symfony.com/doc/current/performance.html#use-the-opcache-class-preloading
+
+You can test the donation route after setting KOFI_TOKEN with
+
+`curl -L --data-urlencode data@data.json http://127.0.0.1:8000/donate_notify`
+
+If you change the database files run `php bin/console make:migration`
 
 # Thanks to
 
