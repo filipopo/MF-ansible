@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MF statistics{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/stats.css') }}">
+{% endblock %}
+
+{% block body %}
+  A total of {{ sum }} {{ kofi_currency }} in donations was received for MF<br>
+  Approximate net balance: {{ balance }} {{ kofi_currency }}<br>
+  <br>
+
+  Top 10 donators:
+  <script src="{{ asset('js/css_random.js') }}"></script>
+  <ul>
+    {% for donator in donators %}
+    <li>
+      {{ donator.name }} donated {{ donator.amount }} {{ kofi_currency }} over {{ donator.times }} donation(s)
+    </li>
+    {% endfor %}
+  </ul>
+  The amount(s) above include the transfer fee which is around 3% + 0.3 {{ kofi_currency }}<br>
+  <br>
+
+  Donation activity:
+  <table>
+    <tr>
+      <th>Month</th>
+      {% for donation in donations %}
+        <td>{{ (donation.year ~ '-' ~ donation.month) | date('M y') }}</td>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th>Total</th>
+      {% for donation in donations %}
+        <td>{{ donation.amount }}</td>
+      {% endfor %}
+    </tr>
+  </table>
+{% endblock %}

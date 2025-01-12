@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin page{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+{% endblock %}
+
+{% block body %}
+  <div class="small">
+    Welcome {{ app.user.username | capitalize }}, to get started use the file manager or choose the actions you want to do<br>
+    <br>
+  
+    <form method="POST">
+      <input type="checkbox" id="restart" name="restart">
+      <label for="restart">Restart server</label><br>
+
+      <input type="checkbox" id="fastdl" name="fastdl">
+      <label for="fastdl">Compress files for FastDL</label><br>
+
+      <input type="checkbox" id="package" name="package">
+      <label for="package">Package game files</label><br>
+      <br>
+      <button class="btn" type="submit">Submit</button>
+    </form>
+    <br>
+
+    {% if restart | default %}
+      Restarting server...<br>
+      <br>
+    {% endif %}
+
+    {% if fastdl | default %}
+      Compressing files for FastDL...<br>
+      <br>
+    {% endif %}
+
+    {% if package | default %}
+      Packaging game files...<br>
+      <br>
+    {% endif %}
+
+    <a class="btn" href="{{ path('app_logout') }}">Logout</a>
+  </div>
+
+  {% if 'ROLE_ADMIN' in app.user.roles %}
+    <embed class="big" src="{{ path('elfinder') }}">
+  {% endif %}
+{% endblock %}

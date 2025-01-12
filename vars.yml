@@ -13,3 +13,4 @@ kofi_currency: EUR
 kofi_startdate: 2023-10-22 15:35:11
 kofi_paypal_clientid: ASMC28YsAMD5X9jEM0HUUowekCM9YIhgEu1fziuY8XL-7FCMCFx5o1srmKkdV_DVy1dUS4kpAt0knCxK
 kofi_paypal_secretkey: EP7lIjI_h__Gu-7IPaf95hT4P7zLzm2PuVkvfHm7MBBvOGqV3K1FmRZ0v6XUMmoTQqOlG7dY4X5waSUL
+app_secret: 35c4226386b747b023c298aecfd67ec73b7cf60e7e0e3b63d5ae0a72df78a144

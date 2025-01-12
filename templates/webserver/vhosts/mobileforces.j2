@@ -1,17 +1,26 @@
 <VirtualHost *:80>
   ServerName {{ ServerName }}
+  ServerAlias www.{{ ServerName }}
 
   ServerAdmin {{ ServerAdmin }}
-  DocumentRoot {{ website_path }}/
+  DocumentRoot {{ website_path }}/public
 
-  <Directory {{ website_path }}/>
+  <Directory {{ website_path }}/public>
     Require all granted
+    FallbackResource /index.php
   </Directory>
 
-  <Directory {{ website_path }}/fast_download/>
-    Options All Indexes FollowSymLinks
-    AllowOverride Options Indexes FileInfo
+  <Directory {{ website_path }}/public/*download>
+    Options Indexes
+    FallbackResource disabled
   </Directory>
+
+  <FilesMatch \.php$>
+    SetHandler proxy:unix:/run/php/www.sock|fcgi://dummy
+  </FilesMatch>
+
+  SetEnv APP_SECRET {{ app_secret }}
+  SetEnv KOFI_TOKEN {{ kofi_token }}
 
   <IfModule mpm_itk_module>
     AssignUserId {{ server_user }} {{ server_user }}
