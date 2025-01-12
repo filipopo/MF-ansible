@@ -10,20 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['year', 'month'], name: 'year_month_idx')]
 class Donation {
     public function __construct(
-        string $time,
-        int $day,
-        int $month,
-        int $year,
+        array $date,
         string $name,
         string $message,
         float $amount_sent,
         float $amount_received,
         string $kofi_tx
     ) {
-        $this->time = $time;
-        $this->day = $day;
-        $this->month = $month;
-        $this->year = $year;
+        $this->time = sprintf('%02d:%02d:%02d', $date['hour'], $date['minute'], $date['second']);
+        $this->day = $date['day'];
+        $this->month = $date['month'];
+        $this->year = $date['year'];
         $this->name = $name;
         $this->message = $message;
         $this->amount_sent = $amount_sent;

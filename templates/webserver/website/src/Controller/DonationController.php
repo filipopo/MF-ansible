@@ -23,12 +23,8 @@ class DonationController extends AbstractController {
         }
 
         if (hash_equals($this->getParameter('app.kofi_token'), $data['verification_token'])) {
-            $date = date_parse($data['timestamp']);
             $donation = new Donation(
-                time: sprintf('%02d:%02d:%02d', $date['hour'], $date['minute'], $date['second']),
-                day: $date['day'],
-                month: $date['month'],
-                year: $date['year'],
+                date: date_parse($data['timestamp']),
                 name: ucfirst($data['from_name']),
                 message: $data['message'],
                 amount_sent: $data['amount'],
