@@ -1,10 +1,7 @@
-MobileForces*.zip
-hosts
-vars.yml
-templates/webserver/website/.env.local.php
 templates/webserver/website/config/secrets/prod/prod.decrypt.private.php
 templates/webserver/website/public/.tmb/
 templates/webserver/website/public/bundles/
 templates/webserver/website/var/
 templates/webserver/website/vendor/
+templates/webserver/website/.env.local.php
 templates/webserver/website/donation_log.txt

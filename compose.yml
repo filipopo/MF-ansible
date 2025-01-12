@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/src
+
+  apache:
+    image: httpd:alpine
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/html
+
+volumes:
+  static:

@@ -1,12 +1,22 @@
 ---
 - name: Prepare to install wine
-  ansible.builtin.shell: dpkg --add-architecture i386 && wget -qO- https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add - && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$(lsb_release -cs)/winehq-$(lsb_release -cs).sources
+  ansible.builtin.shell: |
+    dpkg --add-architecture i386 &&
+    wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key - &&
+    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$(lsb_release -cs)/winehq-$(lsb_release -cs).sources
 
-- name: Install wine
+- name: Try installing winehq-stable
   ansible.builtin.package:
     name: winehq-stable
     state: latest
-    install_recommends: yes
+  ignore_errors: yes
+  register: stable_install
+
+- name: Fallback to winehq-staging
+  ansible.builtin.package:
+    name: winehq-staging
+    state: latest
+  when: stable_install is failed
 
 - name: Extract Mobile Forces zip onto server if the game path doesn't exist
   ansible.builtin.unarchive:
@@ -17,16 +27,17 @@
     group: "{{ server_user }}"
     mode: "744"
 
-- name: Copy files into the System folder
-  ansible.builtin.template:
-    src: "templates/gameserver/scripts/{{ item[0] }}"
-    dest: "{{ game_path }}/System/{{ item[1] }}"
+- name: Copy files into the game folder
+  ansible.builtin.copy:
+    src: "templates/gameserver/scripts/{{ item }}"
+    dest: "{{ game_path }}/System/"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "744"
   loop:
-    - [compress.j2, compress.sh]
-    - [dedicated.sh, dedicated.sh]
+    - compress.sh
+    - dedicated.sh
+    - package.sh
 
 - name: Set admin info
   ansible.builtin.replace:
@@ -45,14 +56,33 @@
   loop:
     - [mobileforces.j2, mobileforces.service]
     - [mobileforces-fastdl.j2, mobileforces-fastdl.service]
-  notify:
-    - Reload systemctl
+    - [mobileforces-package.j2, mobileforces-package.service]
+  notify: Reload systemctl
 
 - name: Create cron job for fastdl
   ansible.builtin.cron:
     name: Compresses files for mobileforces fastdl
     minute: 0
     hour: "*/12"
-    user: root
+    user: "{{ server_user }}"
     job: systemctl start mobileforces-fastdl
     cron_file: mobileforces-fastdl
+
+- name: Create cron job for restarting the server
+  ansible.builtin.cron:
+    name: Restart the server to avoid issues
+    minute: 0
+    hour: 5
+    user: "{{ server_user }}"
+    job: systemctl restart mobileforces
+    cron_file: mobileforces-restart
+
+- name: Create cron job for packaging the game
+  ansible.builtin.cron:
+    name: Make zips to update the game
+    minute: 30
+    hour: 5
+    weekday: 5
+    user: "{{ server_user }}"
+    job: systemctl start mobileforces-package
+    cron_file: mobileforces-zip

@@ -1,0 +1,9 @@
+@import "style.css";
+
+body {
+  margin-left: 0;
+}
+
+p {
+  margin-left: 8px;
+}

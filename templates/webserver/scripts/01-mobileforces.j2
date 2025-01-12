@@ -2,15 +2,18 @@ polkit.addRule(function(action, subject) {
   var services = [
     "mobileforces.service",
     "mobileforces-fastdl.service",
-    "mobileforces-masterserver.service"
+    "mobileforces-masterserver.service",
+    "mobileforces-package.service"
   ];
 
   var conditions = [
     subject.user == "{{ server_user }}",
     action.id == "org.freedesktop.systemd1.manage-units",
-    services.includes(action.lookup("unit"))
+    services.indexOf(action.lookup("unit")) !== -1
   ];
 
-  if (conditions.every(el => el))
+  conditions = conditions.every(function(el) { return el; } );
+
+  if (conditions)
     return polkit.Result.YES;
 });

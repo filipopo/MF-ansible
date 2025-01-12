@@ -13,13 +13,16 @@
       ansible.builtin.user:
         name: "{{ server_user }}"
 
-    - name: Ensure install directory exists
+    - name: Ensure directories exist
       ansible.builtin.file:
-        path: "{{ install_path }}/"
+        path: "{{ item }}"
         state: directory
         owner: "{{ server_user }}"
         group: "{{ server_user }}"
         mode: "755"
+      loop:
+        - "{{ install_path }}"
+        - "{{ website_path }}"
 
     - name: Install common dependencies
       ansible.builtin.package:
@@ -51,4 +54,3 @@
 
   handlers:
     - ansible.builtin.import_tasks: handlers/systemctl.yml
-    - ansible.builtin.import_tasks: handlers/apache.yml

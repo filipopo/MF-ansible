@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin page login{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+{% endblock %}
+
+{% block body %}
+  <form method="POST">
+    <label for="username">Username</label><br>
+    <input type="text" name="_username" id="username" value="{{ last_username }}" required><br>
+    <label for="password">Password</label><br>
+    <input type="password" name="_password" id="password" required><br>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    <br>
+    <button class="btn" type="submit">Login</button>
+  </form>
+
+  {% if error %}
+    {{ error.messageKey | trans(error.messageData, 'security') }}
+  {% endif %}
+{% endblock %}

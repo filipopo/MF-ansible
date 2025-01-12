@@ -1,0 +1,17 @@
+fm_elfinder:
+    assets_path: false
+    instances:
+        default:
+            connector:
+                roots:
+                    game:
+                        driver: LocalFileSystem
+                        path: ../../MobileForces
+                        alias: game
+                        upload_allow: ['all']
+                    website:
+                        show_hidden: true
+                        driver: LocalFileSystem
+                        path: ../public
+                        alias: website
+                        upload_allow: ['all']

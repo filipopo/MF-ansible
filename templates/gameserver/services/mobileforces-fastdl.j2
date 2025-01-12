@@ -3,7 +3,8 @@ Description=Mobile Forces fastdl compression
 
 [Service]
 User={{ server_user }}
-ExecStart=bash {{ game_path }}/System/compress.sh
+WorkingDirectory={{ game_path }}/System/
+ExecStart=bash {{ game_path }}/System/compress.sh {{ website_path }}/public/fast_download {{ game_path }}
 
 [Install]
 WantedBy=multi-user.target
