@@ -2,11 +2,6 @@
 
 {% block title %}MF statistics{% endblock %}
 
-{% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/stats.css') }}">
-{% endblock %}
-
 {% block body %}
   A total of {{ sum }} {{ kofi_currency }} in donations was received for MF<br>
   Approximate net balance: {{ balance }} {{ kofi_currency }}<br>

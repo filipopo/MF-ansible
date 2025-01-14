@@ -1,12 +1,9 @@
-@import "style.css";
-
 body {
   margin-left: 0;
+  margin-right: 0;
 }
 
-p {
-  margin-left: 8px;
-}
+p { margin-left: 8px; }
 
 embed {
   width: 100%;

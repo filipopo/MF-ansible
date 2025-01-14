@@ -30,7 +30,7 @@ class MainController extends AbstractController {
     #[Route('/guides', name: 'app_guides')]
     public function guides(DonationRepository $donationRepo): Response {
         return $this->render('guides.html.twig', [
-            'files' => array_map('basename', glob('guides/*.html'))
+            'files' => array_map('basename', glob('html/*.html'))
         ]);
     }
 

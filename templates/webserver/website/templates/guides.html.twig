@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block body %}
-  <p>Click on a file to read it, for more info visit the Discord server: <a href="https://discord.gg/xPcFh7E">https://discord.gg/xPcFh7E</a></p>
+  <p>Click on a file to read it, for more info visit the <a href="https://discord.gg/xPcFh7E">Discord server</a></p>
   {% for file in files %}
     <details>
       <summary>{{ file }}</summary>
-      <embed src="{{ asset('guides/' ~ file) }}">
+      <embed src="{{ asset('html/' ~ file) }}">
     </details>
   {% endfor %}
 {% endblock %}
