@@ -2,6 +2,8 @@ b { font-size: 1.1rem; }
 
 ol { padding-left: 18px; }
 
+p { margin-top: 5px; }
+
 iframe {
   border: none;
   border-radius: 8px;
