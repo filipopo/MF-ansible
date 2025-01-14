@@ -3,20 +3,21 @@
 {% block title %}MF statistics{% endblock %}
 
 {% block body %}
-  A total of {{ sum }} {{ kofi_currency }} in donations was received for MF<br>
-  Approximate net balance: {{ balance }} {{ kofi_currency }}<br>
-  <br>
+  A total of {{ kofi_currency }}{{ sum }} in donations was received for MF<br>
+  Approximate net balance:
+  {{ balance > 0 ? kofi_currency ~ balance : '-' ~ kofi_currency ~ (-balance) }}
+  <br><br>
 
   Top 10 donators:
   <script src="{{ asset('js/css_random.js') }}"></script>
   <ul>
     {% for donator in donators %}
     <li>
-      {{ donator.name }} donated {{ donator.amount }} {{ kofi_currency }} over {{ donator.times }} donation(s)
+      {{ donator.name }} donated {{ kofi_currency }}{{ donator.amount }} over {{ donator.times }} donation(s)
     </li>
     {% endfor %}
   </ul>
-  The amount(s) above include the transfer fee which is around 3% + 0.3 {{ kofi_currency }}<br>
+  The amounts above include the transfer fee which is about 3% + {{ kofi_currency }}0.3<br>
   <br>
 
   Donation activity:
