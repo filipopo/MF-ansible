@@ -4,19 +4,20 @@
   <title>{% block title %}{% endblock %}</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   {% block stylesheets %}{% endblock %}
 </head>
 <body>
   <nav>
-    <a class="nav-link" href="{{ path('app_index') }}">Home</a>
-    <a class="nav-link" href="{{ path('app_servers') }}">Servers</a>
-    <a class="nav-link" href="{{ path('app_guides') }}">Guides</a>
-    <a class="nav-link" href="{{ path('app_stats') }}">Stats</a>
+    <a href="{{ path('app_index') }}">Home</a>
+    <a href="{{ path('app_servers') }}">Servers</a>
+    <a href="{{ path('app_guides') }}">Guides</a>
+    <a href="{{ path('app_stats') }}">Stats</a>
 
     {% if app.user -%}
-      <a class="nav-link" href="{{ path('app_admin') }}">Admin</a>
+      <a href="{{ path('app_admin') }}">Admin</a>
     {% else %}
-      <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+      <a href="{{ path('app_login') }}">Login</a>
     {% endif %}
   </nav>
   {% block body %}{% endblock %}

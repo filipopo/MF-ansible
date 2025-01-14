@@ -3,33 +3,54 @@
 {% block title %}Mobile Forces website{% endblock %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 {% endblock %}
 
 {% block body %}
-  <div class="grid-container">
-    <div class="grid-item a">
-      Join the <a href="https://discord.gg/xPcFh7E">Discord server</a> and support MF!<br>
-      <br>
-      <iframe id="kofiframe" src="https://ko-fi.com/{{ kofi_name }}/?hidefeed=true&widget=true&embed=true&preview=true" style="padding:4px;background:#f9f9f9;" width="400px" height="562px" title="{{ kofi_name }}"></iframe><br>
+  <div class="grid">
+    <div class="a">
+      <iframe id="kofiframe" src="https://ko-fi.com/{{ kofi_name }}/?hidefeed=true&widget=true&embed=true&preview=true" width="400px" height="562px" title="{{ kofi_name }}"></iframe><br>
       One time donations are better, source: <a href="https://help.ko-fi.com/hc/en-us/articles/360002506494-Does-Ko-fi-Take-a-Fee-#01H841GJ8PJb1PXY64231CFHB">Ko-fi fees</a>
     </div>
 
-    <div class="grid-item b">
-      <b>Mobile Forces</b> is a first-person shooter video game developed by Rage Software using the Unreal Engine and published by Majesco Entertainment, the game has eight different game modes:<br>
-      <br>
-      <b>Deathmatch</b> - The goal of this game style is to eliminate all players in the map.<br>
-      <b>Team Deathmatch</b> - Similar to Deathmatch, only played in teams - Red and Blue.<br>
-      <b>Captains</b> - In this game mode each team gets a captain and it is needed to kill opposing team's leader in order to score a point.<br>
-      <b>Capture the flag</b> - In this game type both teams have to steal each other's flags in order to win.<br>
-      <b>Holdout</b> - In this game mode both teams are tasked with capturing a single beacon on a map, the team that holds the beacon a set time or the longest wins.<br>
-      <b>Detonation</b> - In this game style members of both sides scramble to acquire a keycard located centrally in the map, which must then be taken to a console in the opposing team's base to activate an explosive device to score.<br>
-      <b>Safe Cracker</b> - This game type involves the infiltration of the enemy team's base where it is needed to open the safe and retrieve the loot. After the match attackers and defenders switch between each other.<br>
-      <b>Trailer</b> - The use of vehicles is integral to success in this team game style, requiring players to drive explosive-laden units into the base of their opponents in order to get points.<br>
-      <img width="418px" src="{{ asset('images/mobile-forces.jpg') }}" alt="Mobile Forces">
+    <div class="b">
+      <img width="215px" src="{{ asset('images/MFLogo.png') }}" alt="logo">
+      <b>Mobile Forces</b> is a video game developed by Rage Software using the Unreal Engine and published by Majesco Entertainment, featuring a combination of first-person shooter and vehicle gameplay in nine different game modes. Join us on <a href="https://discord.gg/xPcFh7E">Discord</a>!<br>
+
+      <ol>
+        <li>
+          <b>Deathmatch</b> - The goal of this game mode is to eliminate all players in the map
+        </li>
+        <li>
+          <b>Team Deathmatch</b> - Similar to Deathmatch, only played in teams - Red and Blue
+        </li>
+        <li>
+          <b>Captains</b> - Each team gets a captain and needs to kill the opposing team's leader in order to score points
+        </li>
+        <li>
+          <b>Capture the flag</b> - Both teams have to steal each other's flags from their base in order to win
+        </li>
+        <li>
+          <b>Holdout</b> - Both teams are tasked with capturing a single beacon on a central position in the map, the team that holds the beacon a set time or the longest wins
+        </li>
+        <li>
+          <b>Detonation</b> - Members of both squads scramble to acquire a keycard located somewhere in the map, which must then be taken to a console in the opposing team's base to activate an explosive device to score
+        </li>
+        <li>
+          <b>Safe Cracker</b> - This mode involves the infiltration of the enemy team's base where it's needed to open the safe and retrieve their gold. After the match attackers and defenders switch between each other
+        </li>
+        <li>
+          <b>Trailer</b> - The use of vehicles is integral to success in this mode, requiring players to drive explosive-laden units into the base of their opponents in order to get points
+        </li>
+        <li>
+          <b>Mental Race</b> - Put together by Real Time Worlds as the first mod for the game, the objective in Mental Race is to complete laps of a level, by crossing checkpoints in a race car
+        </li>
+      </ol>
+
+      <img width="555px" src="{{ asset('images/mobile-forces.jpg') }}" alt="Mobile Forces">
     </div>
 
-    <div class="grid-item c">
+    <div class="c">
       Balance for {{ 'now' | date('F Y') }}: {{ balance }} / {{ kofi_target }} {{ kofi_currency }}
       <script src="{{ asset('js/css_random.js') }}"></script>
       <ul>
@@ -40,9 +61,9 @@
           </li>
         {% endfor %}
       </ul>
-      The amount(s) above include the transfer fee which is around 3% + 0.3 {{ kofi_currency }}, the time zone is {{ 'now' | date('T') }}<br>
+      The amount(s) above include the transfer fee which is around 3% + 0.3 {{ kofi_currency }}<br>
       <br>
-      This server has been up since {{ kofi_startdate | date('d/m/Y H:i:s') }}
+      This server has been up since {{ kofi_startdate | date('d/m/Y H:i:s') }} {{ 'now' | date('T') }}
     </div>
   </div>
 {% endblock %}
