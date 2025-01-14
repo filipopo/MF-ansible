@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Documentation{% endblock %}
+{% block title %}Servers{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/guides.css') }}">
+{% endblock %}
 
 {% block body %}
-  Servers
+  <p>Here you can browse the running servers for Mobile Forces and other games, powered by <a href="https://github.com/333networks/Masterserver-Qt5">333networks</a></p>
+  <embed class="big" src="https://master.333networks.com/s/mobileforces">
 {% endblock %}
