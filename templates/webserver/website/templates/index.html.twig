@@ -51,17 +51,17 @@
     </div>
 
     <div class="c">
-      Balance for {{ 'now' | date('F Y') }}: {{ balance }} / {{ kofi_target }} {{ kofi_currency }}
+      Balance for {{ 'now' | date('F Y') }}: {{ kofi_currency }}{{ balance }} of {{ kofi_currency }}{{ kofi_target }}
       <script src="{{ asset('js/css_random.js') }}"></script>
       <ul>
         {% for donation in donations %}
           <li>
             {{ '%02d/%02d/%d %s' | format(donation.day, donation.month, donation.year, donation.time) }}<br>
-            {{ donation.name }} donated {{ donation.amount_sent }} {{ kofi_currency }}{% if donation.message %}: {{ donation.message }}{% endif %}
+            {{ donation.name }} donated {{ kofi_currency }}{{ donation.amount_sent }}{% if donation.message %}: {{ donation.message }}{% endif %}
           </li>
         {% endfor %}
       </ul>
-      The amount(s) above include the transfer fee which is around 3% + 0.3 {{ kofi_currency }}<br>
+      The amounts above include the transfer fee which is about 3% + {{ kofi_currency }}0.3<br>
       <br>
       This server has been up since {{ kofi_startdate | date('d/m/Y H:i:s') }} {{ 'now' | date('T') }}
     </div>
