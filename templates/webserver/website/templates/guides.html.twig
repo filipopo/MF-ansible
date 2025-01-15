@@ -3,15 +3,20 @@
 {% block title %}Guides{% endblock %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('css/guides.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/servers.css') }}">
 {% endblock %}
 
 {% block body %}
-  <p>Click on a file to read it, for more info visit the <a href="https://discord.gg/xPcFh7E">Discord server</a></p>
+  <p>Click on a file to read it, for more info visit the <a href="https://discord.gg/xPcFh7E"><b>Mobile Forces Discord community</b></a></p>
+
+  <script src="{{ asset('js/css_random.js') }}"></script>
+  <ul>
   {% for file in files %}
-    <details>
-      <summary>{{ file }}</summary>
-      <embed src="{{ asset('html/' ~ file) }}">
-    </details>
+    <li><a href="{{ asset('html/' ~ file ~ '.html') }}" target="guide">{{ file }}</a></li>
   {% endfor %}
+  </ul>
+
+  <p id="close"><a href="about:blank" target="guide">Close</a></p>
+  <iframe name="guide" src="about:blank" title="guide"></iframe>
+  <script src="{{ asset('js/guide_close.js') }}"></script>
 {% endblock %}
