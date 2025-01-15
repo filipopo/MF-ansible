@@ -12,11 +12,11 @@
   <script src="{{ asset('js/css_random.js') }}"></script>
   <ul>
   {% for file in files %}
-    <li><a href="{{ asset('html/' ~ file ~ '.html') }}" target="guide">{{ file }}</a></li>
+    <li><a name="open" href="{{ asset('html/' ~ file ~ '.html') }}" target="guide">{{ file }}</a></li>
   {% endfor %}
   </ul>
 
-  <p id="close"><a href="about:blank" target="guide">Close</a></p>
+  <p><a id="close" href="about:blank" target="guide">Close</a></p>
   <iframe name="guide" src="about:blank" title="guide"></iframe>
   <script src="{{ asset('js/guide_close.js') }}"></script>
 {% endblock %}
