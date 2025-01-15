@@ -1,9 +1,15 @@
 ---
+- name: Get OS version
+  ansible.builtin.command: lsb_release -cs
+  register: ver
+
 - name: Prepare to install wine
-  ansible.builtin.shell: |
-    dpkg --add-architecture i386 &&
-    wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key - &&
-    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$(lsb_release -cs)/winehq-$(lsb_release -cs).sources
+  ansible.builtin.shell:
+    cmd: |
+      dpkg --add-architecture i386 &&
+      wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key - &&
+      wget -NP /etc/apt/sources.list.d/ "https://dl.winehq.org/wine-builds/ubuntu/dists/{{ ver.stdout }}/winehq-{{ ver.stdout }}.sources"
+    creates: "/etc/apt/sources.list.d/winehq-{{ ver.stdout }}.sources"
 
 - name: Try installing winehq-stable
   ansible.builtin.package:
