@@ -7,7 +7,7 @@
   ansible.builtin.shell:
     cmd: |
       dpkg --add-architecture i386 &&
-      wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key - &&
+      curl https://dl.winehq.org/wine-builds/winehq.key | gpg --yes --dearmor -o /etc/apt/keyrings/winehq-archive.key - &&
       wget -NP /etc/apt/sources.list.d/ "https://dl.winehq.org/wine-builds/ubuntu/dists/{{ ver.stdout }}/winehq-{{ ver.stdout }}.sources"
     creates: "/etc/apt/sources.list.d/winehq-{{ ver.stdout }}.sources"
 
