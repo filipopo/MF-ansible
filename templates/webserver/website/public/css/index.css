@@ -11,7 +11,7 @@ iframe {
   background: #f9f9f9;
 }
 
-img, iframe {
+#logo, iframe {
   display: block;
   margin: auto;
 }
@@ -25,6 +25,33 @@ img, iframe {
   padding: 3px;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.slides {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #333;
+  border-radius: 16px;
+  background: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.slides img {
+  display: none;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
 }
 
 @media screen {

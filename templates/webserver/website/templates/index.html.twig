@@ -14,40 +14,31 @@
     </div>
 
     <div class="b">
-      <img width="215px" src="{{ asset('images/MFLogo.png') }}" alt="logo">
+      <img id="logo" width="215px" src="{{ asset('images/MFLogo.png') }}" alt="logo">
       <p><b>Mobile Forces</b> is a video game developed by Rage Software using the Unreal Engine and published by Majesco Entertainment, featuring a combination of first-person shooter and vehicle gameplay in nine different game modes. Join us on <a href="https://discord.gg/xPcFh7E">Discord</a>!</p>
 
       <ol>
-        <li>
-          <b>Deathmatch</b> - The goal of this game mode is to eliminate all players in the map
-        </li>
-        <li>
-          <b>Team Deathmatch</b> - Similar to Deathmatch, only played in teams - Red and Blue
-        </li>
-        <li>
-          <b>Captains</b> - Each team gets a captain and needs to kill the opposing team's leader in order to score points
-        </li>
-        <li>
-          <b>Capture the flag</b> - Both teams have to steal each other's flags from their base in order to win
-        </li>
-        <li>
-          <b>Holdout</b> - Both teams are tasked with capturing a single beacon on a central position in the map, the team that holds the beacon a set time or the longest wins
-        </li>
-        <li>
-          <b>Detonation</b> - Members of both squads scramble to acquire a keycard located somewhere in the map, which must then be taken to a console in the opposing team's base to activate an explosive device to score
-        </li>
-        <li>
-          <b>Safe Cracker</b> - This mode involves the infiltration of the enemy team's base where it's needed to open the safe and retrieve their gold. After the match attackers and defenders switch between each other
-        </li>
-        <li>
-          <b>Trailer</b> - The use of vehicles is integral to success in this mode, requiring players to drive explosive-laden units into the base of their opponents in order to get points
-        </li>
-        <li>
-          <b>Mental Race</b> - Put together by Real Time Worlds as the first mod for the game, the objective in Mental Race is to complete laps of a level, by crossing checkpoints in a race car
-        </li>
+        <li><b>Deathmatch</b> - The goal of this game mode is to eliminate all players in the map</li>
+        <li><b>Team Deathmatch</b> - Similar to Deathmatch, only played in teams - Red and Blue</li>
+        <li><b>Captains</b> - Each team gets a captain and needs to kill the opposing team's leader in order to score points</li>
+        <li><b>Capture the flag</b> - Both teams have to steal each other's flags from their base in order to win</li>
+        <li><b>Holdout</b> - Both teams are tasked with capturing a single beacon on a central position in the map, the team that holds the beacon a set time or the longest wins</li>
+        <li><b>Detonation</b> - Members of both squads scramble to acquire a keycard located somewhere in the map, which must then be taken to a console in the opposing team's base to activate an explosive device to score</li>
+        <li><b>Safe Cracker</b> - This mode involves the infiltration of the enemy team's base where it's needed to open the safe and retrieve their gold. After the match attackers and defenders switch between each other</li>
+        <li><b>Trailer</b> - The use of vehicles is integral to success in this mode, requiring players to drive explosive-laden units into the base of their opponents in order to get points</li>
+        <li><b>Mental Race</b> - Put together by Real Time Worlds as the first mod for the game, the objective in Mental Race is to complete laps of a level, by crossing checkpoints in a race car</li>
       </ol>
 
-      <img width="555px" src="{{ asset('images/slide-polar.jpg') }}" alt="Mobile Forces">
+      {% if slides %}
+        <div class="slides">
+          <button id="left">&#x23F4;</button>
+          {% for slide in slides %}
+            <img width="555px" src="{{ asset(slide) }}" alt="{{ slide }}">
+          {% endfor %}
+          <button id="right">⏵</button>
+        </div>
+        <script src="{{ asset('js/slideshow.js') }}"></script>
+      {% endif %}
     </div>
 
     <div class="c">
