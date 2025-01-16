@@ -13,10 +13,11 @@ class MainController extends AbstractController {
         $balance = $donationRepo->getMonthlyBalance(date('Y'), date('n'));
 
         return $this->render('index.html.twig', [
-            'balance' => $balance,
             'kofi_name' => $this->getParameter('app.kofi_name'),
-            'kofi_target' => $this->getParameter('app.kofi_target'),
+            'slides' => glob('images/slide-*'),
             'kofi_currency' => $this->getParameter('app.kofi_currency'),
+            'balance' => $balance,
+            'kofi_target' => $this->getParameter('app.kofi_target'),
             'donations' => $donationRepo->getLatestDonations(),
             'kofi_startdate' => $this->getParameter('app.kofi_startdate')
         ]);
@@ -46,8 +47,8 @@ class MainController extends AbstractController {
         / 2592000 * $this->getParameter('app.kofi_target');
 
         return $this->render('stats.html.twig', [
-            'sum' => $sum,
             'kofi_currency' => $this->getParameter('app.kofi_currency'),
+            'sum' => $sum,
             'balance' => $balance,
             'donators' => $donationRepo->getTopDonators(),
             'donations' => $donationRepo->getDonationActivity()
