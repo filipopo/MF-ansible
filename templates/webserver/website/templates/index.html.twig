@@ -9,7 +9,7 @@
 {% block body %}
   <div class="grid">
     <div class="a">
-      <iframe id="kofiframe" src="https://ko-fi.com/{{ kofi_name }}/?hidefeed=true&widget=true&embed=true&preview=true" width="400px" height="562px" title="{{ kofi_name }}"></iframe><br>
+      <iframe id="kofiframe" src="https://ko-fi.com/{{ kofi_name }}/?hidefeed=true&widget=true&embed=true&preview=true" height="562px" title="{{ kofi_name }}"></iframe><br>
       One time donations are better, source: <a href="https://help.ko-fi.com/hc/en-us/articles/360002506494-Does-Ko-fi-Take-a-Fee-#01H841GJ8PJb1PXY64231CFHB">Ko-fi fees</a>
     </div>
 
@@ -33,7 +33,7 @@
         <div class="slides">
           <button id="left">⏴</button>
           {% for slide in slides %}
-            <img width="555px" src="{{ asset(slide) }}" alt="{{ slide }}">
+            <img src="{{ asset(slide) }}" alt="{{ slide }}">
           {% endfor %}
           <button id="right">⏵</button>
         </div>

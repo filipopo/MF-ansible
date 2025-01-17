@@ -1,3 +1,7 @@
+:root {
+  --iwidth: max(290px, 21.5vw);
+}
+
 b { font-size: 1.1rem; }
 
 ol { padding-left: 17px; }
@@ -9,6 +13,7 @@ iframe {
   border-radius: 8px;
   padding: 4px;
   background: #f9f9f9;
+  width: var(--iwidth);
 }
 
 #logo, iframe {
@@ -47,6 +52,7 @@ button {
   display: none;
   animation-name: fade;
   animation-duration: 1.5s;
+  width: max(350px, 30vw);
 }
 
 @keyframes fade {
@@ -68,7 +74,7 @@ button {
       .grid > .c { grid-area: bottom; }
 
       .grid {
-        grid-template-columns: 418px 1fr;
+        grid-template-columns: calc(var(--iwidth) + 16px) 1fr;
         grid-template-areas:
           'left right'
           'bottom right'
@@ -76,7 +82,7 @@ button {
     }
 
     @media (width >= 1211px) {
-      .grid { grid-template-columns: 418px auto auto; }
+      .grid { grid-template-columns: calc(var(--iwidth) + 16px) auto auto; }
     }
   }
 }
