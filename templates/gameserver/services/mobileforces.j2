@@ -7,6 +7,7 @@ User={{ server_user }}
 WorkingDirectory={{ game_path }}/System/
 ExecStart=sh {{ game_path }}/System/dedicated.sh
 Restart=on-failure
+Nice=-5
 
 [Install]
 WantedBy=multi-user.target
