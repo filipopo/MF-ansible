@@ -14,7 +14,6 @@ body {
 nav {
   position: fixed;
   background-color: #333;
-  overflow: hidden;
   display: flex;
   justify-content: space-between;
   padding: 6px 10px;
