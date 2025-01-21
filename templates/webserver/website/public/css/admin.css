@@ -1,10 +1,5 @@
 label { cursor: pointer; }
 
-embed {
-  float: right;
-  min-height: 430px;
-}
-
 .btn {
   text-decoration: none;
   color: #fff;
@@ -15,10 +10,14 @@ embed {
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .btn:hover { color: black; }
+
+.big {
+  float: right;
+  height: 430px;
+}
 
 .small { float: left; }
 
