@@ -39,13 +39,13 @@ iframe {
 }
 
 button {
-  width: 40px;
-  height: 40px;
+  width: min(40px, 5vw);
+  height: min(40px, 5vw);
   border: 1px solid #333;
-  border-radius: 16px;
+  border-radius: min(16px, 4vw);
   background: none;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: min(24px, 3vw);
 }
 
 .slides img {
@@ -62,16 +62,16 @@ button {
 
 @media screen {
   @media (orientation: portrait) {
-    .grid > .b { order: -1; }
+    .grid .b { order: -1; }
   }
 
   @media (orientation: landscape) {
     @media (width < 1211px) {
-      .grid > .a { grid-area: left; }
+      .grid .a { grid-area: left; }
 
-      .grid > .b { grid-area: right; }
+      .grid .b { grid-area: right; }
 
-      .grid > .c { grid-area: bottom; }
+      .grid .c { grid-area: bottom; }
 
       .grid {
         grid-template-columns: calc(var(--iwidth) + 16px) 1fr;
