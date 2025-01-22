@@ -12,7 +12,7 @@ The website was made with `symfony new website --version="7.2.x"`
 
 Put your MobileForces.zip in the root folder and run
 
-`ansible-playbook -i hosts playbook.yml -u root`
+`ansible-playbook -i mf.nofisto.com, playbook.yml -u root`
 
 You may configure various options in the vars.yml file, by deafult this playbook relies on your MobileForces.zip creating a MobileForces folder
 
