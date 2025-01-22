@@ -22,19 +22,21 @@ class DonationController extends AbstractController {
             return new Response('Invalid request', Response::HTTP_BAD_REQUEST);
         }
 
-        if (hash_equals($this->getParameter('app.kofi_token'), $data['verification_token'])) {
-            $donation = new Donation(
-                date: date_parse($data['timestamp']),
-                name: ucfirst($data['from_name']),
-                message: $data['message'],
-                amount_sent: $data['amount'],
-                amount_received: $data['amount'],
-                kofi_tx: $data['kofi_transaction_id']
-            );
-
-            $entityManager->persist($donation);
-            $entityManager->flush();
+        if (!hash_equals($this->getParameter('app.kofi_token'), $data['verification_token'])) {
+            return new Response('Verification token mismatch', Response::HTTP_BAD_REQUEST);
         }
+
+        $donation = new Donation(
+            date: date_parse($data['timestamp']),
+            name: ucfirst($data['from_name']),
+            message: $data['message'],
+            amount_sent: $data['amount'],
+            amount_received: $data['amount'],
+            kofi_tx: $data['kofi_transaction_id']
+        );
+
+        $entityManager->persist($donation);
+        $entityManager->flush();
 
         return new Response();
     }
