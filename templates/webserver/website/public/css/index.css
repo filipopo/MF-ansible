@@ -62,16 +62,16 @@ button {
 
 @media screen {
   @media (orientation: portrait) {
-    .grid .b { order: -1; }
+    .b { order: -1; }
   }
 
   @media (orientation: landscape) {
     @media (width < 1211px) {
-      .grid .a { grid-area: left; }
+      .a { grid-area: left; }
 
-      .grid .b { grid-area: right; }
+      .b { grid-area: right; }
 
-      .grid .c { grid-area: bottom; }
+      .c { grid-area: bottom; }
 
       .grid {
         grid-template-columns: calc(var(--iwidth) + 16px) 1fr;
