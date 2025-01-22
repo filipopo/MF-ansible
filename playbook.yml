@@ -1,6 +1,6 @@
 ---
 - name: Setup MF server on a Linux server
-  hosts: servers
+  hosts: all
   become: true
   vars_files:
     - vars.yml
