@@ -67,7 +67,7 @@
     replace: "{{ item[1] }}"
   loop:
     - [= www-data, "= {{ server_user }}"]
-    - [/run/php/php8.3-fpm.sock, /run/php/www.sock]
+    - ["/run/php/php{{ php.stdout }}-fpm.sock", /run/php/www.sock]
 
 - name: Reload the apache and PHP fpm services
   ansible.builtin.service:
