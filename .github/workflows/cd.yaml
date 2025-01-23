@@ -25,7 +25,7 @@ jobs:
       - name: Install Ansible
         run: pip install ansible-core
 
-      - name: Deploy with Ansible
+      - name: Configure SSH
         run: |
           # Save the private SSH key
           mkdir -p ~/.ssh
@@ -36,6 +36,8 @@ jobs:
           ssh-keyscan -H ${{ vars.SERVER_NAME }} > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
+      - name: Deploy with Ansible
+        run: |
           # Construct ansible-playbook command
           command="ansible-playbook playbook.yml -u root -i ${{ vars.SERVER_NAME }}, \
             -e \"ServerName=${{ vars.SERVER_NAME }} ServerAdmin=${{ secrets.SERVER_ADMIN }} AdminPassword=${{ secrets.ADMIN_PASSWORD }} \
