@@ -56,26 +56,29 @@
     cmd: "certbot --apache -n --email {{ ServerAdmin }} --agree-tos --no-redirect -d {{ ServerName }}"
     creates: /etc/apache2/sites-enabled/mobileforces-le-ssl.conf
 
-- name: Get PHP version
-  ansible.builtin.shell: readlink -f /usr/bin/php | grep -oP '/usr/bin/php\K.+'
-  register: php
+- name: PHP tasks (skipped in check mode)
+  block:
+    - name: Get PHP version
+      ansible.builtin.shell: readlink -f /usr/bin/php | grep -oP '/usr/bin/php\K.+'
+      register: php
 
-- name: Configure PHP fpm pool
-  ansible.builtin.replace:
-    path: "/etc/php/{{ php.stdout }}/fpm/pool.d/www.conf"
-    regexp: "{{ item[0] }}"
-    replace: "{{ item[1] }}"
-  loop:
-    - [= www-data, "= {{ server_user }}"]
-    - ["/run/php/php{{ php.stdout }}-fpm.sock", /run/php/www.sock]
+    - name: Configure PHP fpm pool
+      ansible.builtin.replace:
+        path: "/etc/php/{{ php.stdout }}/fpm/pool.d/www.conf"
+        regexp: "{{ item[0] }}"
+        replace: "{{ item[1] }}"
+      loop:
+        - [= www-data, "= {{ server_user }}"]
+        - ["/run/php/php{{ php.stdout }}-fpm.sock", /run/php/www.sock]
 
-- name: Reload the apache and PHP fpm services
-  ansible.builtin.service:
-    name: "{{ item }}"
-    state: reloaded
-  loop:
-    - apache2
-    - "php{{ php.stdout }}-fpm"
+    - name: Reload the apache and PHP fpm services
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: reloaded
+      loop:
+        - apache2
+        - "php{{ php.stdout }}-fpm"
+  when: not ansible_check_mode
 
 - name: Allow the website to restart game services
   ansible.builtin.template:
