@@ -4,7 +4,7 @@ This project allows you to automatically provision a Mobile Forces game server t
 
 ![image](https://github.com/user-attachments/assets/fe2aab4f-1fd9-4e43-916a-09da367a8884)
 
-The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Actions and uses Cloudflare as a CDN and domain registrar, the root of the website code can be found at: `templates/webserver`
+The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Actions and uses Cloudflare as a CDN and domain registrar, the root of the website code can be found at: `templates/webserver/website`
 
 The website was made with `symfony new website --version="7.2.x"`
 
@@ -29,17 +29,17 @@ symfony server:start
 Some other environment variables that can be set (found in .env)
 
 ```
+APP_ENV=dev
+DATABASE_URL="sqlite:///%kernel.project_dir%/var/app.db"
 KOFI_NAME=filipmania
 KOFI_TARGET=12.49
-KOFI_CURRENCY=EUR
+KOFI_CURRENCY=€
 KOFI_STARTDATE="2023-10-22 15:35:11"
 ```
 
 If you can't change the apache vhost run `composer require symfony/apache-pack` which will make a .htaccess file in `public/`
 
-Consider optimising the php config
-
-https://symfony.com/doc/current/performance.html#use-the-opcache-class-preloading
+Consider optimising the php config: https://symfony.com/doc/current/performance.html
 
 You can test the donation route after setting KOFI_TOKEN with
 
