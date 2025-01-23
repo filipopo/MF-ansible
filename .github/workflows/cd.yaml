@@ -1,0 +1,51 @@
+name: CD
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        description: "Run Ansible in dry-run mode"
+        required: false
+        default: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: pip install ansible-core
+
+      - name: Deploy with Ansible
+        run: |
+          # Save the private SSH key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Add the remote server's host key to known_hosts to avoid verification errors
+          ssh-keyscan -H ${{ vars.SERVER_NAME }} > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+          # Construct ansible-playbook command
+          command="ansible-playbook playbook.yml -u root -i ${{ vars.SERVER_NAME }}, \
+            -e \"ServerName=${{ vars.SERVER_NAME }} ServerAdmin=${{ secrets.SERVER_ADMIN }} AdminPassword=${{ secrets.ADMIN_PASSWORD }} \
+              kofi_token=${{ secrets.KOFI_TOKEN }} paypal_clientid=${{ secrets.PAYPAL_CLIENT_ID }} \
+              paypal_secretkey=${{ secrets.PAYPAL_SECRET_KEY }} app_secret=${{ secrets.APP_SECRET }}\""
+
+          # Add dry-run option if specified
+          if ${{ inputs.dry_run }}; then
+            command="$command --check"
+          fi
+
+          # Run the Ansible playbook
+          eval $command
