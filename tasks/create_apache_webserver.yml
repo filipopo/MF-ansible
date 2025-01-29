@@ -16,6 +16,7 @@
     src: templates/webserver/vhosts/mobileforces.j2
     dest: /etc/apache2/sites-available/mobileforces.conf
     mode: "644"
+  register: apache_vhost
 
 - name: Copy website files
   ansible.builtin.copy:
@@ -56,6 +57,12 @@
     cmd: "certbot --apache -n --email {{ ServerAdmin }} --agree-tos --no-redirect -d {{ ServerName }}"
     creates: /etc/apache2/sites-enabled/mobileforces-le-ssl.conf
 
+- name: Reload apache
+  ansible.builtin.service:
+    name: apache2
+    state: reloaded
+  when: apache_vhost.changed
+
 - name: PHP tasks (skipped in check mode)
   block:
     - name: Get PHP version
@@ -70,14 +77,13 @@
       loop:
         - [= www-data, "= {{ server_user }}"]
         - ["/run/php/php{{ php.stdout }}-fpm.sock", /run/php/www.sock]
+      register: fpm_config
 
-    - name: Reload the apache and PHP fpm services
+    - name: Reload the PHP fpm service
       ansible.builtin.service:
-        name: "{{ item }}"
+        name: "php{{ php.stdout }}-fpm"
         state: reloaded
-      loop:
-        - apache2
-        - "php{{ php.stdout }}-fpm"
+      when: fpm_config.changed
   when: not ansible_check_mode
 
 - name: Allow the website to restart game services

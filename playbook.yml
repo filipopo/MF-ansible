@@ -51,6 +51,3 @@
         - mobileforces-masterserver
         - mobileforces
         - mobileforces-fastdl
-
-  handlers:
-    - ansible.builtin.import_tasks: handlers/systemctl.yml
