@@ -63,7 +63,11 @@
     - [mobileforces.j2, mobileforces.service]
     - [mobileforces-fastdl.j2, mobileforces-fastdl.service]
     - [mobileforces-package.j2, mobileforces-package.service]
-  notify: Reload systemctl
+  register: service_files
+
+- name: Reload systemctl
+  ansible.builtin.command: systemctl daemon-reload
+  when: service_files.changed
 
 - name: Create cron job for fastdl
   ansible.builtin.cron:
