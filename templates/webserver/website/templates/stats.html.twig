@@ -3,7 +3,7 @@
 {% block title %}MF statistics{% endblock %}
 
 {% block body %}
-  A total of {{ kofi_currency }}{{ sum }} in donations was received for MF<br>
+  A total of {{ kofi_currency }}{{ sum }} over {{ num }} donations was received for MF<br>
   Approximate net balance:
   {{ balance > 0 ? kofi_currency ~ balance : '-' ~ kofi_currency ~ (-balance) }}
   <br><br>
