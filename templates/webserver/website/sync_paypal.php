@@ -68,7 +68,7 @@
       $amount_received = $transaction['transaction_info']['transaction_amount']['value'] + $transaction['transaction_info']['fee_amount']['value'];
 
       $db->exec(sprintf(
-        'UPDATE donations SET amount_received=%s WHERE id=%s',
+        'UPDATE donation SET amount_received=%s WHERE id=%s',
         $amount_received, $donation['id']
       ));
 
