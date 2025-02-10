@@ -49,6 +49,7 @@ class MainController extends AbstractController {
         return $this->render('stats.html.twig', [
             'kofi_currency' => $this->getParameter('app.kofi_currency'),
             'sum' => $sum,
+            'num' => $donationRepo->count(),
             'balance' => $balance,
             'donators' => $donationRepo->getTopDonators(),
             'donations' => $donationRepo->getDonationActivity()
