@@ -4,7 +4,7 @@ Description=Mobile Forces zip packaging
 [Service]
 User={{ server_user }}
 WorkingDirectory={{ game_path }}/System/
-ExecStart=bash {{ game_path }}/System/package.sh {{ website_path }}/fast_download {{ game_path }}
+ExecStart=bash {{ game_path }}/System/package.sh {{ website_path }}/public/download {{ game_path }}
 
 [Install]
 WantedBy=multi-user.target
