@@ -1,9 +1,10 @@
 #!/bin/sh
 
-output=${1:-pwd/..}
-game=${2:-pwd/..}
+output=${1:-..}
+game=${2:-..}
 
 updateFiles=(
+  'Mobileforces.ini'
   'UpdateReadme.txt'
   'System/EffectsFix.u'
   'System/Rage.u'
@@ -19,19 +20,7 @@ updateFiles=(
   'Maps/mf-Ghetto.umf'
 )
 
-mkdir -p $output
-cd $game
-zip -9 -r "${output}/Update.zip" "${updateFiles[@]}"
-
-sed -e 's/AdminEmail=.*/AdminEmail=/' \
-  -e 's/AdminPassword=.*/AdminPassword=/' \
-  System/MobileForces.ini > "${output}/Mobileforces.ini"
-
-cd $output
-zip -9 -u Update.zip Mobileforces.ini
-cp Update.zip RUpdate.zip
-
-updateFiles=(
+rupdateFiles=(
   'Textures/rage_warehouse.utx'
   'System/RageGfx.u'
   'System/RageEffects.u'
@@ -41,5 +30,12 @@ updateFiles=(
   'Sounds/Announcer.uax'
 )
 
+mkdir -p $output
 cd $game
-zip -9 -u "${output}/RUpdate.zip" "${updateFiles[@]}"
+
+sed -e 's/AdminEmail=.*/AdminEmail=/' \
+  -e 's/AdminPassword=.*/AdminPassword=/' \
+  System/MobileForces.ini > Mobileforces.ini
+
+zip -9 -FS "${output}/Update.zip" "${updateFiles[@]}"
+zip -9 -FS "${output}/RUpdate.zip" "${updateFiles[@]}" "${rupdateFiles[@]}"
