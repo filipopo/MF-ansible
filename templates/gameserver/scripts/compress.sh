@@ -15,7 +15,7 @@ declare -A arr=(
   ['Physics']='COL:c,hnd2:c'
   ['Sounds']='uax:u'
   ['System']='int:c,u:b'
-  ['Textures']='utx:u,usx:u'
+  ['Textures']='utx:u'
 )
 
 # Go through each folder
