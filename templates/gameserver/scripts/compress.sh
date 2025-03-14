@@ -33,7 +33,7 @@ for folder in "${!arr[@]}"; do
       [ -e $file ] || continue
 
       # Get the sha sum of the saved compressed file and compare it to the current version
-      sum_file="${fastdl}$(echo $file | awk -F / '{print $NF}').sha"
+      sum_file="${fastdl}$(echo $file | awk -F / '{print $NF}').sha512"
       shasum -a 512 -c -s $sum_file 2> /dev/null
 
       # If the sum is not matching (or doesn't exist) compress the file and update the sha sum
@@ -54,9 +54,6 @@ for folder in "${!arr[@]}"; do
 
         shasum -a 512 $file > $sum_file
         touch $sum_file -r $file
-
-        shasum -a 256 $file > "${sum_file}256"
-        touch "${sum_file}256" -r $file
       fi
     done
   done
@@ -64,12 +61,12 @@ done
 
 # Copy "first" hashes then the rest
 first=(
-  'EffectsFix.u.sha256'
-  'Rage.u.sha256'
-  'Engine.u.sha256'
-  'RageWeapons.u.sha256'
+  'EffectsFix.u.sha512'
+  'Rage.u.sha512'
+  'Engine.u.sha512'
+  'RageWeapons.u.sha512'
 )
 
-cd $fastdl; cat "${first[@]}" > shasums.txt
+cd $fastdl; cat "${first[@]}" > sha512.txt
 arr=$(IFS='|'; echo "${first[*]}")
-cat $(ls -t *.sha256 | grep -Ev $first) >> shasums.txt
+cat $(ls -t *.sha512 | grep -Ev $first) >> sha512.txt
