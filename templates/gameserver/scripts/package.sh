@@ -32,6 +32,18 @@ RUupdateFiles=(
   'Sounds/Announcer.uax'
 )
 
+addonFiles=(
+  'Docs/*'
+  '*.umf'
+  '*.umx'
+  '*.COL'
+  '*.hnd2'
+  '*.uax'
+  '*.int'
+  '*.u'
+  '*.utx'
+)
+
 defaultFiles=(
   'Maps/entry.umf'
   'Maps/intro.umf'
@@ -152,17 +164,6 @@ defaultFiles=(
   'Textures/train.utx'
 )
 
-customFiles=(
-  '*.umf'
-  '*.umx'
-  '*.COL'
-  '*.hnd2'
-  '*.uax'
-  '*.int'
-  '*.u'
-  '*.utx'
-)
-
 mkdir -p $output
 cd $game
 
@@ -175,10 +176,10 @@ zip -9 -u "${output}/RUupdate.zip" "${updateFiles[@]}" "${ENupdateFiles[@]}"
 
 zip -9 -FS -r "${output}/Addons.zip" . \
   -x "${updateFiles[@]}" "${defaultFiles[@]}" \
-  -i "${customFiles[@]}"
+  -i "${addonFiles[@]}"
 
-zip -9 -u -j "${output}/Update.zip" Docs/update/UpdateReadme.txt
-zip -9 -u -j "${output}/RUupdate.zip" Docs/ru-update/UpdateReadme.txt
+zip -9 -u "${output}/Update.zip" UpdateReadme.txt
+zip -9 -u "${output}/RUupdate.zip" RUupdateReadme.txt
 
 cd "$game/../MobileForcesRU"
 zip -9 -u "${output}/RUupdate.zip" "${RUupdateFiles[@]}"
