@@ -1,7 +1,7 @@
 #!/bin/sh
 
-output=${1:-$PWD/..}
-game=${2:-$PWD/..}
+output=${1:-..}
+game=${2:-..}
 
 updateFiles=(
   'Mobileforces.ini'
@@ -19,7 +19,10 @@ updateFiles=(
   'System/RageMenu.u'
 )
 
-ENupdateFiles=(
+RUupdateFiles=(
+  'RUupdateReadme.txt'
+  'SoundsRU/RagePlayerVoice.uax'
+  'SoundsRU/Announcer.uax'
   'System/RageGfx.u'
   'System/RageEffects.u'
   'System/Fire.u'
@@ -27,21 +30,15 @@ ENupdateFiles=(
   'Textures/rage_warehouse.utx'
 )
 
-RUupdateFiles=(
-  'Sounds/RagePlayerVoice.uax'
-  'Sounds/Announcer.uax'
-)
-
 addonFiles=(
   'Docs/*'
-  '*.umf'
-  '*.umx'
-  '*.COL'
-  '*.hnd2'
-  '*.uax'
-  '*.int'
-  '*.u'
-  '*.utx'
+  'Maps/*.umf'
+  'Music/*.umx'
+  'Physics/*.COL'
+  'Sounds/*.uax'
+  'System/*.int'
+  'System/*.u'
+  'Textures/*.utx'
 )
 
 defaultFiles=(
@@ -171,15 +168,20 @@ sed -e 's/AdminEmail=.*/AdminEmail=/' \
   -e 's/AdminPassword=.*/AdminPassword=/' \
   System/MobileForces.ini > Mobileforces.ini
 
-zip -9 -u "${output}/Update.zip" "${updateFiles[@]}"
-zip -9 -u "${output}/RUupdate.zip" "${updateFiles[@]}" "${ENupdateFiles[@]}"
+zip -9 -FS "${output}/Update.zip" "${updateFiles[@]}" UpdateReadme.txt
 
 zip -9 -FS -r "${output}/Addons.zip" . \
   -x "${updateFiles[@]}" "${defaultFiles[@]}" \
   -i "${addonFiles[@]}"
 
-zip -9 -u "${output}/Update.zip" UpdateReadme.txt
-zip -9 -u "${output}/RUupdate.zip" RUupdateReadme.txt
+tmpdir=$(mktemp -d)
+for src in "${updateFiles[@]}" "${RUupdateFiles[@]}"; do
+  dest="${src/RU\//\/}"
 
-cd "$game/../MobileForcesRU"
-zip -9 -u "${output}/RUupdate.zip" "${RUupdateFiles[@]}"
+  mkdir -p "$tmpdir/$(dirname $dest)"
+  ln $src "$tmpdir/$dest"
+done
+
+cd $tmpdir
+zip -9 -FS -r "${output}/RUupdate.zip" .
+rm -rf $tmpdir
