@@ -92,7 +92,6 @@
     name: Make zips to update the game
     minute: 30
     hour: 5
-    weekday: 5
     user: "{{ server_user }}"
     job: systemctl start mobileforces-package
     cron_file: mobileforces-zip
