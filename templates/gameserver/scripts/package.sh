@@ -177,9 +177,11 @@ zip -9 -FS -r "${output}/Addons.zip" . \
 tmpdir=$(mktemp -d)
 for src in "${updateFiles[@]}" "${RUupdateFiles[@]}"; do
   dest="${src/RU\//\/}"
+  dir=$(dirname $dest)
 
-  mkdir -p "$tmpdir/$(dirname $dest)"
+  mkdir -p "$tmpdir/$dir"
   ln $src "$tmpdir/$dest"
+  touch -r $dir "$tmpdir/$dir"
 done
 
 cd $tmpdir
