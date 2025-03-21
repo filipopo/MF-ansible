@@ -43,7 +43,7 @@ for folder in "${!arr[@]}"; do
           wine UCC.exe compress $file
           #sleep 0.1
 
-          touch "${file}.uz" -r $file
+          touch -r $file "${file}.uz"
           mv "${file}.uz" $fastdl
         fi
 
@@ -53,7 +53,7 @@ for folder in "${!arr[@]}"; do
         fi
 
         shasum -a 512 $file > $sum_file
-        touch $sum_file -r $file
+        touch -r $file $sum_file
       fi
     done
   done
