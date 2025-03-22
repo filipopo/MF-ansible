@@ -68,5 +68,5 @@ first=(
 )
 
 cd $fastdl; cat "${first[@]}" > sha512.txt
-arr=$(IFS='|'; echo "${first[*]}")
+first=$(IFS='|'; echo "${first[*]}")
 cat $(ls -t *.sha512 | grep -Ev $first) >> sha512.txt
