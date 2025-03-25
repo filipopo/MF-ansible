@@ -34,7 +34,7 @@ for folder in "${!arr[@]}"; do
 
       # Get the sha sum of the saved compressed file and compare it to the current version
       sum_file="${fastdl}$(echo $file | awk -F / '{print $NF}').sha512"
-      shasum -a 512 -c -s $sum_file 2> /dev/null
+      sha512sum -c --status $sum_file 2> /dev/null
 
       # If the sum is not matching (or doesn't exist) compress the file and update the sha sum
       if [ $? -ne 0 ]; then
@@ -52,7 +52,7 @@ for folder in "${!arr[@]}"; do
           cp -p $file $fastdl
         fi
 
-        shasum -a 512 $file > $sum_file
+        sha512sum $file > $sum_file
         touch -r $file $sum_file
       fi
     done
