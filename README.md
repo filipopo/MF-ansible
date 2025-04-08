@@ -47,6 +47,8 @@ You can test the donation route after setting KOFI_TOKEN with
 
 If you change the database files run `php bin/console make:migration`
 
+If you need to change the password, downgrade `php bin/console doctrine:migrations:execute --down DoctrineMigrations\\Version20250107003305` and then migrate again
+
 # Thanks to
 
 https://github.com/333networks/Masterserver-Qt5 for the master server implementing the Gamespy v0 protocol
