@@ -1,38 +1,47 @@
 ---
-- name: Ensure masterserver directory exists
+- name: Install qt5
+  ansible.builtin.package:
+    name: qtbase5-dev
+    state: latest
+
+- name: Ensure masterserver directories exist
   ansible.builtin.file:
-    path: "{{ install_path }}/masterserver/"
+    path: "{{ masterserver_path }}/{{ item }}"
     state: directory
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
-    mode: "755"
-
-- name: Extract master server zip onto server if the path doesn't exist
-  ansible.builtin.unarchive:
-    creates: "{{ install_path }}/masterserver/System/"
-    src: "{{ item }}"
-    dest: "{{ install_path }}/masterserver/"
-    owner: "{{ server_user }}"
-    group: "{{ server_user }}"
     mode: "744"
-  with_fileglob:
-    - "templates/masterserver/OldUnreal-UTPatch*"
+  loop:
+    - bin
+    - data
 
-- name: Copy files into the masterserver folder
+- name: Copy masterserver files
   ansible.builtin.copy:
-    src: "templates/masterserver/scripts/"
-    dest: "{{ install_path }}/masterserver/System/"
+    src: "templates/masterserver/{{ item[0] }}"
+    dest: "{{ masterserver_path }}/{{ item[1] }}"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "744"
+  loop:
+    - [MasterServer-Qt5, bin/MasterServer-Qt5]
+    - [scripts/RunMasterServer.sh, bin/RunMasterServer.sh]
+    - [scripts/SupportedGames.json, /data/SupportedGames.json]
+
+- name: Copy masterserver config
+  ansible.builtin.template:
+    src: "templates/masterserver/scripts/MasterServer-Settings.j2"
+    dest: "{{ masterserver_path }}/data/MasterServer-Settings.ini"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "744"
 
-- name: Create service files for the master server
+- name: Create service file for the master server
   ansible.builtin.template:
     src: templates/masterserver/services/mobileforces-masterserver.j2
     dest: /etc/systemd/system/mobileforces-masterserver.service
     mode: "644"
-  register: service_files
+  register: service_file
 
 - name: Reload systemctl
   ansible.builtin.command: systemctl daemon-reload
-  when: service_files.changed
+  when: service_file.changed
