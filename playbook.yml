@@ -7,6 +7,7 @@
   vars:
     game_path: "{{ install_path }}/MobileForces"
     website_path: "{{ install_path }}/website"
+    masterserver_path: "{{ install_path }}/masterserver"
 
   tasks:
     - name: Ensure server user exists
@@ -23,6 +24,7 @@
       loop:
         - "{{ install_path }}"
         - "{{ website_path }}"
+        - "{{ masterserver_path }}"
 
     - name: Install common dependencies
       ansible.builtin.package:

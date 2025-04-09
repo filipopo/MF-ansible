@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User={{ server_user }}
-WorkingDirectory={{ install_path }}/masterserver/System/
-ExecStart=sh {{ install_path }}/masterserver/System/RunMasterServer.sh
+WorkingDirectory={{ masterserver_path }}/bin/
+ExecStart=sh {{ masterserver_path }}/bin/RunMasterServer.sh
 Restart=on-failure
 
 [Install]
