@@ -15,7 +15,14 @@ map=(
 )
 
 mode=(
-  'RageGame.RageSafeCracker'
+  'Rage.RageDeathmatch'
+  'Rage.RageTeamGame'
+  'RageGame.RageCaptains'
+  'RageGame.RageCTF'
+  'RageGame.RageDomination'
+  'RageGame.RageDetonation'
+  'RageGame.RageSafecracker'
+  'RageGame.TrailerGame'
 )
 
 index=$(( RANDOM % ${#map[@]} ))
