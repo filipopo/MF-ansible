@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 output=${1:-..}
 game=${2:-..}
