@@ -26,16 +26,16 @@ mode=(
 )
 
 muts=(
-  'Vote.Vote'
-  'VoteMutWindow.WindowMut'
-  'VoteHUD.VoteHUD'
-  'MutPack.AddWeaps'
-  'MutPack.ChangeBotInv'
-  'MutPack.ReplaceVehicles'
-  'MutPack.AddVehicles'
-  'MutPack.Commands'
-  'MutPack.ChangeDefProperties'
-  'MutPack.ChangeDamage'
+  'vote.Vote'
+  'voteMutWindow.WindowMut'
+  'voteHUD.VoteHUD'
+  'mutPack.AddWeaps'
+  'mutPack.ChangeBotInv'
+  'mutPack.ReplaceVehicles'
+  'mutPack.AddVehicles'
+  'mutPack.Commands'
+  'mutPack.ChangeDefProperties'
+  'mutPack.ChangeDamage'
 )
 
 index=$(( RANDOM % ${#map[@]} ))
@@ -48,7 +48,7 @@ mut=()
 for entry in "${muts[@]}"; do
   prefix="${entry%%.*}"
 
-  if [ -f "${prefix,}.u" ]; then
+  if [ -f "${prefix}.u" ]; then
     mut+=("$entry")
   fi
 done
