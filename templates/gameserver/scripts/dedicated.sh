@@ -54,9 +54,11 @@ for entry in "${muts[@]}"; do
 done
 
 mut=$(IFS=','; echo "${mut[*]}")
+command="wine UCC.exe server $map?game=$mode?mutator=$mut ini=MobileForces.ini log=server.log"
+
+unset map mode index muts mut
 rm -f server.log
 
-command="wine UCC.exe server $map?game=$mode?mutator=$mut ini=MobileForces.ini log=server.log"
 until $command; do
   echo "Server crashed with exit code $?, restarting!" >&2
   sleep 1
