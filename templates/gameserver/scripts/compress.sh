@@ -10,12 +10,12 @@ mkdir -p $fastdl
 
 # Copy/UCC compress/both extensions
 declare -A arr=(
-  ['Maps']='umf:u'
-  ['Music']='umx:u'
+  ['Maps']='umf:b'
+  ['Music']='umx:b'
   ['Physics']='COL:c,hnd2:c'
-  ['Sounds']='uax:u'
+  ['Sounds']='uax:b'
   ['System']='int:c,u:b'
-  ['Textures']='utx:u'
+  ['Textures']='utx:b'
 )
 
 # Go through each folder
