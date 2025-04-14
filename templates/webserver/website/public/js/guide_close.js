@@ -3,7 +3,7 @@ const el = document.getElementById('close');
 el.style.display = 'none';
 el.addEventListener('click', () => el.style.display = 'none');
 
-for (let link of document.getElementsByName('open'))
+for (let link of document.getElementsByClassName('open'))
   link.addEventListener('click', () => el.style.display = 'initial');
 
 const iframe = document.getElementsByName('guide')[0];

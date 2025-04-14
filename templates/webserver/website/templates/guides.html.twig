@@ -12,7 +12,7 @@
   <script src="{{ asset('js/css_random.js') }}"></script>
   <ul>
   {% for file in files %}
-    <li><a name="open" href="{{ asset('html/' ~ file ~ '.html') }}" target="guide">{{ file }}</a></li>
+    <li><a class="open" href="{{ asset('html/' ~ file ~ '.html') }}" target="guide">{{ file }}</a></li>
   {% endfor %}
   </ul>
 
