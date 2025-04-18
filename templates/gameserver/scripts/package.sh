@@ -4,7 +4,7 @@ output=${1:-..}
 game=${2:-..}
 
 updateFiles=(
-  'Mobileforces.ini'
+  'MobileForces.ini'
   'Maps/mf-Ghetto.umf'
   'Physics/piper.COL'
   'Physics/jeep.COL'
@@ -166,7 +166,7 @@ cd $game
 
 sed -e 's/AdminEmail=.*/AdminEmail=/' \
   -e 's/AdminPassword=.*/AdminPassword=/' \
-  System/MobileForces.ini > Mobileforces.ini
+  System/MobileForces.ini > MobileForces.ini
 
 zip -9 -FS "${output}/Update.zip" "${updateFiles[@]}" UpdateReadme.txt
 
