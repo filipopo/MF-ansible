@@ -6,7 +6,7 @@ After=network.target
 User={{ server_user }}
 WorkingDirectory={{ game_path }}/System/
 ExecStart=bash {{ game_path }}/System/dedicated.sh
-Restart=on-failure
+KillSignal=SIGKILL
 Nice=-5
 
 [Install]
