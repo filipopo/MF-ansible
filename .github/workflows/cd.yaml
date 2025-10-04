@@ -46,6 +46,7 @@ jobs:
           PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
           PAYPAL_SECRET_KEY: ${{ secrets.PAYPAL_SECRET_KEY }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           # Construct ansible-playbook command
           command="ansible-playbook playbook.yml -u root -i ${{ vars.SERVER_NAME }}, \
@@ -54,7 +55,7 @@ jobs:
               paypal_secretkey=$PAYPAL_SECRET_KEY app_secret=$APP_SECRET\""
 
           # Add dry-run option if specified
-          if ${{ inputs.dry_run }}; then
+          if $DRY_RUN; then
             command="$command --check"
           fi
 
