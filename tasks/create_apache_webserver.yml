@@ -32,16 +32,11 @@
     - public
     - src
     - templates
+    - .env
     - composer.json
     - composer.lock
     - symfony.lock
     - sync_paypal.php
-
-- name: Add templated .env file
-  ansible.builtin.template:
-    src: templates/webserver/website/.env.j2
-    dest: templates/webserver/website/.env
-    mode: "644"
 
 - name: Install website
   ansible.builtin.shell: |

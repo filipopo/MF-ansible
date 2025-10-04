@@ -8,7 +8,7 @@ The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Acti
 
 The website was made with `symfony new website --version="7.2.x"`
 
-# Setup instructions
+## Setup instructions
 
 Put your MobileForces.zip in the root folder and run
 
@@ -18,10 +18,10 @@ You may configure various options in the vars.yml file, by deafult this playbook
 
 The Ansible playbook transfers game files, installs necessary packages and sets up Systemd services for the game server, master server and FastDL of game files through an Apache2 web server which is also used for the website, an SSL certificate is automatically added to it by using Let's Encrypt's certbot tool, these steps are made in a modular way and can be excluded
 
-It would be good to run `symfony check:requirements` before running the app
+Run `composer install` and optionally `symfony check:requirements` before running the app
 
 ```
-export APP_SECRET=secret KOFI_TOKEN=token
+export APP_SECRET=secret KOFI_TOKEN=token KOFI_NAME=admin
 ADMIN_PASSWORD=P@ssword123! php bin/console doctrine:migrations:migrate
 symfony server:start
 ```
@@ -31,11 +31,12 @@ Some other environment variables that can be set (found in .env)
 ```
 APP_ENV=dev
 DATABASE_URL="sqlite:///%kernel.project_dir%/var/app.db"
-KOFI_NAME={{ AdminName }}
 KOFI_TARGET=12.49
 KOFI_CURRENCY=€
 KOFI_STARTDATE="2023-10-22 15:35:11"
 ```
+
+## Useful info
 
 If you can't change the apache vhost run `composer require symfony/apache-pack` which will make a .htaccess file in `public/`
 
@@ -49,7 +50,7 @@ If you change the database files run `php bin/console make:migration`
 
 If you need to change the password, downgrade `php bin/console doctrine:migrations:execute --down DoctrineMigrations\\Version20250107003305` and then migrate again
 
-# Thanks to
+## Thanks to
 
 https://github.com/333networks/Masterserver-Qt5 for the master server implementing the Gamespy v0 protocol
 
