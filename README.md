@@ -52,8 +52,8 @@ If you need to change the password, downgrade `php bin/console doctrine:migratio
 
 ## Thanks to
 
-https://github.com/333networks/Masterserver-Qt5 for the master server implementing the Gamespy v0 protocol
+[Masterserver-Qt5](https://github.com/333networks/Masterserver-Qt5) for the master server implementing the Gamespy v0 protocol
 
-https://github.com/Studio-42/elFinder and https://github.com/helios-ag/FMElfinderBundle for the file manager
+[elFinder](https://github.com/Studio-42/elFinder) and [FMElfinderBundle](https://github.com/helios-ag/FMElfinderBundle) for the file manager
 
-https://github.com/OldUnreal/UnrealTournamentPatches for the updated System64 packages
+[UnrealTournamentPatches](https://github.com/OldUnreal/UnrealTournamentPatches) for the updated System64 packages
