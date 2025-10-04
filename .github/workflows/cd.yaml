@@ -50,7 +50,8 @@ jobs:
         run: |
           # Construct ansible-playbook command
           command="ansible-playbook playbook.yml -u root -i ${{ vars.SERVER_NAME }}, \
-            -e \"ServerName=${{ vars.SERVER_NAME }} ServerAdmin=$SERVER_ADMIN AdminPassword=$ADMIN_PASSWORD \
+            -e \"MasterName=${{ vars.MASTER_NAME }} ServerName=${{ vars.SERVER_NAME }} \
+              ServerAdmin=$SERVER_ADMIN AdminName=${{ vars.ADMIN_NAME }} AdminPassword=$ADMIN_PASSWORD \
               kofi_token=$KOFI_TOKEN paypal_clientid=$PAYPAL_CLIENT_ID \
               paypal_secretkey=$PAYPAL_SECRET_KEY app_secret=$APP_SECRET\""
 

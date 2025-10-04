@@ -31,7 +31,7 @@ Some other environment variables that can be set (found in .env)
 ```
 APP_ENV=dev
 DATABASE_URL="sqlite:///%kernel.project_dir%/var/app.db"
-KOFI_NAME=filipmania
+KOFI_NAME={{ AdminName }}
 KOFI_TARGET=12.49
 KOFI_CURRENCY=€
 KOFI_STARTDATE="2023-10-22 15:35:11"

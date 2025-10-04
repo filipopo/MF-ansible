@@ -3,8 +3,10 @@ mf_path: MobileForces.zip
 ansible_ssh_private_key_file: ~/.ssh/id_rsa
 server_user: mobileforces
 install_path: "/opt/{{ server_user }}"
+MasterName: master.example.com
 ServerName: example.com
 ServerAdmin: admin@example.com
+AdminName: admin
 AdminPassword: P@ssword123!
 kofi_token: 904939d1-5699-4da2-86c4-6caf067854f0
 paypal_clientid: ASMC28YsAMD5X9jEM0HUUowekCM9YIhgEu1fziuY8XL-7FCMCFx5o1srmKkdV_DVy1dUS4kpAt0knCxK
