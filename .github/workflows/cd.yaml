@@ -26,10 +26,12 @@ jobs:
         run: pip install ansible-core
 
       - name: Configure SSH
+        env:
+          ANSIBLE_PRIVATE_KEY: ${{ secrets.ANSIBLE_PRIVATE_KEY }}
         run: |
           # Save the private SSH key
           mkdir -p ~/.ssh
-          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "$ANSIBLE_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
           # Add the remote server's host key to known_hosts to avoid verification errors
@@ -37,12 +39,19 @@ jobs:
           chmod 600 ~/.ssh/known_hosts
 
       - name: Deploy with Ansible
+        env:
+          SERVER_ADMIN: ${{ secrets.SERVER_ADMIN }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          KOFI_TOKEN: ${{ secrets.KOFI_TOKEN }}
+          PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
+          PAYPAL_SECRET_KEY: ${{ secrets.PAYPAL_SECRET_KEY }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
         run: |
           # Construct ansible-playbook command
           command="ansible-playbook playbook.yml -u root -i ${{ vars.SERVER_NAME }}, \
-            -e \"ServerName=${{ vars.SERVER_NAME }} ServerAdmin=${{ secrets.SERVER_ADMIN }} AdminPassword=${{ secrets.ADMIN_PASSWORD }} \
-              kofi_token=${{ secrets.KOFI_TOKEN }} paypal_clientid=${{ secrets.PAYPAL_CLIENT_ID }} \
-              paypal_secretkey=${{ secrets.PAYPAL_SECRET_KEY }} app_secret=${{ secrets.APP_SECRET }}\""
+            -e \"ServerName=${{ vars.SERVER_NAME }} ServerAdmin=$SERVER_ADMIN AdminPassword=$ADMIN_PASSWORD \
+              kofi_token=$KOFI_TOKEN paypal_clientid=$PAYPAL_CLIENT_ID \
+              paypal_secretkey=$PAYPAL_SECRET_KEY app_secret=$APP_SECRET\""
 
           # Add dry-run option if specified
           if ${{ inputs.dry_run }}; then
