@@ -52,7 +52,7 @@ class DonationRepository extends ServiceEntityRepository {
             'SELECT SUM(d.amount_sent) AS amount, COUNT(d) AS times, d.name
             FROM App\Entity\Donation d
             GROUP BY d.name
-            ORDER BY amount DESC, times DESC'
+            ORDER BY amount DESC, times DESC, d.id DESC'
         )->setMaxResults(10);
 
         return $query->getResult();
