@@ -13,7 +13,7 @@
   <ul>
     {% for donator in donators %}
     <li>
-      {{ donator.name }} donated {{ kofi_currency }}{{ donator.amount }} over {{ donator.times }} donation(s)
+      {{ donator.name }} donated {{ kofi_currency }}{{ donator.amount }} over {{ donator.times }} donation{% if donator.times > 1 -%}s{% endif %}
     </li>
     {% endfor %}
   </ul>
