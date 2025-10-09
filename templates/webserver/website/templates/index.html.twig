@@ -49,12 +49,12 @@
       <ul>
         {% for donation in donations %}
           <li>
-            {{ '%02d/%02d/%d %s' | format(donation.day, donation.month, donation.year, donation.time) }}<br>
-            {{ donation.name }} donated {{ kofi_currency }}{{ donation.amount_sent }}{% if donation.message %}: {{ donation.message }}{% endif %}
+            {{ '%02d/%02d/%d %s' | format(donation.day, donation.month, donation.year, donation.time) }}
+            {{ donation.name }} donated {{ kofi_currency }}{{ donation.amount_sent }}{% if donation.message %}:<p>{{ donation.message }}</p>{% endif %}
           </li>
         {% endfor %}
       </ul>
-      The amounts above include the transfer fee (about 3% + {{ kofi_currency }}0.3)<br>
+      The amounts above include the transfer fee which is about 3% + {{ kofi_currency }}0.3<br>
       <br>
       This server has been up since {{ kofi_startdate | date('d/m/Y H:i:s') }} {{ 'now' | date('T') }}
     </div>

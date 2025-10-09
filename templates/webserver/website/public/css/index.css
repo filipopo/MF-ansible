@@ -8,6 +8,8 @@ ol { padding-left: 17px; }
 
 p { margin-top: 5px; }
 
+li p { margin-bottom: 0; }
+
 iframe {
   border: none;
   border-radius: 8px;
@@ -27,6 +29,7 @@ iframe {
 }
 
 .c li {
+  word-break: break-all;
   padding: 3px;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
