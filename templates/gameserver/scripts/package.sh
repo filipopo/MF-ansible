@@ -166,6 +166,7 @@ cd $game
 
 sed -e 's/AdminEmail=.*/AdminEmail=/' \
   -e 's/AdminPassword=.*/AdminPassword=/' \
+  -e 's/ServerName=.*/ServerName=Mobile Forces Server/' \
   System/MobileForces.ini > MobileForces.ini
 
 ln -fs "${PWD}/MobileForces.ini" "$output/"
