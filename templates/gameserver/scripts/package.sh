@@ -168,6 +168,7 @@ sed -e 's/AdminEmail=.*/AdminEmail=/' \
   -e 's/AdminPassword=.*/AdminPassword=/' \
   System/MobileForces.ini > MobileForces.ini
 
+ln -fs "${PWD}/MobileForces.ini" "$output/"
 zip -9 -FS "${output}/Update.zip" "${updateFiles[@]}" UpdateReadme.txt
 
 zip -9 -FS -r "${output}/Addons.zip" . \
