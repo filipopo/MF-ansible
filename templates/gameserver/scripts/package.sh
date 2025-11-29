@@ -5,7 +5,10 @@ game=${2:-..}
 
 updateFiles=(
   'MobileForces.ini'
+  'Maps/mf-dockyard.umf'
   'Maps/mf-Ghetto.umf'
+  'Maps/mf-waterfront.umf'
+  'Maps/mf-western.umf'
   'Physics/piper.COL'
   'Physics/jeep.COL'
   'Physics/heli.COL'
