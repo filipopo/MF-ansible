@@ -60,6 +60,6 @@ unset map mode index muts mut
 rm -f server.log
 
 until $command; do
-  echo "Server crashed with exit code $?, restarting!" >&2
+  echo "Server exited with code $?, restarting!" >&2
   sleep 1
 done
