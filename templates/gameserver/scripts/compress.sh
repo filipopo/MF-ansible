@@ -70,3 +70,11 @@ first=(
 cd $fastdl; cat "${first[@]}" > sha512.txt
 first=$(IFS='|'; echo "${first[*]}")
 cat $(ls -t *.sha512 | grep -Ev $first) >> sha512.txt
+
+if [ -d .git ]; then
+  git add -A
+  if ! git diff --cached --quiet; then
+    git commit -m "deploy"
+    git push origin files
+  fi
+fi
