@@ -1,17 +1,11 @@
 #!/bin/bash
 
-map=(
-  'mf-airport'
-  'mf-Carpark'
-  'mf-dockyard'
-  'mf-Ghetto'
-  'mf-Hydroworks'
-  'mf-Polar'
-  'mf-Rail_Quarry'
-  'mf-sawmill'
-  'mf-warehouse'
-  'mf-waterfront'
-  'mf-western'
+skip_map=(
+  'entry.umf'
+  'intro.umf'
+  'mf-WorldGamers.umf'
+  'mf-thebigisland.umf'
+  'mf-physics.umf'
 )
 
 mode=(
@@ -38,8 +32,8 @@ muts=(
   'mutPack.ChangeDamage'
 )
 
-index=$(( RANDOM % ${#map[@]} ))
-map="${map[$index]}"
+skip_map=$(IFS='|'; echo "${skip_map[*]:-^$}")
+map=$(ls ../Maps/*.umf | grep -Ev $skip_map | shuf -n 1 | xargs basename)
 
 index=$(( RANDOM % ${#mode[@]} ))
 mode="${mode[$index]}"
@@ -56,7 +50,7 @@ done
 mut=$(IFS=','; echo "${mut[*]}")
 command="wine UCC.exe server $map?game=$mode?mutator=$mut ini=MobileForces.ini log=server.log"
 
-unset map mode index muts mut
+unset skip_map map mode index muts mut
 rm -f server.log
 
 until $command; do
