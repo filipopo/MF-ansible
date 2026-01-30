@@ -18,6 +18,12 @@ declare -A arr=(
   ['Textures']='utx:b'
 )
 
+unchangedFiles=(
+{%- for f in unchangedFiles %}
+  '{{ f }}'
+{%- endfor %}
+)
+
 # Go through each folder
 for folder in "${!arr[@]}"; do
   # Extract extension-action pairs
@@ -29,8 +35,10 @@ for folder in "${!arr[@]}"; do
 
     # Iterate over files with the current extension in the folder
     for file in ${game}${folder}/*.${extension}; do
-      # Skip if no files match
-      [ -e $file ] || continue
+      # Skip if no files match or if the file is in the unchanged list
+      if [[ ! -e "$file" || " ${unchangedFiles[@]} " =~ " ${file#${game}${folder}/} " ]]; then
+        continue
+      fi
 
       # Get the sha sum of the saved compressed file and compare it to the current version
       sum_file="${fastdl}$(echo $file | awk -F / '{print $NF}').sha512"

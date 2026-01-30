@@ -33,17 +33,24 @@
     group: "{{ server_user }}"
     mode: "744"
 
-- name: Copy files into the game folder
+- name: Copy server startup script into the game folder
   ansible.builtin.copy:
-    src: "templates/gameserver/scripts/{{ item }}"
-    dest: "{{ game_path }}/System/"
+    src: "templates/gameserver/scripts/dedicated.sh"
+    dest: "{{ game_path }}/System/dedicated.sh"
+    owner: "{{ server_user }}"
+    group: "{{ server_user }}"
+    mode: "744"
+
+- name: Create scripts for fastdl and packaging
+  ansible.builtin.template:
+    src: "templates/gameserver/scripts/{{ item[0] }}"
+    dest: "{{ game_path }}/System/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "744"
   loop:
-    - compress.sh
-    - dedicated.sh
-    - package.sh
+    - [compress.j2, compress.sh]
+    - [package.j2, package.sh]
 
 - name: Set admin info
   ansible.builtin.replace:

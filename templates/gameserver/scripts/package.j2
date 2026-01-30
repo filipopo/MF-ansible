@@ -1,0 +1,62 @@
+#!/bin/bash
+
+output=${1:-..}
+game=${2:-..}
+
+updateFiles=(
+{%- for f in updateFiles %}
+  '{{ f }}'
+{%- endfor %}
+)
+
+RUupdateFiles=(
+{%- for f in RUupdateFiles %}
+  '{{ f }}'
+{%- endfor %}
+)
+
+addonFiles=(
+  'Docs/*'
+  'Maps/*.umf'
+  'Music/*.umx'
+  'Physics/*.COL'
+  'Sounds/*.uax'
+  'System/*.int'
+  'System/*.u'
+  'Textures/*.utx'
+)
+
+defaultFiles=(
+{%- for f in defaultFiles %}
+  '{{ f }}'
+{%- endfor %}
+)
+
+mkdir -p $output
+cd $game
+
+sed -e 's/AdminEmail=.*/AdminEmail=/' \
+  -e 's/AdminPassword=.*/AdminPassword=/' \
+  -e 's/ServerName=.*/ServerName=Mobile Forces Server/' \
+  System/MobileForces.ini > MobileForces.ini
+
+ln -fs "${PWD}/MobileForces.ini" "$output/"
+zip -9 -FS "${output}/Update.zip" "${updateFiles[@]}" UpdateReadme.txt
+
+zip -9 -FS -r "${output}/Addons.zip" . \
+  -x "${updateFiles[@]}" "${defaultFiles[@]}" \
+  -i "${addonFiles[@]}"
+
+tmpdir=$(mktemp -d)
+for src in "${updateFiles[@]}" "${RUupdateFiles[@]}"; do
+  dest="${src/RU\//\/}"
+  dir=$(dirname $dest)
+
+  mkdir -p "$tmpdir/$dir"
+  ln $src "$tmpdir/$dest"
+  touch -r $dir "$tmpdir/$dir"
+done
+
+cd $tmpdir
+zip -9 -FS -r "${output}/RUupdate.zip" .
+rm -rf $tmpdir
