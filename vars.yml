@@ -156,4 +156,4 @@ defaultFiles:
   - Textures/rage_warehouse.utx
   - Textures/Steve-DM1.utx
   - Textures/train.utx
-unchangedFiles: "{{ defaultFiles | difference(updateFiles + RUupdateFiles) }}"
+unchangedFiles: "{{ defaultFiles | reject('in', updateFiles + RUupdateFiles) }}"
