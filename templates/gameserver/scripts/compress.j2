@@ -36,7 +36,7 @@ for folder in "${!arr[@]}"; do
     # Iterate over files with the current extension in the folder
     for file in ${game}${folder}/*.${extension}; do
       # Skip if no files match or if the file is in the unchanged list
-      if [[ ! -e "$file" || " ${unchangedFiles[@]} " =~ " ${file#${game}${folder}/} " ]]; then
+      if [[ ! -e "$file" || " ${unchangedFiles[@]} " == *" ${file#${game}} "* ]]; then
         continue
       fi
 
