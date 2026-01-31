@@ -19,9 +19,9 @@ declare -A arr=(
 )
 
 unchangedFiles=(
-{%- for f in unchangedFiles %}
+{% for f in unchangedFiles %}
   '{{ f }}'
-{%- endfor %}
+{% endfor %}
 )
 
 # Go through each folder

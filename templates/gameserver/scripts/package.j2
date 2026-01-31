@@ -4,15 +4,15 @@ output=${1:-..}
 game=${2:-..}
 
 updateFiles=(
-{%- for f in updateFiles %}
+{% for f in updateFiles %}
   '{{ f }}'
-{%- endfor %}
+{% endfor %}
 )
 
 RUupdateFiles=(
-{%- for f in RUupdateFiles %}
+{% for f in RUupdateFiles %}
   '{{ f }}'
-{%- endfor %}
+{% endfor %}
 )
 
 addonFiles=(
@@ -27,9 +27,9 @@ addonFiles=(
 )
 
 defaultFiles=(
-{%- for f in defaultFiles %}
+{% for f in defaultFiles %}
   '{{ f }}'
-{%- endfor %}
+{% endfor %}
 )
 
 mkdir -p $output
