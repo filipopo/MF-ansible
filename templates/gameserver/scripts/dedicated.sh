@@ -1,6 +1,6 @@
 #!/bin/bash
 
-skip_map=(
+skip_maps=(
   'entry.umf'
   'intro.umf'
   'mf-WorldGamers.umf'
@@ -8,7 +8,7 @@ skip_map=(
   'mf-physics.umf'
 )
 
-mode=(
+modes=(
   'Rage.RageDeathmatch'
   'Rage.RageTeamGame'
   'RageGame.RageCaptains'
@@ -17,6 +17,8 @@ mode=(
   'RageGame.RageDetonation'
   'RageGame.RageSafecracker'
   'RageGame.TrailerGame'
+  'Racing.MentalRace'
+  'MoBall.MoBallGame'
 )
 
 muts=(
@@ -32,11 +34,17 @@ muts=(
   'mutPack.ChangeDamage'
 )
 
-skip_map=$(IFS='|'; echo "${skip_map[*]:-^$}")
-map=$(ls ../Maps/*.umf | grep -Ev $skip_map | shuf -n 1 | xargs basename)
+skip_maps=$(IFS='|'; echo "${skip_maps[*]:-^$}")
+map=$(ls ../Maps/*.umf | grep -Ev $skip_maps | shuf -n 1 | xargs basename)
 
-index=$(( RANDOM % ${#mode[@]} ))
-mode="${mode[$index]}"
+mode=()
+for entry in "${modes[@]}"; do
+  prefix="${entry%%.*}"
+
+  if [ -f "${prefix}.u" ]; then
+    mode+=("$entry")
+  fi
+done
 
 mut=()
 for entry in "${muts[@]}"; do
@@ -47,10 +55,11 @@ for entry in "${muts[@]}"; do
   fi
 done
 
+mode="${mode[$(( RANDOM % ${#mode[@]} ))]}"
 mut=$(IFS=','; echo "${mut[*]}")
 command="wine UCC.exe server $map?game=$mode?mutator=$mut ini=MobileForces.ini log=server.log"
 
-unset skip_map map mode index muts mut
+unset skip_maps map modes mode muts mut
 rm -f server.log
 
 until $command; do
