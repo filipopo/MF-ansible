@@ -19,6 +19,7 @@ modes=(
   'RageGame.TrailerGame:TRA'
   'Racing.MentalRace:MR'
   'MoBall.MoBallGame:MB'
+  'arenaMode.arenaMode:ARENA'
 )
 
 muts=(
