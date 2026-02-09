@@ -29,6 +29,7 @@ updateFiles:
   - System/RageWeapons.u
   - System/RageGame.u
   - System/RageMenu.u
+  - System/UWindow.u
 RUupdateFiles:
   - RUupdateReadme.txt
   - SoundsRU/RagePlayerVoice.uax
