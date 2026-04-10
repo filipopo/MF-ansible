@@ -50,7 +50,7 @@
         {% for donation in donations %}
           <li>
             {{ '%02d/%02d/%d %s' | format(donation.day, donation.month, donation.year, donation.time) }}
-            {{ donation.name }} donated {{ kofi_currency }}{{ donation.amount_sent }}{% if donation.message %}:<p>{{ donation.message }}</p>{% endif %}
+            {{ donation.name }} donated {{ kofi_currency }}{{ donation.amount_sent }}{% if donation.message %}: {{ donation.message }}{% endif %}
           </li>
         {% endfor %}
       </ul>
