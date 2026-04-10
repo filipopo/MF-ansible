@@ -5,7 +5,7 @@
 {% block body %}
   A total of {{ kofi_currency }}{{ sum }} over {{ num }} donations was received for MF<br>
   Approximate net balance:
-  {{ balance > 0 ? kofi_currency ~ balance : '-' ~ kofi_currency ~ (-balance) }}
+  {{ (balance < 0 ? '-' : '') ~ kofi_currency ~ balance | abs }}
   <br><br>
 
   Top 10 donators:
