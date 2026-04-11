@@ -6,29 +6,43 @@ This project allows you to automatically provision a Mobile Forces game server t
 
 The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Actions and uses Cloudflare as a CDN and domain registrar, the root of the website code can be found at: `templates/webserver/website`
 
-The website was made with `symfony new website --version="7.2.x"`
+The website was made with `symfony new website --version="7.2.x"` and the symfony cli was installed with
+
+```bash
+curl -sS https://get.symfony.com/cli/installer | bash
+sudo mv "$HOME/.symfony5/bin/symfony" /usr/local/bin/symfony
+```
 
 ## Setup instructions
 
 Put your MobileForces.zip in the root folder and run
 
-`ansible-playbook playbook.yml -u root -i mf.nofisto.com,`
+```bash
+ansible-playbook playbook.yml -u root -i mf.nofisto.com,
+```
 
 You may configure various options in the vars.yml file, by deafult this playbook relies on your MobileForces.zip creating a MobileForces folder
 
 The Ansible playbook transfers game files, installs necessary packages and sets up Systemd services for the game server, master server and FastDL of game files through an Apache2 web server which is also used for the website, an SSL certificate is automatically added to it by using Let's Encrypt's certbot tool, these steps are made in a modular way and can be excluded
 
-Run `composer install` and optionally `symfony check:requirements` before running the app
+Run these commands in the [website](./templates/webserver/website/) folder to see if you have everything needed to run the app
 
+```bash
+composer install
+symfony check:requirements
 ```
+
+Then start it with
+
+```bash
+ADMIN_PASSWORD=P@ssword123! php bin/console doctrine:migrations:migrate -n
 export APP_SECRET=secret KOFI_TOKEN=token KOFI_NAME=admin
-ADMIN_PASSWORD=P@ssword123! php bin/console doctrine:migrations:migrate
 symfony server:start
 ```
 
-Some other environment variables that can be set (found in .env)
+Some other environment variables can be found in `.env`
 
-```
+```bash
 APP_ENV=dev
 DATABASE_URL="sqlite:///%kernel.project_dir%/var/app.db"
 KOFI_TARGET=12.49
