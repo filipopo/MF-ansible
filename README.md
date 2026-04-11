@@ -45,9 +45,8 @@ Some other environment variables can be found in `.env`
 ```bash
 APP_ENV=dev
 DATABASE_URL="sqlite:///%kernel.project_dir%/var/app.db"
-KOFI_TARGET=12.49
+COST_HISTORY='[{"date":"2023-10-22 15:35:11","cost":12.49},{"date":"2026-04-01 00:00:00","cost":16.49}]'
 KOFI_CURRENCY=€
-KOFI_STARTDATE="2023-10-22 15:35:11"
 ```
 
 ## Useful info

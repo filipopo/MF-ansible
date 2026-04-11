@@ -5,10 +5,9 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     .container.dumper.inline_factories: true
+    app.cost_history: '%env(json:COST_HISTORY)%'
     app.kofi_name: '%env(KOFI_NAME)%'
-    app.kofi_target: '%env(KOFI_TARGET)%'
     app.kofi_currency: '%env(KOFI_CURRENCY)%'
-    app.kofi_startdate: '%env(KOFI_STARTDATE)%'
     app.kofi_token: '%env(KOFI_TOKEN)%'
 
 services:
