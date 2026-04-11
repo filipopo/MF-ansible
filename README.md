@@ -1,6 +1,6 @@
 # MF-ansible
 
-This project allows you to automatically provision a Mobile Forces game server together with a responsive website for server management. The website is integrated with Ko-fi and PayPal for donation processing, uses an SQLite3 database to store donation info and displays it on the landing page with more detailed info such as the top donators available on the statistics page
+This project allows you to automatically provision a Mobile Forces game server together with a responsive website for server management. The website is integrated with Ko-fi and PayPal for donation processing, uses an SQLite3 database to store donation info and displays it on the landing page with more detailed info such as the top donators available on the statistics page. [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/filipopo/MF-ansible)
 
 ![image](https://github.com/user-attachments/assets/fe2aab4f-1fd9-4e43-916a-09da367a8884)
 
