@@ -34,7 +34,7 @@ class AdminController extends AbstractController {
             system('systemctl start mobileforces-fastdl');
         }
     
-        if (isset($_POST['package'])) {
+        if (isset($data['package'])) {
             system('systemctl start mobileforces-package');
         }
 
