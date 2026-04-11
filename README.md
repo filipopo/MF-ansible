@@ -4,7 +4,7 @@ This project allows you to automatically provision a Mobile Forces game server t
 
 ![image](https://github.com/user-attachments/assets/fe2aab4f-1fd9-4e43-916a-09da367a8884)
 
-The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Actions and uses Cloudflare as a CDN and domain registrar, the root of the website code can be found at: `templates/webserver/website`
+The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Actions and uses Cloudflare as a CDN and domain registrar, the root of the website code can be found at [templates/webserver/website](./templates/webserver/website)
 
 The website was made with `symfony new website --version="7.2.x"` and the symfony cli was installed with
 
@@ -25,7 +25,7 @@ You may configure various options in the vars.yml file, by deafult this playbook
 
 The Ansible playbook transfers game files, installs necessary packages and sets up Systemd services for the game server, master server and FastDL of game files through an Apache2 web server which is also used for the website, an SSL certificate is automatically added to it by using Let's Encrypt's certbot tool, these steps are made in a modular way and can be excluded
 
-Run these commands in the [website](./templates/webserver/website/) folder to see if you have everything needed to run the app
+Run these commands in the [website](./templates/webserver/website) folder to see if you have everything needed to run the app
 
 ```bash
 composer install
@@ -57,7 +57,9 @@ Consider optimising the php config: https://symfony.com/doc/current/performance.
 
 You can test the donation route after setting KOFI_TOKEN with
 
-`curl -L --data-urlencode data@data.json http://127.0.0.1:8000/donate_notify`
+```bash
+curl -L --data-urlencode data@data.json http://127.0.0.1:8000/donate_notify
+```
 
 If you change the database files run `php bin/console make:migration`
 
