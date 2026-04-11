@@ -10,13 +10,11 @@ use App\Repository\DonationRepository;
 class MainController extends AbstractController {
     #[Route('/', name: 'app_index')]
     public function index(DonationRepository $donationRepo): Response {
-        $balance = $donationRepo->getMonthlyBalance(date('Y'), date('n'));
-
         return $this->render('index.html.twig', [
             'kofi_name' => $this->getParameter('app.kofi_name'),
             'slides' => glob('images/slide-*'),
             'kofi_currency' => $this->getParameter('app.kofi_currency'),
-            'balance' => $balance,
+            'balance' => $donationRepo->getMonthlyBalance(date('Y'), date('n')),
             'kofi_target' => $this->getParameter('app.kofi_target'),
             'donations' => $donationRepo->getLatestDonations(),
             'kofi_startdate' => $this->getParameter('app.kofi_startdate')
