@@ -6,7 +6,7 @@ This project allows you to automatically provision a Mobile Forces game server t
 
 The project is deployed on Hetzner at https://mf.nofisto.com through GitHub Actions and uses Cloudflare as a CDN and domain registrar, the root of the website code can be found at [templates/webserver/website](./templates/webserver/website)
 
-The website was made with `symfony new website --version="7.2.x"` and the symfony cli was installed with
+The website was made with `symfony new website --version="7.2.x"` and the cli was installed with
 
 ```bash
 curl -sS https://get.symfony.com/cli/installer | bash
@@ -21,7 +21,7 @@ Put your MobileForces.zip in the root folder and run
 ansible-playbook playbook.yml -u root -i mf.nofisto.com,
 ```
 
-You may configure various options in the vars.yml file, by deafult this playbook relies on your MobileForces.zip creating a MobileForces folder
+You may configure various options in [vars.yml](./vars.yml), notably the [sync paypal](./templates/webserver/website/sync_paypal.php) script relies on `PAYPAL_CLIENTID` and `PAYPAL_SECRETKEY` variables which can be obtained [here](https://developer.paypal.com/dashboard/applications/live), and `AdminName` will be used in [MasterServer-Settings.j2](./templates/masterserver/scripts/MasterServer-Settings.j2) and passed as `KOFI_NAME`. This example relies on MobileForces.zip creating a MobileForces folder
 
 The Ansible playbook transfers game files, installs necessary packages and sets up Systemd services for the game server, master server and FastDL of game files through an Apache2 web server which is also used for the website, an SSL certificate is automatically added to it by using Let's Encrypt's certbot tool, these steps are made in a modular way and can be excluded
 
@@ -40,7 +40,7 @@ export APP_SECRET=secret KOFI_TOKEN=token KOFI_NAME=admin
 symfony server:start
 ```
 
-Some other environment variables can be found in `.env`
+Some other environment variables can be found in [.env](./templates/webserver/website/.env)
 
 ```bash
 APP_ENV=dev
@@ -51,19 +51,31 @@ KOFI_CURRENCY=€
 
 ## Useful info
 
-If you can't change the apache vhost run `composer require symfony/apache-pack` which will make a .htaccess file in `public/`
-
 Consider optimising the php config: https://symfony.com/doc/current/performance.html
 
-You can test the donation route after setting KOFI_TOKEN with
+If you can't change the apache vhost run this which will make a `.htaccess` file in [public](./templates/webserver/website/public)
+
+```bash
+composer require symfony/apache-pack
+```
+
+You can test the donation route after setting [KOFI_TOKEN](https://ko-fi.com/manage/webhooks) with
 
 ```bash
 curl -L --data-urlencode data@data.json http://127.0.0.1:8000/donate_notify
 ```
 
-If you change the database files run `php bin/console make:migration`
+If you change the database files, run this to make migration files and then migrate up
 
-If you need to change the password, downgrade `php bin/console doctrine:migrations:execute --down DoctrineMigrations\\Version20250107003305` and then migrate again
+```bash
+php bin/console make:migration
+```
+
+If you need to change the password, downgrade with the following command and then migrate up
+
+```bash
+php bin/console doctrine:migrations:execute --down DoctrineMigrations\\Version20250107003305
+```
 
 ## Thanks to
 
