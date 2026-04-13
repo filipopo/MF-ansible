@@ -11,11 +11,14 @@
     - php-xml
     - python3-certbot-apache
 
-- name: Create virtual host for the mf website
+- name: Create virtual host for the mf websites
   ansible.builtin.template:
-    src: templates/webserver/vhosts/mobileforces.j2
-    dest: /etc/apache2/sites-available/mobileforces.conf
+    src: templates/webserver/vhosts/{{ item[0] }}
+    dest: /etc/apache2/sites-available/{{ item[1] }}
     mode: "644"
+  loop:
+    - [mobileforces.j2, mobileforces.conf]
+    - [masterserver-web.j2, masterserver-web.conf]
   register: apache_vhost
 
 - name: Copy website files
@@ -51,6 +54,11 @@
   ansible.builtin.shell:
     cmd: a2enmod proxy_fcgi speling mpm_event && a2dismod mpm_prefork && a2ensite mobileforces.conf
     creates: /etc/apache2/sites-enabled/mobileforces.conf
+
+- name: Enable the master server website
+  ansible.builtin.shell:
+    cmd: a2ensite masterserver-web.conf
+    creates: /etc/apache2/sites-enabled/masterserver-web.conf
 
 - name: Request LE certificate
   ansible.builtin.command:

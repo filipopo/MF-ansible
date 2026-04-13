@@ -1,0 +1,12 @@
+[Unit]
+Description=Mobile Forces master server list country
+After=network.target
+
+[Service]
+User={{ server_user }}
+WorkingDirectory={{ masterserver_path }}/WebInterface-Perl-MS-Qt5/util
+ExecStart=perl listcountry.pl
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

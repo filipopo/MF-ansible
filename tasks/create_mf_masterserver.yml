@@ -15,6 +15,13 @@
     - bin
     - data
 
+- name: Clone master server web repository
+  ansible.builtin.git:
+    repo: https://github.com/333networks/WebInterface-Perl-MS-Qt5.git
+    dest: "{{ masterserver_path }}/WebInterface-Perl-MS-Qt5"
+    depth: 1
+    force: true
+
 - name: Copy masterserver files
   ansible.builtin.copy:
     src: "templates/masterserver/{{ item[0] }}"
@@ -26,18 +33,28 @@
     - [MasterServer-Qt5, bin/MasterServer-Qt5]
     - [scripts/SupportedGames.json, /data/SupportedGames.json]
 
-- name: Copy masterserver config
+- name: Copy masterserver configs
   ansible.builtin.template:
-    src: "templates/masterserver/scripts/MasterServer-Settings.j2"
-    dest: "{{ masterserver_path }}/data/MasterServer-Settings.ini"
+    src: "templates/masterserver/scripts/{{ item[0] }}"
+    dest: "{{ masterserver_path }}/{{ item[1] }}"
     owner: "{{ server_user }}"
     group: "{{ server_user }}"
     mode: "744"
+  loop:
+    - [MasterServer-Settings.j2, data/MasterServer-Settings.ini]
+    - [settings.j2, WebInterface-Perl-MS-Qt5/data/settings.pl]
 
 - name: Create service file for the master server
   ansible.builtin.template:
     src: templates/masterserver/services/mobileforces-masterserver.j2
     dest: /etc/systemd/system/mobileforces-masterserver.service
+    mode: "644"
+  register: service_file
+
+- name: Create service file for the master server list country script
+  ansible.builtin.template:
+    src: templates/masterserver/services/mobileforces-masterserver-listcountry.j2
+    dest: /etc/systemd/system/mobileforces-masterserver-listcountry.service
     mode: "644"
   register: service_file
 

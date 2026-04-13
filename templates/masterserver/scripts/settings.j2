@@ -1,0 +1,21 @@
+package MasterWebInterface;
+
+our %S = (%S, # retain options from parent script
+  
+  # site (for sharing options)
+  site_url  => 'https://{{ MasterName }}',
+  site_name => '{{ ServerName }}',
+  email     => '{{ AdminName }}',
+  
+  # database connection
+  db_login  => ['dbi:SQLite:dbname={{ masterserver_path }}/data/masterserver.db','',''],
+  
+  # display
+  style     => '333networks',
+  meta_color  => '#00AAFF',
+  
+  # do not display servers older than [seconds]
+  window_time => 1800,
+);
+
+1;

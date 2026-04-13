@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+  ServerName {{ MasterName }}
+  ServerAdmin {{ ServerAdmin }}
+  
+  DocumentRoot {{ masterserver_path }}/WebInterface-Perl-MS-Qt/s
+  AddHandler cgi-script .pl
+
+  <Directory {{ masterserver_path }}/WebInterface-Perl-MS-Qt/s>
+    Require all granted
+    Options FollowSymLinks ExecCGI
+    FallbackResource /masterinterface.pl
+  </Directory>
+
+  <IfModule mpm_itk_module>
+    AssignUserId {{ server_user }} {{ server_user }}
+  </IfModule>
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
