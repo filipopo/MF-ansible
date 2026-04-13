@@ -38,15 +38,15 @@ muts=(
 skip_maps=$(IFS='|'; echo "${skip_maps[*]:-^$}")
 map=$(ls ../Maps/*.umf | grep -Ev $skip_maps | shuf -n 1 | xargs basename)
 
-skip_maps=${map%%-*} # get map extension for choosing game mode
-skip_maps=${skip_maps^^}
+map_mode=${map%%-*} # get map extension for choosing game mode
+map_mode=${map_mode^^}
 
 mode=()
 for entry in "${modes[@]}"; do
   prefix="${entry%%.*}"
 
   if [ -f "${prefix}.u" ]; then
-    if [ "${entry##*:}" = "$skip_maps" ]; then
+    if [ "${entry##*:}" = "$map_mode" ]; then
       mode=("${entry%%:*}")
       break
     else
@@ -70,7 +70,7 @@ done
 mut=$(IFS=','; echo "${mut[*]}")
 command="wine UCC.exe server $map?game=$mode?mutator=$mut ini=MobileForces.ini log=server.log"
 
-unset skip_maps map modes mode muts mut
+unset skip_maps map map_mode modes mode muts mut
 rm -f server.log
 
 until $command; do

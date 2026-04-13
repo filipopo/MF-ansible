@@ -24,7 +24,6 @@
     mode: "744"
   loop:
     - [MasterServer-Qt5, bin/MasterServer-Qt5]
-    - [scripts/RunMasterServer.sh, bin/RunMasterServer.sh]
     - [scripts/SupportedGames.json, /data/SupportedGames.json]
 
 - name: Copy masterserver config

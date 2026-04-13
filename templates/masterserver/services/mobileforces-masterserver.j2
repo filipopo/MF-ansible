@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User={{ server_user }}
 WorkingDirectory={{ masterserver_path }}/bin/
-ExecStart=sh {{ masterserver_path }}/bin/RunMasterServer.sh
+ExecStart={{ masterserver_path }}/bin/MasterServer-Qt5
 Restart=on-failure
 
 [Install]
