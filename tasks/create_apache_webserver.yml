@@ -57,13 +57,18 @@
 
 - name: Enable the master server website
   ansible.builtin.shell:
-    cmd: a2ensite masterserver-web.conf
+    cmd: a2enmod cgi && a2ensite masterserver-web.conf
     creates: /etc/apache2/sites-enabled/masterserver-web.conf
 
-- name: Request LE certificate
+- name: Request LE certificates
   ansible.builtin.command:
-    cmd: "certbot --apache -n --email {{ ServerAdmin }} --agree-tos --no-redirect -d {{ ServerName }}"
-    creates: /etc/apache2/sites-enabled/mobileforces-le-ssl.conf
+    cmd: > 
+      certbot --apache -n --email {{ ServerAdmin }} --agree-tos --no-redirect
+      {% for domain in item.domains %} -d {{ domain }}{% endfor %}
+    creates: "/etc/apache2/sites-enabled/{{ item.name }}-le-ssl.conf"
+  loop:
+    - { name: mobileforces, domains: [{{ ServerName }}, www.{{ ServerName }}] }
+    - { name: masterserver-web, domains: [{{ MasterName }}] }
 
 - name: Reload apache
   ansible.builtin.service:

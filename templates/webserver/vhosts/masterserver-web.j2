@@ -1,11 +1,14 @@
 <VirtualHost *:80>
   ServerName {{ MasterName }}
   ServerAdmin {{ ServerAdmin }}
-  
-  DocumentRoot {{ masterserver_path }}/WebInterface-Perl-MS-Qt/s
-  AddHandler cgi-script .pl
 
-  <Directory {{ masterserver_path }}/WebInterface-Perl-MS-Qt/s>
+  DocumentRoot {{ masterserver_path }}/WebInterface-Perl-MS-Qt5/s
+
+  <FilesMatch "\.pl$">
+    SetHandler cgi-script
+  </FilesMatch>
+
+  <Directory {{ masterserver_path }}/WebInterface-Perl-MS-Qt5/s>
     Require all granted
     Options FollowSymLinks ExecCGI
     FallbackResource /masterinterface.pl

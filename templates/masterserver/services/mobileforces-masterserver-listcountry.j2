@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User={{ server_user }}
-WorkingDirectory={{ masterserver_path }}/WebInterface-Perl-MS-Qt5/util
-ExecStart=perl listcountry.pl
+WorkingDirectory={{ masterserver_path }}/data
+ExecStart={{ masterserver_path }}/WebInterface-Perl-MS-Qt5/util/listcountry.pl
 Restart=on-failure
 RestartSec=1
 
