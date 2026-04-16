@@ -11,7 +11,7 @@ our %S = (%S, # retain options from parent script
   db_login  => ['dbi:SQLite:dbname={{ masterserver_path }}/data/masterserver.db','',''],
   
   # display
-  style     => '333networks',
+  style     => '{{ ServerName }}',
   meta_color  => '#00AAFF',
   
   # do not display servers older than [seconds]

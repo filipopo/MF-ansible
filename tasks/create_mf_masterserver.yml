@@ -14,6 +14,10 @@
   loop:
     - bin
     - data
+    - WebInterface-Perl-MS-Qt5
+    - WebInterface-Perl-MS-Qt5/s
+    - WebInterface-Perl-MS-Qt5/s/style
+    - WebInterface-Perl-MS-Qt5/s/style/{{ ServerName }}
 
 - name: Clone master server web repository
   ansible.builtin.git:
@@ -21,6 +25,8 @@
     dest: "{{ masterserver_path }}/WebInterface-Perl-MS-Qt5"
     depth: 1
     force: true
+  become: true
+  become_user: "{{ server_user }}"
 
 - name: Copy masterserver files
   ansible.builtin.copy:
@@ -30,7 +36,9 @@
     group: "{{ server_user }}"
     mode: "744"
   loop:
-    - [MasterServer-Qt5, bin/MasterServer-Qt5]
+    - [files/MasterServer-Qt5, bin/MasterServer-Qt5]
+    - [files/body.gif, "WebInterface-Perl-MS-Qt5/s/style/{{ ServerName }}/body.gif"]
+    - [files/MFLogo.png, "WebInterface-Perl-MS-Qt5/s/style/{{ ServerName }}/MFLogo.png"]
     - [scripts/SupportedGames.json, /data/SupportedGames.json]
 
 - name: Copy masterserver configs
@@ -43,6 +51,14 @@
   loop:
     - [MasterServer-Settings.j2, data/MasterServer-Settings.ini]
     - [settings.j2, WebInterface-Perl-MS-Qt5/data/settings.pl]
+    - [conf.j2, "WebInterface-Perl-MS-Qt5/s/style/{{ ServerName }}/conf"]
+
+- name: Create masterserver style
+  ansible.builtin.shell:
+    cmd: perl "{{ masterserver_path }}/WebInterface-Perl-MS-Qt5/util/skingen.pl" "{{ ServerName }}"
+    creates: "{{ masterserver_path }}/WebInterface-Perl-MS-Qt5/s/style/{{ ServerName }}/style.css"
+  become: true
+  become_user: "{{ server_user }}"
 
 - name: Create service file for the master server
   ansible.builtin.template:
