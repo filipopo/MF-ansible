@@ -69,12 +69,16 @@ class DonationRepository extends ServiceEntityRepository {
         return array_reverse($query->getResult());
     }
 
-    public function getAverageDonation(): float {
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT AVG(d.amount_sent)
-            FROM App\Entity\Donation d'
+    public function getMedianDonation(): float {
+        return (float)$this->getEntityManager()->getConnection()->fetchOne(
+            'SELECT AVG(amount_sent)
+            FROM (
+                SELECT amount_sent
+                FROM donation
+                ORDER BY amount_sent
+                LIMIT 2 - (SELECT COUNT(*) FROM donation) % 2
+                OFFSET ((SELECT COUNT(*) FROM donation) - 1) / 2
+            )'
         );
-
-        return (float)$query->getSingleScalarResult();
     }
 }

@@ -66,7 +66,7 @@ class MainController extends AbstractController {
             'kofi_currency' => $this->getParameter('app.kofi_currency'),
             'sum' => $sum,
             'num' => $donationRepo->count(),
-            'avg' => $donationRepo->getAverageDonation(),
+            'med' => $donationRepo->getMedianDonation(),
             'balance' => number_format($sum - $totalServerCost, 2),
             'donators' => $donationRepo->getTopDonators(),
             'donations' => $donationRepo->getDonationActivity()
