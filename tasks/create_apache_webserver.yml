@@ -67,8 +67,8 @@
       {% for domain in item.domains %} -d {{ domain }}{% endfor %}
     creates: "/etc/apache2/sites-enabled/{{ item.name }}-le-ssl.conf"
   loop:
-    - { name: mobileforces, domains: [{{ ServerName }}, www.{{ ServerName }}] }
-    - { name: masterserver-web, domains: [{{ MasterName }}] }
+    - { name: mobileforces, domains: ["{{ ServerName }}", "www.{{ ServerName }}"] }
+    - { name: masterserver-web, domains: ["{{ MasterName }}"] }
 
 - name: Reload apache
   ansible.builtin.service:
