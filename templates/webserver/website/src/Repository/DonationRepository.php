@@ -81,4 +81,15 @@ class DonationRepository extends ServiceEntityRepository {
             )'
         );
     }
+
+    public function getAmountFrequency(): array {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT COUNT(d.amount_sent) AS times, d.amount_sent
+            FROM App\Entity\Donation d
+            GROUP BY d.amount_sent
+            ORDER BY times DESC'
+        )->setMaxResults(10);
+
+        return $query->getResult();
+    }
 }

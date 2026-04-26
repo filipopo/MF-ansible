@@ -69,7 +69,8 @@ class MainController extends AbstractController {
             'med' => $donationRepo->getMedianDonation(),
             'balance' => number_format($sum - $totalServerCost, 2),
             'donators' => $donationRepo->getTopDonators(),
-            'donations' => $donationRepo->getDonationActivity()
+            'donations' => $donationRepo->getDonationActivity(),
+            'frequency' => $donationRepo->getAmountFrequency()
         ]);
     }
 }

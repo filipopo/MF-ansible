@@ -2,37 +2,51 @@
 
 {% block title %}MF statistics{% endblock %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('css/stats.css') }}">
+{% endblock %}
+
 {% block body %}
-  A total of {{ kofi_currency }}{{ sum }} over {{ num }} donations was received for MF, with the median being {{ kofi_currency }}{{ med }}<br>
-  Approximate net balance:
+  A total of {{ kofi_currency }}{{ sum }} over {{ num }} donations was received for MF, with the median being {{ kofi_currency }}{{ med }}. Approximate net balance:
   {{ (balance < 0 ? '-' : '') ~ kofi_currency ~ balance | abs }}
   <br><br>
-
-  Top 10 donators:
-  <script src="{{ asset('js/css_random.js') }}"></script>
-  <ul>
-    {% for donator in donators %}
-    <li>
-      {{ donator.name }} donated {{ kofi_currency }}{{ donator.amount }} over {{ donator.times }} donation{% if donator.times > 1 -%}s{% endif %}
-    </li>
-    {% endfor %}
-  </ul>
-  The amounts above include the transfer fee which is about 3% + {{ kofi_currency }}0.3<br>
-  <br>
-
-  Donation activity:
-  <table>
-    <tr>
-      <th>Month</th>
-      {% for donation in donations %}
-        <td>{{ (donation.year ~ '-' ~ donation.month) | date('M y') }}</td>
+  <div class="big">
+    Top 10 donators:
+    <script src="{{ asset('js/css_random.js') }}"></script>
+    <ul>
+      {% for donator in donators %}
+      <li>
+        <b>{{ donator.name }}</b> donated {{ kofi_currency }}{{ donator.amount }} over {{ donator.times }} donation{% if donator.times > 1 -%}s{% endif %}
+      </li>
       {% endfor %}
-    </tr>
-    <tr>
-      <th>Total</th>
-      {% for donation in donations %}
-        <td>{{ donation.amount }}</td>
+    </ul>
+    The amounts above include the transfer fee which is about 3% + {{ kofi_currency }}0.3<br>
+    <br>
+
+    Donation activity:
+    <table>
+      <tr>
+        <th>Month</th>
+        {% for donation in donations %}
+          <td>{{ (donation.year ~ '-' ~ donation.month) | date('M y') }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th>Total</th>
+        {% for donation in donations %}
+          <td>{{ donation.amount }}</td>
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+  <div class="small">
+    Top 10 donation amounts:
+    <ol>
+      {% for donation in frequency %}
+        <li>
+            <b>{{ kofi_currency }}{{ donation.amount_sent }}</b> - {{ donation.times }} donation{% if donation.times > 1 -%}s{% endif %}
+        </li>
       {% endfor %}
-    </tr>
-  </table>
+    </ol>
+  </div>
 {% endblock %}

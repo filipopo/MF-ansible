@@ -1,0 +1,9 @@
+.big { float: left; }
+
+.small { float: right; }
+
+.big, .small { width: 100%; }
+
+@media screen and (width >= 1211px) {
+  .big, .small { width: 50%; }
+}
