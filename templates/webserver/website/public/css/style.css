@@ -27,9 +27,7 @@ nav a {
   text-decoration: none;
 }
 
-nav a:hover, nav a:focus {
-  color: cyan;
-}
+nav a:hover, nav a:focus { color: cyan; }
 
 ul {
   padding-left: 17px;
