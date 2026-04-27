@@ -78,7 +78,7 @@ button {
         grid-template-columns: calc(var(--iwidth) + 16px) 1fr;
         grid-template-areas:
           'left right'
-          'bottom right'
+          'bottom right';
       }
     }
 
