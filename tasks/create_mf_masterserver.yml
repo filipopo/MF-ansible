@@ -39,7 +39,7 @@
     - [files/MasterServer-Qt5, bin/MasterServer-Qt5]
     - [files/body.gif, "WebInterface-Perl-MS-Qt5/s/style/{{ ServerName }}/body.gif"]
     - [files/MFLogo.png, "WebInterface-Perl-MS-Qt5/s/style/{{ ServerName }}/MFLogo.png"]
-    - [scripts/SupportedGames.json, /data/SupportedGames.json]
+    - [scripts/SupportedGames.json, data/SupportedGames.json]
 
 - name: Copy masterserver configs
   ansible.builtin.template:
