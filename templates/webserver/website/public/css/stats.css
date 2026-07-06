@@ -5,5 +5,7 @@
 .big, .small { width: 100%; }
 
 @media screen and (width >= 1211px) {
-  .big, .small { width: 50%; }
+  .big { width: 55%; }
+
+  .small { width: 45%; }
 }
