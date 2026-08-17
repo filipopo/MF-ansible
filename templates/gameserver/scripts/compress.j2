@@ -46,7 +46,7 @@ for folder in "${!arr[@]}"; do
 
       # If the sum is not matching (or doesn't exist) compress the file and update the sha sum
       if [ $? -ne 0 ]; then
-        if [[ "$action" == @(u|b) ]]; then
+        if [[ "$action" == [ub] ]]; then
           echo "Compressing $file"
           wine UCC.exe compress $file
           #sleep 0.1
@@ -55,7 +55,7 @@ for folder in "${!arr[@]}"; do
           mv "${file}.uz" $fastdl
         fi
 
-        if [[ "$action" == @(c|b) ]]; then
+        if [[ "$action" == [cb] ]]; then
           echo "Copying $file"
           cp -p $file $fastdl
         fi
