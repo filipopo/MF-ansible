@@ -20,6 +20,9 @@ modes=(
   'Racing.MentalRace:MR'
   'MoBall.MoBallGame:MB'
   'arenaMode.arenaMode:ARENA'
+  'ZombieGame.ZombieGame:ZM'
+  'TugGame.TugGame:TG'
+  'CoopMode.CoopMode:COOP'
 )
 
 muts=(
