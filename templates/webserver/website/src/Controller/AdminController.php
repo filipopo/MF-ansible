@@ -29,12 +29,9 @@ class AdminController extends AbstractController {
         if (isset($data['restart'])) {
             system('systemctl restart mobileforces');
         }
-
-        if (isset($data['fastdl'])) {
-            system('systemctl start mobileforces-fastdl');
-        }
     
         if (isset($data['package'])) {
+            system('systemctl start mobileforces-fastdl');
             system('systemctl start mobileforces-package');
         }
 

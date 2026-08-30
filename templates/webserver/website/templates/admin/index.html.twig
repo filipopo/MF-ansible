@@ -16,9 +16,6 @@
       <input type="checkbox" id="restart" name="restart">
       <label for="restart">Restart server</label><br>
 
-      <input type="checkbox" id="fastdl" name="fastdl">
-      <label for="fastdl">Compress files for FastDL</label><br>
-
       <input type="checkbox" id="package" name="package">
       <label for="package">Package game files</label><br>
       <br>
@@ -31,12 +28,10 @@
       <br>
     {% endif %}
 
-    {% if fastdl | default %}
+    {% if package | default %}
       Compressing files for FastDL...<br>
       <br>
-    {% endif %}
 
-    {% if package | default %}
       Packaging game files...<br>
       <br>
     {% endif %}
